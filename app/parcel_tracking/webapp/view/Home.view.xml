@@ -1,0 +1,32 @@
+<mvc:View xmlns:l="sap.ui.layout" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="parceltracking.controller.Home">
+	<Page id="_IDGenPage1"
+		title="Page"
+		class="sapUiContentPadding" >
+		<customHeader>
+			<Toolbar id="_IDGenToolbar1">
+				<ToolbarSpacer id="_IDGenToolbarSpacer1"/>
+				<Title id="_IDGenTitle1" text="Parcel Tracking App" level="H2"/>
+				<ToolbarSpacer id="_IDGenToolbarSpacer2"/>
+				<Button id="_IDGenButton2" icon="sap-icon://add" type="Transparent" press=".onCreate"/>
+			</Toolbar>
+		</customHeader>
+		<List id="packageList"
+			items="{/Packages}"
+			headerText="Package">
+			<ObjectListItem id="_IDGenObjectListItem1"
+				title="{packageNumber}"
+				type="Navigation"
+				press=".onListItemPress">
+				<firstStatus>
+					<ObjectStatus id="_IDGenObjectStatus1"
+						text="{status}"
+						state="{
+							path: 'Status',
+							formatter: 'sap.m.sample.ObjectListItem.Formatter.status'
+						}" />
+				</firstStatus>
+				<ObjectAttribute id="_IDGenObjectAttribute2" text="{receiver_id}" />
+			</ObjectListItem>
+		</List>
+	</Page>
+</mvc:View>
