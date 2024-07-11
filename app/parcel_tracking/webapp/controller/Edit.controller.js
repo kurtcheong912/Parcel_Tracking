@@ -18,27 +18,32 @@ sap.ui.define([
 
     onSave: function () {
       var oModel = this.getView().getModel();
-      console.log(oModel);
-      var id = this.getView().getBindingContext().getObject().ID;
-      var packageNumber = this.getView().byId("packageNumber").getValue();
-      var receiverId = this.getView().byId("receiverId").getValue();
-      var shippingAddress = this.getView().byId("shippingAddress").getValue();
+      oModel.submitBatch(oModel.getUpdateGroupId());
+      sap.m.MessageToast.show("Package saved successfully!");
+      this.onNavBack();
+      oModel.refresh();
+      // var oModel = this.getView().getModel();
+      // console.log(oModel);
+      // var id = this.getView().getBindingContext().getObject().ID;
+      // var packageNumber = this.getView().byId("packageNumber").getValue();
+      // var receiverId = this.getView().byId("receiverId").getValue();
+      // var shippingAddress = this.getView().byId("shippingAddress").getValue();
 
-      var oData = {
-        packageNumber: packageNumber,
-        receiver_ID: receiverId,
-        shippingAddress: shippingAddress,
-        status: 'NEW',
-      }
-      oModel.update("/Packages(" + id + ")", oData, {
-        success: function () {
-          MessageToast.show("Package edited successfully!");
-          this.onNavBack();
-        }.bind(this), 
-        error: function () {
-          MessageToast.show("Error editing package.");
-        }
-      });
+      // var oData = {
+      //   packageNumber: packageNumber,
+      //   receiver_ID: receiverId,
+      //   shippingAddress: shippingAddress,
+      //   status: 'NEW',
+      // }
+      // oModel.update("/Packages(" + id + ")", oData, {
+      //   success: function () {
+      //     MessageToast.show("Package edited successfully!");
+      //     this.onNavBack();
+      //   }.bind(this), 
+      //   error: function () {
+      //     MessageToast.show("Error editing package.");
+      //   }
+      // });
 
     },
 

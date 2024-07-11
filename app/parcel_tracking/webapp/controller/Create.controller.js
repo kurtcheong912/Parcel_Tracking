@@ -27,21 +27,21 @@ sap.ui.define([
             var packageNumber = oView.byId("packageNumber").getValue();
             var receiverId = oView.byId("receiverId").getValue();
             var shippingAddress = oView.byId("shippingAddress").getValue();
-            console.log(oModel);
-            var package = oView.getModel().bindList();
-            console.log(package);
-            // this.oNewPackage = package.create({
-            //     packageNumber: packageNumber,
-            //     receiver_ID: receiverId,
-            //     shippingAddress: shippingAddress,
-            //     status: 'NEW',
-            // });
-            // this.oNewPackage.created().then(function () {
-            //     sap.m.MessageToast.show("Package saved successfully!");
-            //     this.onNavBack();
-            // }, function (oError) {
-            //     sap.m.MessageToast.show("Error saving package.");
-            // });
+            var packageData = oModel.bindList("/Packages");
+            this.oNewPackage = packageData.create({
+                packageNumber: packageNumber,
+                receiver_ID: receiverId,
+                shippingAddress: shippingAddress,
+                status: 'NEW',
+            });
+            this.oNewPackage.created().then(function () {
+                sap.m.MessageToast.show("Package saved successfully!");
+                this.onNavBack();
+                oModel.refresh();
+            }.bind(this),
+            function (oError) {
+                sap.m.MessageToast.show("Error saving package.");
+            });
         }
     });
 });
