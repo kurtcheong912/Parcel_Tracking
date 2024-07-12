@@ -46,10 +46,13 @@
                         
                         <ToggleButton
                             id="_IDGenToggleButton1"
-                            text="Currently in edit mode"
+                            text="Currently exited edit mode"
                             icon="sap-icon://edit"
                             press="onEditPress" />
+
                     </HBox>
+                         <Button id="_IDGenButton12" icon="sap-icon://action" text="Update status" type="Emphasized" press="onUpdateStatus" ariaLabelledBy="actionButtonLabel"/>
+				
                 </VBox>
             </uxap:blocks>
         </uxap:ObjectPageSubSection>
@@ -93,10 +96,9 @@
                                             <Input value="{packageNumber}" id="packageNumber" />
                                         </f:fields>
                                     </f:FormElement>
-                                     <f:FormElement id="_IDGenFormElement2we2222" label="Package Status">
+                                     <f:FormElement id="_IDGenFormElement2we2222" label="Shipping Address">
                                         <f:fields>
-                                           <Button id="_IDGenButton1" icon="sap-icon://action" type="Transparent" press="onPress" ariaLabelledBy="actionButtonLabel"/>
-				<ToolbarSpacer id="_IDGenToolbarSpacer2"/>
+                                      <Input value="{shippingAddress}" id="shippingAddress" />
                                         </f:fields>
                                     </f:FormElement>
                                 </f:formElements>

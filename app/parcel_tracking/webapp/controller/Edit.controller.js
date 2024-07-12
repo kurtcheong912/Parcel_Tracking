@@ -9,7 +9,7 @@ sap.ui.define([
     onInit: async function () {
       var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
       await oRouter.getRoute("edit").attachPatternMatched(await this.onEdit, this);
-      this.allInputFieldEditable(false);
+      this.allInputFieldEditable(true);
     },
 
     onEdit: function (oEvent) {
@@ -75,8 +75,8 @@ sap.ui.define([
         oToggleButton.setText("Currently in edit mode");
       }
     },
-    
-    allInputFieldEditable: function(state){
+
+    allInputFieldEditable: function (state) {
       var oView = this.getView();
       this.getView().byId("_IDGenSelect1").setEnabled(state);
       var aInputs = oView.findAggregatedObjects(true).filter(function (oControl) {
@@ -88,13 +88,67 @@ sap.ui.define([
     },
     showToast: function (sMessage) {
       sap.m.MessageToast.show(sMessage, {
-          duration: 3000, // Duration in milliseconds
-          width: "15em", // Width of the toast
-          my: "center bottom", // Positioning
-          at: "center bottom",
-          offset: "0 50",
-          autoClose: true // Automatically close after duration
+        duration: 3000, // Duration in milliseconds
+        width: "15em", // Width of the toast
+        my: "center bottom", // Positioning
+        at: "center bottom",
+        offset: "0 50",
+        autoClose: true // Automatically close after duration
       });
-  }
+    },
+    onUpdateStatus: function () {
+      var oObjectStatus = this.byId("_IDGenObjectStatus1");
+      var currentStatus = oObjectStatus.getText();
+      console.log("Current Status:", currentStatus);
+    
+      // Assuming you have a method to get the next status based on the current status
+      var nextStatus = this.getNextStatus(currentStatus);
+      console.log("Next Status:", nextStatus);
+    
+      // Retrieve the package ID from the input field
+      var oInput = this.byId("packageID");
+      var sPackageId = oInput.getValue();
+      console.log("Package ID:", sPackageId);
+    
+      // Get the model
+      var oModel = this.getView().getModel();
+    
+      // Construct the path to the package in the model
+      var sPath = "/Packages(" + sPackageId + ")";
+    
+      // Bind the context
+      var oContext = oModel.bindContext(sPath);
+    
+      // Get the context object
+      var oBindingContext = oContext.getBoundContext();
+    
+      // Update the data
+      oBindingContext.setProperty("status", nextStatus);
+    
+      // Submit the changes
+      oModel.submitBatch("groupId").then(function () {
+        oModel.refresh();
+        console.log("Package status updated successfully.");
+      }).catch(function (oError) {
+        console.error("Error updating package status:", oError);
+      });
+    },
+    
+    
+    
+    
+
+
+    getNextStatus: function (currentStatus) {
+      switch (currentStatus) {
+        case "NEW":
+          return "SHIPPING";
+        case "SHIPPING":
+          return "DELIVERED";
+        default:
+          return null;
+      }
+    }
+
   });
 });
