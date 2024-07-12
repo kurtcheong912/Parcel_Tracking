@@ -30,39 +30,31 @@
 
         <uxap:sections>
             <!-- Status Section -->
-            <uxap:ObjectPageSection id="_IDGenObjectPageSection1" title="Status">
-                <uxap:subSections>
-                    <uxap:ObjectPageSubSection id="_IDGenObjectPageSubSection1">
-                        <uxap:blocks>
-                            <VBox id="_IDGenVBox1">
-                                <!-- <Text id="_IDGenText1" text="Current status" />
-                                <Input id="packageStatus" value="{status}" /> -->
-                                <!-- Add more status-related controls as needed -->
+     <uxap:ObjectPageSection id="_IDGenObjectPageSection1" title="Status">
+    <uxap:subSections>
+        <uxap:ObjectPageSubSection id="_IDGenObjectPageSubSection1">
+            <uxap:blocks>
+                <VBox id="_IDGenVBox1">
+                    <HBox id="_IDGenHBox1" justifyContent="SpaceBetween">
+                        <ObjectStatus
+                            id="_IDGenObjectStatus1"
+                            class="sapMObjectStatusLarge"
+                            title="Package status"
+                            text="{status}"
+                            icon="sap-icon://shipping-status"
+                            state="{path: 'status', formatter: '.stateFormatter'}" />
                         
-		<!-- <ObjectStatus id="_IDGenObjectStatus1"
-			class="sapMObjectStatusLarge"
-			title="Product status"
-			text="Shipped"
-			state="Success"
-			icon="sap-icon://sys-enter-2" />
-		<ObjectStatus id="_IDGenObjectStatus2"
-			class="sapMObjectStatusLarge"
-			text="Shipped"
-			state="Success"
-			inverted="true"
-			icon="sap-icon://sys-enter-2" /> -->
-
-      <ObjectStatus id="_IDGenObjectStatus1"
-              class="sapMObjectStatusLarge"
-              title="Package status"
-              text="{status}"
-              icon="sap-icon://shipping-status"
-              state="{path: 'status', formatter: '.stateFormatter'}" />
-                            </VBox>
-                        </uxap:blocks>
-                    </uxap:ObjectPageSubSection>
-                </uxap:subSections>
-            </uxap:ObjectPageSection>
+                        <ToggleButton
+                            id="_IDGenToggleButton1"
+                            text="Currently in edit mode"
+                            icon="sap-icon://edit"
+                            press="onEditPress" />
+                    </HBox>
+                </VBox>
+            </uxap:blocks>
+        </uxap:ObjectPageSubSection>
+    </uxap:subSections>
+</uxap:ObjectPageSection>
 
       <!-- Package Section -->
        <uxap:ObjectPageSection id="_IDGenObjectPageSection3" title="Package Details">
@@ -99,6 +91,12 @@
                                     <f:FormElement id="_IDGenFormElement22" label="Package Number">
                                         <f:fields>
                                             <Input value="{packageNumber}" id="packageNumber" />
+                                        </f:fields>
+                                    </f:FormElement>
+                                     <f:FormElement id="_IDGenFormElement2we2222" label="Package Status">
+                                        <f:fields>
+                                           <Button id="_IDGenButton1" icon="sap-icon://action" type="Transparent" press="onPress" ariaLabelledBy="actionButtonLabel"/>
+				<ToolbarSpacer id="_IDGenToolbarSpacer2"/>
                                         </f:fields>
                                     </f:FormElement>
                                 </f:formElements>
@@ -182,7 +180,7 @@
                                 <f:formElements>
                                     <f:FormElement id="_IDGenFormElement1" label="Selected Receiver">
                                         <f:fields>
-                                            <Select id="_IDGenSelect1" items="{/Users}" change="onSelectChange" selectedKey="{receiver_ID}">
+                                            <Select id="_IDGenSelect1" items="{/Users}"  change="onSelectChange" selectedKey="{receiver_ID}">
                                               <core:Item id="_IDGenItem1" key="{ID}" text="{first_name} {last_name}" />
                                            </Select>
                                         </f:fields>
@@ -194,12 +192,12 @@
                                 <f:formElements>
                                 <f:FormElement id="_IDGenFormElement122" label="First Name">
                                     <f:fields>
-                                        <Input id="userFirstName" value="{receiver/first_name}" />
+                                        <Label id="userFirstName" text="{receiver/first_name}" />
                                     </f:fields>
                                 </f:FormElement>
                                 <f:FormElement id="_IDGenFormElement222" label="Last Name">
                                     <f:fields>
-                                        <Input id="userLastName" value="{receiver/last_name}" />
+                                        <Label id="userLastName" text="{receiver/last_name}" />
                                     </f:fields>
                                 </f:FormElement>
                             </f:formElements>
@@ -219,8 +217,8 @@
 			<OverflowToolbar id="_IDGenOverflowToolbar1">
 				<content>
 					<ToolbarSpacer id="_IDGenToolbarSpacer1" />
-					<Button id="onCancel" text="Cancel" icon="sap-icon://cancel"/>
-					<Button id="onSubmit" text="Submit" icon="sap-icon://complete"/>
+					<Button id="onCancel" text="Cancel" press="onCancel" icon="sap-icon://cancel"/>
+					<Button id="onSubmit" text="Submit" press="onSubmit" icon="sap-icon://complete"/>
 				</content>
 			</OverflowToolbar>
 		</footer>

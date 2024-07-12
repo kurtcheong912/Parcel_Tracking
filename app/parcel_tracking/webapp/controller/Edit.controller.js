@@ -9,42 +9,21 @@ sap.ui.define([
     onInit: async function () {
       var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
       await oRouter.getRoute("edit").attachPatternMatched(await this.onEdit, this);
+      this.allInputFieldEditable(false);
     },
 
     onEdit: function (oEvent) {
       var packageId = oEvent.getParameter("arguments").packageId;
       this.getView().bindElement("/Packages(" + packageId + ")");
     },
-
-    onSave: function () {
+    onCancel: function () {
+      this.onNavBack();
+    },
+    onSubmit: function () {
       var oModel = this.getView().getModel();
       oModel.submitBatch(oModel.getUpdateGroupId());
-      sap.m.MessageToast.show("Package saved successfully!");
-      this.onNavBack();
-      oModel.refresh();
-      // var oModel = this.getView().getModel();
-      // console.log(oModel);
-      // var id = this.getView().getBindingContext().getObject().ID;
-      // var packageNumber = this.getView().byId("packageNumber").getValue();
-      // var receiverId = this.getView().byId("receiverId").getValue();
-      // var shippingAddress = this.getView().byId("shippingAddress").getValue();
-
-      // var oData = {
-      //   packageNumber: packageNumber,
-      //   receiver_ID: receiverId,
-      //   shippingAddress: shippingAddress,
-      //   status: 'NEW',
-      // }
-      // oModel.update("/Packages(" + id + ")", oData, {
-      //   success: function () {
-      //     MessageToast.show("Package edited successfully!");
-      //     this.onNavBack();
-      //   }.bind(this), 
-      //   error: function () {
-      //     MessageToast.show("Error editing package.");
-      //   }
-      // });
-
+      var packageNumber = this.getView().byId("packageNumber").getValue();
+      sap.m.MessageBox.success("Package \"" + packageNumber + "\" edited successfully.");
     },
 
     onNavBack: function () {
@@ -81,9 +60,41 @@ sap.ui.define([
         var oUser = oContext.getObject();
         console.log(oUser);
         // Set values to the respective inputs
-        this.getView().byId("userFirstName").setValue(oUser.first_name || "");
-        this.getView().byId("userLastName").setValue(oUser.last_name || "");
+        this.getView().byId("userFirstName").setText(oUser.first_name || "");
+        this.getView().byId("userLastName").setText(oUser.last_name || "");
       }
     },
+    onEditPress: function (oEvent) {
+      var oToggleButton = oEvent.getSource();
+      if (oToggleButton.getPressed()) {
+        oToggleButton.setText("Disable Edit");
+        this.allInputFieldEditable(false);
+        this.showToast("Currently exited edit mode");
+      } else {
+        this.allInputFieldEditable(true)
+        oToggleButton.setText("Currently in edit mode");
+      }
+    },
+    
+    allInputFieldEditable: function(state){
+      var oView = this.getView();
+      this.getView().byId("_IDGenSelect1").setEnabled(state);
+      var aInputs = oView.findAggregatedObjects(true).filter(function (oControl) {
+        return oControl instanceof sap.m.Input;
+      });
+      aInputs.forEach(function (oInput) {
+        oInput.setEditable(state);
+      });
+    },
+    showToast: function (sMessage) {
+      sap.m.MessageToast.show(sMessage, {
+          duration: 3000, // Duration in milliseconds
+          width: "15em", // Width of the toast
+          my: "center bottom", // Positioning
+          at: "center bottom",
+          offset: "0 50",
+          autoClose: true // Automatically close after duration
+      });
+  }
   });
 });
