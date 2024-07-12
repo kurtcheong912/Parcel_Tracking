@@ -1,0 +1,40 @@
+<SideNavigation
+    id="_IDGenSideNavigation1"
+    xmlns="sap.tnt"
+    xmlns:core="sap.ui.core"
+    expanded="true"
+    itemSelect="onItemSelect"
+    selectedKey="Sender_Overview"
+>
+    <NavigationList id="_IDGenNavigationList1">
+        <NavigationListItem
+            id="_IDGenNavigationListItem4"
+            text="Sender"
+            icon="sap-icon://paper-plane"
+            selectable="false"
+        >
+            <NavigationListItem
+                id="_IDGenNavigationListItem5"
+                text="Overview"
+                key="Sender_Overview"
+            />
+            <NavigationListItem
+                text="Create"
+                id="_IDGenNavigationListItem8"
+                key="Create"
+            />
+        </NavigationListItem>
+        <NavigationListItem
+            id="_IDGenNavigationListItem6"
+            text="Receiver"
+            icon="sap-icon://cause"
+            selectable="false"
+        >
+            <NavigationListItem
+                id="_IDGenNavigationListItem7"
+                text="Overview"
+                key="Receiver_Overview"
+            />
+        </NavigationListItem>
+    </NavigationList>
+</SideNavigation>

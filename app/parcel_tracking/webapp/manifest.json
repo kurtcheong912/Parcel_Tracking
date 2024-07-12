@@ -112,6 +112,11 @@
           "pattern": "package/",
           "name": "create",
           "target": "create"
+        },
+        {
+          "pattern": "receiver",
+          "name": "receiver",
+          "target" : "receiver"
         }
       ],
       "targets": {
@@ -135,6 +140,13 @@
           "clearControlAggregation": false,
           "viewId": "Create",
           "viewName": "Create"
+        },
+        "receiver": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "ReceiverOverview",
+          "viewName": "ReceiverOverview"
         }
       }
     },
