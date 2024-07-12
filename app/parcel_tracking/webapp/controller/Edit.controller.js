@@ -6,9 +6,9 @@ sap.ui.define([
   "use strict";
 
   return Controller.extend("parceltracking.controller.Edit", {
-    onInit: function () {
+    onInit: async function () {
       var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-      oRouter.getRoute("edit").attachPatternMatched(this.onEdit, this);
+      await oRouter.getRoute("edit").attachPatternMatched(await this.onEdit, this);
     },
 
     onEdit: function (oEvent) {
@@ -58,6 +58,32 @@ sap.ui.define([
         oRouter.navTo("home", {}, true);
       }
     },
+    stateFormatter: function (status) {
+      switch (status) {
+        case "NEW":
+          return "Information";
+        case "SHIPPING":
+          return "Warning"; // You can set this based on your logic
+        case "DELIVERED":
+          return "Success";
+        default:
+          return "None"; // Default state if needed
+      }
+    },
+    onSelectChange: function (oEvent) {
+      // Get the selected item context
+      var oSelect = oEvent.getSource();
+      var oSelectedItem = oSelect.getSelectedItem();
 
+      if (oSelectedItem) {
+        var oContext = oSelectedItem.getBindingContext();
+        // Retrieve the user details from the context
+        var oUser = oContext.getObject();
+        console.log(oUser);
+        // Set values to the respective inputs
+        this.getView().byId("userFirstName").setValue(oUser.first_name || "");
+        this.getView().byId("userLastName").setValue(oUser.last_name || "");
+      }
+    },
   });
 });
