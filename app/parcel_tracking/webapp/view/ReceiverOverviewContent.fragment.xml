@@ -105,7 +105,6 @@
 						tooltip="Group"
 						icon="sap-icon://group-2"
 						press="handleGroupButtonPressed"/>
-					<ToggleButton id="_IDGenToggleButton1" icon="sap-icon://menu" tooltip="Enable Custom Context Menu" press="onToggleContextMenu" />
 				</OverflowToolbar>
             </headerToolbar>
 			<infoToolbar>
@@ -131,7 +130,7 @@
 						<Text id="_IDGenText14" text="{weight}" />
 						<Text id="_IDGenObjectNumber1" text="{height}"/>
 						<Text id="_IDGenObjectNumber2" text="{createdAt}"/>
-                        <core:Icon id="_IDGenIcon1" src="sap-icon://edit" class="IconStyle" press="onIconPress"/>
+                        <core:Icon id="_IDGenIcon1" src="sap-icon://edit" class="IconStyle" press="onEditButtonPress"/>
 					</cells>
 				</ColumnListItem>
 			</items>
