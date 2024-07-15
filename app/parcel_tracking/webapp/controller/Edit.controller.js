@@ -79,13 +79,20 @@ sap.ui.define([
     allInputFieldEditable: function (state) {
       var oView = this.getView();
       this.getView().byId("_IDGenSelect1").setEnabled(state);
+      this.getView().byId("updateStatusButton").setEnabled(state);
       var aInputs = oView.findAggregatedObjects(true).filter(function (oControl) {
-        return oControl instanceof sap.m.Input;
+          return oControl instanceof sap.m.Input;
       });
       aInputs.forEach(function (oInput) {
-        oInput.setEditable(state);
+          // Check if the input ID is the one you want to make non-editable
+          if (oInput.getId() !== oView.createId("packageID")) {
+              oInput.setEditable(state);
+          } else {
+              oInput.setEditable(false); // Ensure this specific input is not editable
+          }
       });
-    },
+  },
+  
     showToast: function (sMessage) {
       sap.m.MessageToast.show(sMessage, {
         duration: 3000, // Duration in milliseconds
@@ -97,6 +104,21 @@ sap.ui.define([
       });
     },
     onUpdateStatus: function () {
+      var that = this; // Reference to the controller context
+  
+      // Show a warning message box
+      sap.m.MessageBox.warning("Are you sure you want to update the package status?", {
+          title: "Confirm Status Update",
+          actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
+          onClose: function (oAction) {
+              if (oAction === sap.m.MessageBox.Action.OK) {
+                  // If OK is pressed, proceed to update the status
+                  that.updateStatus(); // Call the internal function to update the status
+              }
+          }
+      });
+  },
+    updateStatus: function () {
       var oObjectStatus = this.byId("_IDGenObjectStatus1");
       var currentStatus = oObjectStatus.getText();
       console.log("Current Status:", currentStatus);
@@ -121,17 +143,12 @@ sap.ui.define([
     
       // Get the context object
       var oBindingContext = oContext.getBoundContext();
+
     
       // Update the data
       oBindingContext.setProperty("status", nextStatus);
-    
-      // Submit the changes
-      oModel.submitBatch("groupId").then(function () {
-        oModel.refresh();
-        console.log("Package status updated successfully.");
-      }).catch(function (oError) {
-        console.error("Error updating package status:", oError);
-      });
+      oModel.refresh();
+  
     },
     
     
