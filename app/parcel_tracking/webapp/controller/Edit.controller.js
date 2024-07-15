@@ -12,18 +12,34 @@ sap.ui.define([
       this.allInputFieldEditable(true);
     },
 
-    onEdit: function (oEvent) {
+    onEdit: async function (oEvent) {
       var packageId = oEvent.getParameter("arguments").packageId;
-      this.getView().bindElement("/Packages(" + packageId + ")");
+      await this.getView().bindElement("/Packages(" + packageId + ")");
+      await this.getView().getBindingContext().requestObject();
+      await this.checkUpdateStatusAvailable();
     },
     onCancel: function () {
       this.onNavBack();
     },
     onSubmit: function () {
-      var oModel = this.getView().getModel();
-      oModel.submitBatch(oModel.getUpdateGroupId());
-      var packageNumber = this.getView().byId("packageNumber").getValue();
-      sap.m.MessageBox.success("Package \"" + packageNumber + "\" edited successfully.");
+      var that = this; // Keep reference to the controller
+
+      // Show confirmation dialog
+      sap.m.MessageBox.confirm(
+        "Do you want to edit this package?",
+        {
+          title: "Confirm Edit",
+          onClose: function (oAction) {
+            if (oAction === sap.m.MessageBox.Action.OK) {
+              // User clicked OK, proceed with edit
+              var oModel = that.getView().getModel();
+              oModel.submitBatch(oModel.getUpdateGroupId());
+              var packageNumber = that.getView().byId("packageNumber").getValue();
+              sap.m.MessageToast.show("Package \"" + packageNumber + "\" edited successfully.");
+            }
+          }
+        }
+      );
     },
 
     onNavBack: function () {
@@ -58,10 +74,7 @@ sap.ui.define([
         var oContext = oSelectedItem.getBindingContext();
         // Retrieve the user details from the context
         var oUser = oContext.getObject();
-        console.log(oUser);
-        // Set values to the respective inputs
-        this.getView().byId("userFirstName").setText(oUser.first_name || "");
-        this.getView().byId("userLastName").setText(oUser.last_name || "");
+
       }
     },
     onEditPress: function (oEvent) {
@@ -72,27 +85,47 @@ sap.ui.define([
         this.showToast("Currently exited edit mode");
       } else {
         this.allInputFieldEditable(true)
+        this.showToast("Currently in edit mode");
         oToggleButton.setText("Currently in edit mode");
+      }
+    },
+    checkUpdateStatusAvailable: async function () {
+      try {
+        var oContext = this.getView().getBindingContext();
+        console.log("Checking current status...");
+        var currentStatus = oContext.getProperty("status");
+
+        if (!currentStatus) {
+          console.error("ObjectStatus not found!");
+          return;
+        }
+        console.log("Current Status: ", currentStatus);
+        // Enable the button only if the status is "NEW" or "SHIPPING"
+        var isButtonEnabled = (currentStatus === "NEW" || currentStatus === "SHIPPING");
+        this.getView().byId("updateStatusButton").setEnabled(isButtonEnabled);
+
+      } catch (error) {
+        console.error("Error in checkUpdateStatusAvailable: ", error);
       }
     },
 
     allInputFieldEditable: function (state) {
       var oView = this.getView();
-      this.getView().byId("_IDGenSelect1").setEnabled(state);
+      this.getView().byId("_IDGenComboBox1").setEnabled(state);
       this.getView().byId("updateStatusButton").setEnabled(state);
       var aInputs = oView.findAggregatedObjects(true).filter(function (oControl) {
-          return oControl instanceof sap.m.Input;
+        return oControl instanceof sap.m.Input;
       });
       aInputs.forEach(function (oInput) {
-          // Check if the input ID is the one you want to make non-editable
-          if (oInput.getId() !== oView.createId("packageID")) {
-              oInput.setEditable(state);
-          } else {
-              oInput.setEditable(false); // Ensure this specific input is not editable
-          }
+        // Check if the input ID is the one you want to make non-editable
+        if (oInput.getId() !== oView.createId("packageID")) {
+          oInput.setEditable(state);
+        } else {
+          oInput.setEditable(false); // Ensure this specific input is not editable
+        }
       });
-  },
-  
+    },
+
     showToast: function (sMessage) {
       sap.m.MessageToast.show(sMessage, {
         duration: 3000, // Duration in milliseconds
@@ -105,56 +138,54 @@ sap.ui.define([
     },
     onUpdateStatus: function () {
       var that = this; // Reference to the controller context
-  
+
       // Show a warning message box
       sap.m.MessageBox.warning("Are you sure you want to update the package status?", {
-          title: "Confirm Status Update",
-          actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
-          onClose: function (oAction) {
-              if (oAction === sap.m.MessageBox.Action.OK) {
-                  // If OK is pressed, proceed to update the status
-                  that.updateStatus(); // Call the internal function to update the status
-              }
+        title: "Confirm Status Update",
+        actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
+        onClose: function (oAction) {
+          if (oAction === sap.m.MessageBox.Action.OK) {
+            // If OK is pressed, proceed to update the status
+            that.updateStatus(); // Call the internal function to update the status
           }
+        }
       });
-  },
-    updateStatus: function () {
+    },
+    updateStatus: async function () {
       var oObjectStatus = this.byId("_IDGenObjectStatus1");
       var currentStatus = oObjectStatus.getText();
       console.log("Current Status:", currentStatus);
-    
+
       // Assuming you have a method to get the next status based on the current status
       var nextStatus = this.getNextStatus(currentStatus);
       console.log("Next Status:", nextStatus);
-    
+
       // Retrieve the package ID from the input field
       var oInput = this.byId("packageID");
       var sPackageId = oInput.getValue();
       console.log("Package ID:", sPackageId);
-    
+
       // Get the model
       var oModel = this.getView().getModel();
-    
+
       // Construct the path to the package in the model
       var sPath = "/Packages(" + sPackageId + ")";
-    
+
       // Bind the context
       var oContext = oModel.bindContext(sPath);
-    
+
       // Get the context object
       var oBindingContext = oContext.getBoundContext();
 
-    
+
       // Update the data
       oBindingContext.setProperty("status", nextStatus);
       oModel.refresh();
-  
+      this.showToast("Package \"" + packageNumber + "\" status successfully updated to " + nextStatus);
+      if (nextStatus == "DELIVERED") {
+        this.getView().byId("updateStatusButton").setEnabled(false);
+      }
     },
-    
-    
-    
-    
-
 
     getNextStatus: function (currentStatus) {
       switch (currentStatus) {
