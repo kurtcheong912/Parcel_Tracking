@@ -1,0 +1,52 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:grid="sap.ui.layout.cssgrid"
+    xmlns:f="sap.f"
+    xmlns:core="sap.ui.core"
+    xmlns:t="sap.tnt"
+>
+    <Panel id="createPanel" width="100%" backgroundDesign="Transparent">
+		<headerToolbar>
+			<Toolbar id="createToolBar" height="3rem">
+            <Button
+                    id="backButton"
+                    icon="sap-icon://nav-back"
+                    type="Transparent"
+                    press=".SenderCreate.onBack"
+                />
+				<Title id="senderCreateTitle" text="Create" />
+				
+			</Toolbar>
+		</headerToolbar>
+        <content>
+            <VBox id="createVbox">
+                <Input
+                    id="packageNumber"
+                    value=""
+                    placeholder="Package Number"
+                />
+                <Input
+                    id="receiverId"
+                    value=""
+                    placeholder="Receiver"
+                />
+                <Input
+                    id="shippingAddress"
+                    value=""
+                    placeholder="Shipping Address"
+                />
+                <Button
+                    id="saveButton"
+                    text="Save"
+                    press=".onSave"
+                />
+                <Button
+                    id="deleteButton"
+                    text="Delete"
+                    press=".onDelete"
+                />
+            </VBox>
+        </content>
+    </Panel>
+</core:FragmentDefinition>

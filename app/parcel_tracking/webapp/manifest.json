@@ -99,24 +99,7 @@
         {
           "name": "home",
           "pattern": ":?query:",
-          "target": [
-            "home"
-          ]
-        },
-        {
-          "pattern": "package/{packageId}",
-          "name": "edit",
-          "target": "edit"
-        },
-        {
-          "pattern": "package/",
-          "name": "create",
-          "target": "create"
-        },
-        {
-          "pattern": "receiver",
-          "name": "receiver",
-          "target" : "receiver"
+          "target": "home"
         }
       ],
       "targets": {
@@ -126,27 +109,6 @@
           "clearControlAggregation": false,
           "viewId": "Home",
           "viewName": "Home"
-        },
-        "edit": {
-          "viewType": "XML",
-          "transition": "slide",
-          "clearControlAggregation": false,
-          "viewId": "Edit",
-          "viewName": "Edit"
-        },
-        "create": {
-          "viewType": "XML",
-          "transition": "slide",
-          "clearControlAggregation": false,
-          "viewId": "Create",
-          "viewName": "Create"
-        },
-        "receiver": {
-          "viewType": "XML",
-          "transition": "slide",
-          "clearControlAggregation": false,
-          "viewId": "ReceiverOverview",
-          "viewName": "ReceiverOverview"
         }
       }
     },

@@ -8,7 +8,7 @@
     xmlns:tnt="sap.tnt"
     xmlns:t="sap.ui.table"
     xmlns:trm="sap.ui.table.rowmodes"
-    controllerName="parceltracking.controller.ReceiverOverview"
+    controllerName="parceltracking.controller.Home"
 >
     <tnt:ToolPage id="toolPage">
         <tnt:header>

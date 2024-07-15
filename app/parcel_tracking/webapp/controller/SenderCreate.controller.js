@@ -5,20 +5,12 @@ sap.ui.define([
 ], function (Controller, MessageToast, History) {
     "use strict";
 
-    return Controller.extend("parceltracking.controller.Create", {
+    return Controller.extend("parceltracking.controller.SenderCreate", {
         onInit: function () {
         },
 
-        onNavBack: function () {
-            var oHistory = History.getInstance();
-            var sPreviousHash = oHistory.getPreviousHash();
-
-            if (sPreviousHash !== undefined) {
-                window.history.go(-1);
-            } else {
-                var oRouter = this.getOwnerComponent().getRouter();
-                oRouter.navTo("home", {}, true);
-            }
+        onBack: function () {
+            this.byId("pageContainer").back();
         },
 
         onSave: function () {

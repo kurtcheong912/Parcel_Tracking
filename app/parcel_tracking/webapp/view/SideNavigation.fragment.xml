@@ -10,7 +10,7 @@
         <NavigationListItem
             id="_IDGenNavigationListItem4"
             text="Sender"
-            icon="sap-icon://paper-plane"
+            icon="sap-icon://shipping-status"
             selectable="false"
         >
             <NavigationListItem
@@ -18,16 +18,11 @@
                 text="Overview"
                 key="Sender_Overview"
             />
-            <NavigationListItem
-                text="Create"
-                id="_IDGenNavigationListItem8"
-                key="Create"
-            />
         </NavigationListItem>
         <NavigationListItem
             id="_IDGenNavigationListItem6"
             text="Receiver"
-            icon="sap-icon://cause"
+            icon="sap-icon://product"
             selectable="false"
         >
             <NavigationListItem
