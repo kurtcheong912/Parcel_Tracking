@@ -2,3 +2,16 @@
 .IconStyle {
     cursor: pointer;
 }
+
+div#container-parceltracking---ReceiverDetail--toggleableButtonSection {
+    
+    justify-content: end!important;
+}
+
+div#container-parceltracking---ReceiverDetail--toggleableButtonSection button {
+    margin-right: 10px;
+}
+
+.signature-pad {
+    border: 1px solid black;
+}
