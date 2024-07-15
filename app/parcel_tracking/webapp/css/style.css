@@ -1,1 +1,14 @@
 /* Enter your custom styles here */
+.responsiveVBox {
+    width: 100%;
+    padding: 1rem; /* Optional padding */
+}
+
+.responsiveHBox {
+    flex-wrap: wrap; /* Allows items to wrap on smaller screens */
+}
+
+.responsiveButton {
+    width: 100%; /* Full width on small screens */
+    margin-top: 1rem; /* Spacing for better visibility */
+}
