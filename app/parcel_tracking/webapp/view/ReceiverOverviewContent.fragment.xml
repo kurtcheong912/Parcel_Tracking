@@ -23,7 +23,7 @@
             <ff:content>
                 <core:Title
                     id="_IDGenTitle1"
-                    text="Office"
+                    text="Personal Information"
                 />
                 <Label
                     id="_IDGenLabel1"
@@ -59,7 +59,7 @@
                 />
                 <core:Title
                     id="_IDGenTitle2"
-                    text="Online"
+                    text="Address"
                 />
                 <Label
                     id="_IDGenLabel5"
@@ -87,53 +87,158 @@
                 />
             </ff:layoutData>
         </ff:SimpleForm>
-		<Table id="idProductsTable"
-			items="{/Packages}">
-			<headerToolbar>
-				<OverflowToolbar id="_IDGenOverflowToolbar1">
-					<Title id="_IDGenTitle3" text="Packages" level="H2"/>
-					<ToolbarSpacer id="_IDGenToolbarSpacer1"/>
-					<Button id="_IDGenButton1"
-						tooltip="Sort"
-						icon="sap-icon://sort"
-						press="handleSortButtonPressed"/>
-					<Button id="_IDGenButton2"
-						tooltip="Filter"
-						icon="sap-icon://filter"
-						press="handleFilterButtonPressed"/>
-					<Button id="_IDGenButton3"
-						tooltip="Group"
-						icon="sap-icon://group-2"
-						press="handleGroupButtonPressed"/>
-				</OverflowToolbar>
+        <Table
+            id="idProductsTable"
+            items="{/Packages}"
+        >
+            <headerToolbar>
+                <OverflowToolbar id="_IDGenOverflowToolbar1">
+                    <Title
+                        id="_IDGenTitle3"
+                        text="Packages"
+                        level="H2"
+                    />
+                    <ToolbarSpacer id="_IDGenToolbarSpacer1" />
+                    <Button
+                        id="_IDGenButton1"
+                        tooltip="Sort"
+                        icon="sap-icon://sort"
+                        press="handleSortButtonPressed"
+                    />
+                    <Button
+                        id="_IDGenButton2"
+                        tooltip="Filter"
+                        icon="sap-icon://filter"
+                        press="handleFilterButtonPressed"
+                    />
+                    <Button
+                        id="_IDGenButton3"
+                        tooltip="Group"
+                        icon="sap-icon://group-2"
+                        press="handleGroupButtonPressed"
+                    />
+                </OverflowToolbar>
             </headerToolbar>
-			<infoToolbar>
-				<OverflowToolbar id="vsdFilterBar" visible="false">
-					<Text id="vsdFilterLabel" />
-				</OverflowToolbar>
-			</infoToolbar>
-			<columns>
-				<Column id="product" minScreenWidth="Tablet" width="12em" headerMenu="columnHeaderMenu"><Text id="_IDGenText8" text="Package ID" /></Column>
-				<Column id="_IDGenColumn1" minScreenWidth="Tablet" demandPopin="true"><Text id="_IDGenText9" text="Status" /></Column>
-                <Column id="_IDGenColumn124" minScreenWidth="Tablet" demandPopin="true"><Text id="_IDGenText88" text="Sender" /></Column>
-				<Column id="_IDGenColumn2" minScreenWidth="Tablet" demandPopin="true" hAlign="End"><Text id="_IDGenText10" text="Weight" /></Column>
-				<Column id="_IDGenColumn3" minScreenWidth="Tablet" demandPopin="true" hAlign="Center"><Text id="_IDGenText11" text="Height" /></Column>
-				<Column id="_IDGenColumn4" minScreenWidth="Tablet" hAlign="End"><Text id="_IDGenText12" text="Created Date" /></Column>
-				<Column id="_IDGenColumn5" minScreenWidth="Tablet" hAlign="End"><Text id="_IDGenText19" text="Action" /></Column>
-			</columns>
-			<items>
-				<ColumnListItem id="_IDGenColumnListItem1" vAlign="Middle">
-					<cells>
-						<ObjectIdentifier id="_IDGenObjectIdentifier1" title="{Name}" text="{ID}" />
-						<Text id="_IDGenText13" text="{status}" />
-                        <Text id="_IDGenText18" text="{sender}" />
-						<Text id="_IDGenText14" text="{weight}" />
-						<Text id="_IDGenObjectNumber1" text="{height}"/>
-						<Text id="_IDGenObjectNumber2" text="{createdAt}"/>
-                        <core:Icon id="_IDGenIcon1" src="sap-icon://edit" class="IconStyle" press="onEditButtonPress"/>
-					</cells>
-				</ColumnListItem>
-			</items>
-		</Table>
+            <infoToolbar>
+                <OverflowToolbar
+                    id="vsdFilterBar"
+                    visible="false"
+                >
+                    <Text id="vsdFilterLabel" />
+                </OverflowToolbar>
+            </infoToolbar>
+            <columns>
+                <Column
+                    id="product"
+                    minScreenWidth="Tablet"
+                >
+                    <Text
+                        id="_IDGenText8"
+                        text="Package ID"
+                    />
+                </Column>
+                <Column
+                    id="_IDGenColumn1"
+                    minScreenWidth="Tablet"
+                    demandPopin="true"
+                >
+                    <Text
+                        id="_IDGenText9"
+                        text="Status"
+                    />
+                </Column>
+                <Column
+                    id="_IDGenColumn12z4"
+                    minScreenWidth="Tablet"
+                    demandPopin="true"
+                >
+                    <Text
+                        id="_IDGenText88"
+                        text="Sender"
+                    />
+                </Column>
+                <Column
+                    id="_IDGenColumn2"
+                    minScreenWidth="Tablet"
+                    demandPopin="true"
+                >
+                    <Text
+                        id="_IDGenText10"
+                        text="Weight"
+                    />
+                </Column>
+                <Column
+                    id="_IDGenColumn3"
+                    minScreenWidth="Tablet"
+                    demandPopin="true"
+                >
+                    <Text
+                        id="_IDGenText11"
+                        text="Height"
+                    />
+                </Column>
+                <Column
+                    id="_IDGenColumn4"
+                    minScreenWidth="Tablet"
+                    demandPopin="true"
+                >
+                    <Text
+                        id="_IDGenText12"
+                        text="Created Date"
+                    />
+                </Column>
+                <Column
+                    id="_IDGenColumn5"
+                    minScreenWidth="Tablet"
+                    demandPopin="true"
+                >
+                    <Text
+                        id="_IDGenText19"
+                        text="Action"
+                    />
+                </Column>
+            </columns>
+            <items>
+                <ColumnListItem
+                    id="_IDGenColumnListItem1"
+                    vAlign="Middle"
+                >
+                    <cells>
+                        <ObjectIdentifier
+                            id="_IDGenObjectIdentifier1"
+                            title="{Name}"
+                            text="{ID}"
+                            class="green"
+                        />
+                        <Text
+                            id="_IDGenText13"
+                            text="{status}"
+                        />
+                        <Text
+                            id="_IDGenText18"
+                            text="{sender}"
+                        />
+                        <Text
+                            id="_IDGenText14"
+                            text="{weight}"
+                        />
+                        <Text
+                            id="_IDGenObjectNumber1"
+                            text="{height}"
+                        />
+                        <Text
+                            id="_IDGenObjectNumber2"
+                            text="{createdAt}"
+                        />
+                        <core:Icon
+                            id="_IDGenIcon1"
+                            src="sap-icon://edit"
+                            class="IconStyle"
+                            press="onEditButtonPress"
+                        />
+                    </cells>
+                </ColumnListItem>
+            </items>
+        </Table>
     </VBox>
 </core:FragmentDefinition>

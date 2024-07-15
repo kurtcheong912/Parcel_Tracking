@@ -54,16 +54,7 @@
                                         id="_IDGenHBox1"
                                         justifyContent="SpaceBetween"
                                         class="responsiveHBox"
-                                    >
-                                        <ObjectStatus
-                                            id="_IDGenObjectStatus1"
-                                            class="sapMObjectStatusLarge"
-                                            title="Package status"
-                                            text="{status}"
-                                            icon="sap-icon://shipping-status"
-                                            state="{path: 'status', formatter: '.stateFormatter'}"
-                                        />
-                                    </HBox>
+                                    />
                                 </VBox>
                             </uxap:blocks>
                         </uxap:ObjectPageSubSection>
@@ -91,26 +82,41 @@
                                             <f:ResponsiveGridLayout
                                                 id="_IDGenResponsiveGridLayout12"
                                                 labelSpanXL="4"
-                                                labelSpanL="3"
+                                                labelSpanL="4"
                                                 labelSpanM="4"
                                                 labelSpanS="12"
-                                                adjustLabelSpan="false"
+                                                adjustLabelSpan="true"
                                                 emptySpanXL="0"
-                                                emptySpanL="4"
+                                                emptySpanL="0"
                                                 emptySpanM="0"
                                                 emptySpanS="0"
                                                 columnsXL="2"
-                                                columnsL="1"
+                                                columnsL="2"
                                                 columnsM="1"
                                                 singleContainerFullSize="false"
                                             />
                                         </f:layout>
                                         <f:formContainers>
+                                            <!-- Left Side: Package Info -->
                                             <f:FormContainer
                                                 id="_IDGenFormContainer12"
                                                 title="Package Info"
                                             >
                                                 <f:formElements>
+                                                    <f:FormElement
+                                                        id="_IDGenFormElement122"
+                                                        label="Package status"
+                                                    >
+                                                        <f:fields>
+                                                            <ObjectStatus
+                                                                id="_IDGenObjectStatus1"
+                                                                class="sapMObjectStatusLarge customObjectStatus"
+                                                                text="{status}"
+                                                                icon="sap-icon://shipping-status"
+                                                                state="{path: 'status', formatter: '.stateFormatter'}"
+                                                            />
+                                                        </f:fields>
+                                                    </f:FormElement>
                                                     <f:FormElement
                                                         id="_IDGenFormElement12"
                                                         label="Package ID"
@@ -134,24 +140,6 @@
                                                         </f:fields>
                                                     </f:FormElement>
                                                     <f:FormElement
-                                                        id="_IDGenFormElement2we2222"
-                                                        label="Shipping Address"
-                                                    >
-                                                        <f:fields>
-                                                            <Text
-                                                                text="{shippingAddress}"
-                                                                id="shippingAddress"
-                                                            />
-                                                        </f:fields>
-                                                    </f:FormElement>
-                                                </f:formElements>
-                                            </f:FormContainer>
-                                            <f:FormContainer
-                                                id="_IDGenFormContainer122"
-                                                title="Package Dimensions"
-                                            >
-                                                <f:formElements>
-                                                    <f:FormElement
                                                         id="_IDGenFormElement2222"
                                                         label="Package Weight"
                                                     >
@@ -173,104 +161,19 @@
                                                             />
                                                         </f:fields>
                                                     </f:FormElement>
-                                                </f:formElements>
-                                            </f:FormContainer>
-
-                                            <f:FormContainer
-                                                id="_IDGenFormContainer1222"
-                                                title="Other Package Detail"
-                                            >
-                                                <f:formElements>
                                                     <f:FormElement
-                                                        id="_IDGenFormElementpackageCreationAt"
-                                                        label="Package Creation Date"
+                                                        id="_IDGenFormElementUpdateStatus"
                                                     >
                                                         <f:fields>
-                                                            <Text
-                                                                text="{createdAt}"
-                                                                id="packageCreationAt"
-                                                            />
-                                                        </f:fields>
-                                                    </f:FormElement>
-                                                    <f:FormElement
-                                                        id="_IDGenFormElementpackageCreationBy"
-                                                        label="Package Created By"
-                                                    >
-                                                        <f:fields>
-                                                            <Text
-                                                                text="{createdBy}"
-                                                                id="packageCreationBy"
-                                                            />
-                                                        </f:fields>
-                                                    </f:FormElement>
-                                                    <f:FormElement
-                                                        id="_IDGenFormElementpackageModifiedAt"
-                                                        label="Package Modified Date"
-                                                    >
-                                                        <f:fields>
-                                                            <Text
-                                                                text="{modifiedAt}"
-                                                                id="packageModifiedAt"
-                                                            />
-                                                        </f:fields>
-                                                    </f:FormElement>
-                                                    <f:FormElement
-                                                        id="_IDGenFormElementpackageModifiedBy"
-                                                        label="Package Created By"
-                                                    >
-                                                        <f:fields>
-                                                            <Text
-                                                                text="{modifiedBy}"
-                                                                id="packageModifiedBy"
-                                                            />
-                                                        </f:fields>
-                                                    </f:FormElement>
-                                                </f:formElements>
-                                            </f:FormContainer>
-
-                                            <f:FormContainer
-                                                id="_IDGenFormContainer212"
-                                                title="Receiver Info"
-                                            >
-                                                <f:formElements>
-                                                    <f:FormElement
-                                                        id="_IDGenFormElement122"
-                                                        label="First Name"
-                                                    >
-                                                        <f:fields>
-                                                            <Label
-                                                                id="userFirstName"
-                                                                text="{receiver/first_name}"
-                                                            />
-                                                        </f:fields>
-                                                    </f:FormElement>
-                                                    <f:FormElement
-                                                        id="_IDGenFormElement222"
-                                                        label="Last Name"
-                                                    >
-                                                        <f:fields>
-                                                            <Label
-                                                                id="userLastName"
-                                                                text="{receiver/last_name}"
-                                                            />
-                                                        </f:fields>
-                                                    </f:FormElement>
-                                                </f:formElements>
-                                            </f:FormContainer>
-
-                                            <f:FormContainer
-                                                id="_IDGenFormContainer2124"
-                                                title="Status"
-                                            >
-                                                <f:formElements>
-                                                    <f:FormElement
-                                                        id="_IDGenFormElement1224"
-                                                        label="Package Status"
-                                                    >
-                                                        <f:fields>
-                                                            <Label
-                                                                id="userFirstNamea"
-                                                                text="{status}"
+                                                            <Button
+                                                                id="updateStatusButton"
+                                                                tooltip="Update delivery status"
+                                                                icon="sap-icon://action"
+                                                                text="Update status"
+                                                                type="Emphasized"
+                                                                press="onUpdateStatus"
+                                                                ariaLabelledBy="actionButtonLabel"
+                                                                class="responsiveButton"
                                                             />
                                                         </f:fields>
                                                     </f:FormElement>
@@ -283,13 +186,13 @@
                                         <Button
                                             id="_IDGenButton1"
                                             text="Order Received"
-                                            press="onReceiveDialogPress"
+                                            press="onOrderReceived"
                                             ariaDescribedBy="genericButtonDescription acceptButtonDescription"
                                         />
                                         <Button
                                             id="_IDGenButton2"
                                             text="Order Damaged"
-                                            press="onPress"
+                                            press="onOrderDamaged"
                                             ariaDescribedBy="genericButtonDescription rejectButtonDescription"
                                         />
                                     </HBox>

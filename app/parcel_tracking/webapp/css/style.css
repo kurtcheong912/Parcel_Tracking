@@ -15,3 +15,12 @@ div#container-parceltracking---ReceiverDetail--toggleableButtonSection button {
 .signature-pad {
     border: 1px solid black;
 }
+
+div#container-parceltracking---ReceiverDetail--_IDGenHBox1124515 {
+    justify-content: center;
+    margin: auto;
+}
+
+div#container-parceltracking---ReceiverDetail--dialogToolbarSignaturePad {
+    justify-content: end;
+}

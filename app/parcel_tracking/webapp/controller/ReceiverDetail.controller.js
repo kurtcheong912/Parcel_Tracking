@@ -10,9 +10,33 @@ sap.ui.define([
             var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
             await oRouter.getRoute("detail").attachPatternMatched(await this.onEdit, this);
         },
-        onEdit: function(oEvent) {
+        onEdit: async function(oEvent) {
             var packageId = oEvent.getParameter("arguments").packageId;
-            this.getView().bindElement("/Packages(" + packageId + ")");
+             this.getView().bindElement("/Packages(" + packageId + ")"); 
+
+             await this.getView().getBindingContext().requestObject();
+             await this.checkUpdateStatusAvailable();
+        },
+        checkUpdateStatusAvailable: async function () {
+            try {
+              var oContext = this.getView().getBindingContext();
+              var currentStatus = oContext.getProperty("status");
+       
+            // Enable the button only if the status is "NEW" or "SHIPPING"
+              var isButtonEnabled = (currentStatus === "SHIPPING");
+              this.getView().byId("toggleableButtonSection").setVisible(isButtonEnabled);
+
+            } catch (error) {
+              console.error("Error in checkUpdateStatusAvailable: ", error);
+            }
+          },
+        onOrderReceived: function() {
+            this.orderStatus = "Received";
+            this.onReceiveDialogPress();
+        },
+        onOrderDamaged: function() {
+            this.orderStatus = "Damaged";
+            this.onReceiveDialogPress();
         },
         onReceiveDialogPress: function() {
             var oView = this.getView();
@@ -29,21 +53,35 @@ sap.ui.define([
               });
             }
             
-            this._pDialog.then(function(oDialog) {
-              oDialog.open();
-              
+            this._pDialog.then(function() {
               // Accessing the HTML element inside the VBox
               var oHtml = sap.ui.core.Fragment.byId(oView.getId(), "html");
-              
+
               if (oHtml) {
                 oHtml.setContent("<canvas id='signature-pad' width='400' height='200' class='signature-pad'></canvas>");
-                this.onSign;
-              } else {
-                console.log("HTML element not found.");
-              }
-            });
+                } else {
+                  console.log("HTML element not found.");
+                }
+              }); // Ensure the context is correct by binding this
+
+              this._pDialog.then(function(oDialog) {
+                oDialog.open();
+                this.onSign();
+              }.bind(this));
           },
-        onSign : function(oEvent){
+          stateFormatter: function (status) {
+            switch (status) {
+              case "NEW":
+                return "Information";
+              case "SHIPPING":
+                return "Warning"; // You can set this based on your logic
+              case "DELIVERED":
+                return "Success";
+              default:
+                return "None"; // Default state if needed
+            }
+          },
+          onSign : function(oEvent){
             var canvas = document.getElementById("signature-pad");
             var context = canvas.getContext("2d");
             canvas.width = 400;
@@ -154,6 +192,7 @@ sap.ui.define([
         saveButton : function(oEvent){
             var canvas = document.getElementById("signature-pad");
             var link = document.createElement('a');
+
             link.href = canvas.toDataURL('image/jpeg'); 
             link.download = 'sign.jpeg';
             link.click(); 
@@ -161,6 +200,19 @@ sap.ui.define([
                   backgroundColor: '#ffffff',
                   penColor: 'rgb(0, 0, 0)'
             })
+        
+            var packageId = this.byId("packageID").getText();
+
+            var oModel = this.getView().getModel();
+
+            var sPath = "/Packages("+ packageId + ")";
+
+            var oContext = oModel.bindContext(sPath);
+
+            var oBindingContext = oContext.getBoundContext();
+
+            oBindingContext.setProperty("status", this.orderStatus);
+            oModel.refresh();
         },
         
         /************Clear Signature Pad**************************/
@@ -185,5 +237,13 @@ sap.ui.define([
               oRouter.navTo("receiver", {}, true);
             }
           },
+          onCloseDialog: function() {
+            this.clearButton();
+            if (this._pDialog) {
+              this._pDialog.then(function(oDialog) {
+                oDialog.close();
+              });
+            }
+        },
     })
 });
