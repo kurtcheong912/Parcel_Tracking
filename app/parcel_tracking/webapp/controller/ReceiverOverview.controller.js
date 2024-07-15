@@ -7,9 +7,10 @@ sap.ui.define([
     'sap/m/Menu',
     'sap/m/MenuItem',
     'sap/m/MessageToast',
-    'sap/ui/core/Fragment'
+    'sap/ui/core/Fragment',
+	"sap/ui/model/FilterOperator"
 ],
-    function (Controller, Device , Filter, Sorter, JSONModel, Menu, MenuItem, MessageToast, Fragment) {
+    function (Controller, Device , Filter, Sorter, JSONModel, Menu, MenuItem, MessageToast, Fragment, FilterOperator) {
         "use strict";
         return Controller.extend("parcelTracking.controller.ReceiverOverview", {
             onInit: function () {
@@ -109,6 +110,22 @@ sap.ui.define([
                 this.getViewSettingsDialog("parceltracking.view.GroupDialog").then(function (oViewSettingsDialog) {
                     oViewSettingsDialog.open();
                 });
+            },
+            onFilterItems: function(oEvent) {
+                var sQuery = oEvent.getSource().getValue();
+                this.filtering(sQuery);
+            },
+            filtering: function(value) {
+                var oFilterId = new Filter("ID", FilterOperator.Contains, value);
+                var oFilterStatus = new Filter("status", FilterOperator.Contains, value);
+                var oFilterWeight = new Filter("weight", FilterOperator.Contains, value);
+                var oFilterHeight = new Filter("height", FilterOperator.Contains, value);
+                var oFilterAddress = new Filter("shippingAddress", FilterOperator.Contains, value);
+                var oFilterNumber = new Filter("packageNumber", FilterOperator.Contains, value);
+                var allFilter = new Filter([oFilterStatus, oFilterNumber, oFilterWeight, oFilterHeight], false)
+                var oTable = this.byId("idProductsTable");
+                var oBinding = oTable.getBinding("items");
+                oBinding.filter(allFilter);
             },
             handleSortDialogConfirm: function(oEvent) {
                 var oTable = this.byId("idProductsTable"),

@@ -34,6 +34,34 @@
                     text="Red Point Stores"
                 />
                 <Label
+                    id="_IDGenLabel5"
+                    text="Street/No."
+                />
+                <Text
+                    id="_IDGenText1144"
+                    text="Main St 1618"
+                />
+                <Label
+                    id="_IDGenLabel6"
+                    text="ZIP Code/City"
+                />
+                <Text
+                    id="_IDGenText1232"
+                    text="31415 Maintown"
+                />
+                <Label
+                    id="_IDGenLabel7"
+                    text="Country"
+                />
+                <Text
+                    id="_IDGenText2213"
+                    text="Germany"
+                />
+                <core:Title
+                    id="_IDGenTitle2"
+                    text="Address"
+                />
+                <Label
                     id="_IDGenLabel2"
                     text="Street/No."
                 />
@@ -56,26 +84,6 @@
                 <Text
                     id="_IDGenText5"
                     text="Germany"
-                />
-                <core:Title
-                    id="_IDGenTitle2"
-                    text="Address"
-                />
-                <Label
-                    id="_IDGenLabel5"
-                    text="Web"
-                />
-                <Text
-                    id="_IDGenText6"
-                    text="http://www.sap.com"
-                />
-                <Label
-                    id="_IDGenLabel6"
-                    text="Twitter"
-                />
-                <Text
-                    id="_IDGenText7"
-                    text="@sap"
                 />
             </ff:content>
             <ff:layoutData>
@@ -116,6 +124,11 @@
                         tooltip="Group"
                         icon="sap-icon://group-2"
                         press="handleGroupButtonPressed"
+                    />
+                    <SearchField
+                        id="searchField"
+                        width="auto"
+                        liveChange=".onFilterItems"
                     />
                 </OverflowToolbar>
             </headerToolbar>
