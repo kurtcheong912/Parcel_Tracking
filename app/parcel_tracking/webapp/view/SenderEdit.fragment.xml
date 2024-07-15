@@ -1,15 +1,12 @@
-<mvc:View
-  xmlns:mvc="sap.ui.core.mvc"
-  xmlns="sap.m"
-  xmlns:m="sap.m"
-  xmlns:core="sap.ui.core"
-  xmlns:uxap="sap.uxap"
-  xmlns:l="sap.ui.layout"
-  xmlns:f="sap.ui.layout.form"
-  controllerName="parceltracking.controller.Edit">
-  <Page id="editPage" title="{i18n>editTitle}"
-  showNavButton="true" 
-  navButtonPress=".onNavBack">
+<core:FragmentDefinition
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:m="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:uxap="sap.uxap"
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form"
+>
  <uxap:ObjectPageLayout id="objectPageLayout">
         <uxap:headerTitle>
             <uxap:ObjectPageHeader id="_IDGenObjectPageHeader1" objectTitle="Package Detail" />
@@ -170,7 +167,7 @@
                                 <f:formElements>
                                     <f:FormElement id="_IDGenFormElement1" label="Selected Receiver">
                                         <f:fields>
-                                            <Select id="_IDGenSelect1" items="{/Users}"  change="onSelectChange" selectedKey="{receiver_ID}">
+                                            <Select id="_IDGenSelect1" items="{/Users}"  change=".SenderEdit.onSelectChange" selectedKey="{receiver_ID}">
                                               <core:Item id="_IDGenItem1" key="{ID}" text="{first_name} {last_name}" />
                                            </Select>
                                         </f:fields>
@@ -199,19 +196,6 @@
                     </uxap:ObjectPageSubSection>
                 </uxap:subSections>
             </uxap:ObjectPageSection>
-
-          
         </uxap:sections>
     </uxap:ObjectPageLayout>
-    		<footer>
-			<OverflowToolbar id="_IDGenOverflowToolbar1">
-				<content>
-					<ToolbarSpacer id="_IDGenToolbarSpacer1" />
-					<Button id="onCancel" text="Cancel" press="onCancel" icon="sap-icon://cancel"/>
-					<Button id="onSubmit" text="Submit" press="onSubmit" icon="sap-icon://complete"/>
-				</content>
-			</OverflowToolbar>
-		</footer>
-   
-  </Page>
-</mvc:View>
+</core:FragmentDefinition>

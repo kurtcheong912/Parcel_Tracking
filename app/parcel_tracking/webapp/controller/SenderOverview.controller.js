@@ -12,10 +12,12 @@ sap.ui.define([
 
       onListItemPress: function (oEvent) {
         var oItem = oEvent.getSource();
-        var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-        oRouter.navTo("edit", {
-          packageId: oItem.getBindingContext().getProperty("ID")
-        });
+        var id = oItem.getBindingContext().getProperty("ID");
+        var oNavContainer = this.byId("pageContainer");
+        var oSenderEditPage = this.getView().createId("Sender_Edit");
+        var oSenderEditPage = this.byId("Sender_Edit");
+        oSenderEditPage.bindElement("/Packages(" + id + ")");
+        oNavContainer.to(oSenderEditPage);
       },
 
       onCreate: function () {

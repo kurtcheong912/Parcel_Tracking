@@ -1,52 +1,257 @@
 <core:FragmentDefinition
-    xmlns="sap.m"
     xmlns:mvc="sap.ui.core.mvc"
-    xmlns:grid="sap.ui.layout.cssgrid"
-    xmlns:f="sap.f"
+    xmlns="sap.m"
+    xmlns:m="sap.m"
     xmlns:core="sap.ui.core"
-    xmlns:t="sap.tnt"
+    xmlns:uxap="sap.uxap"
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form"
 >
-    <Panel id="createPanel" width="100%" backgroundDesign="Transparent">
-		<headerToolbar>
-			<Toolbar id="createToolBar" height="3rem">
-            <Button
-                    id="backButton"
-                    icon="sap-icon://nav-back"
-                    type="Transparent"
-                    press=".SenderCreate.onBack"
+        <uxap:ObjectPageLayout id="objectPageLayout">
+            <uxap:headerTitle>
+                <uxap:ObjectPageHeader
+                    id="_IDGenObjectPageHeader1"
+                    objectTitle="Package Detail"
                 />
-				<Title id="senderCreateTitle" text="Create" />
-				
-			</Toolbar>
-		</headerToolbar>
-        <content>
-            <VBox id="createVbox">
-                <Input
-                    id="packageNumber"
-                    value=""
-                    placeholder="Package Number"
-                />
-                <Input
-                    id="receiverId"
-                    value=""
-                    placeholder="Receiver"
-                />
-                <Input
-                    id="shippingAddress"
-                    value=""
-                    placeholder="Shipping Address"
-                />
-                <Button
-                    id="saveButton"
-                    text="Save"
-                    press=".onSave"
-                />
-                <Button
-                    id="deleteButton"
-                    text="Delete"
-                    press=".onDelete"
-                />
-            </VBox>
-        </content>
-    </Panel>
+            </uxap:headerTitle>
+
+            <uxap:sections>
+                <!-- Status Section -->
+                <uxap:ObjectPageSection
+                    id="_IDGenObjectPageSection1"
+                    title="Status"
+                >
+                    <uxap:subSections>
+                        <uxap:ObjectPageSubSection
+                            id="_IDGenObjectPageSubSection1"
+                        >
+                            <uxap:blocks>
+                                <VBox
+                                    id="_IDGenVBox1"
+                                    class="responsiveVBox"
+                                >
+                                    <HBox
+                                        id="_IDGenHBox1"
+                                        justifyContent="SpaceBetween"
+                                        class="responsiveHBox"
+                                    >
+                                        <ObjectStatus
+                                            id="_IDGenObjectStatus1"
+                                            class="sapMObjectStatusLarge"
+                                            title="Package status"
+                                            text="NEW"
+                                            icon="sap-icon://shipping-status"
+                                            state="Information"
+                                        />
+                                    </HBox>
+                                </VBox>
+                            </uxap:blocks>
+                        </uxap:ObjectPageSubSection>
+                    </uxap:subSections>
+                </uxap:ObjectPageSection>
+
+                <!-- Package Section -->
+                <uxap:ObjectPageSection
+                    id="_IDGenObjectPageSection3"
+                    title="Package Details"
+                >
+                    <uxap:subSections>
+                        <uxap:ObjectPageSubSection
+                            id="_IDGenObjectPageSubSection3"
+                        >
+                            <uxap:blocks>
+                                <VBox
+                                    id="_IDGenVBox5"
+                                    class="sapUiSmallMargin"
+                                >
+                                    <f:Form
+                                        id="FormDisplay354wideDual2"
+                                        editable="false"
+                                    >
+                                        <f:layout>
+                                            <f:ResponsiveGridLayout
+                                                id="_IDGenResponsiveGridLayout12"
+                                                labelSpanXL="4"
+                                                labelSpanL="3"
+                                                labelSpanM="4"
+                                                labelSpanS="12"
+                                                adjustLabelSpan="false"
+                                                emptySpanXL="0"
+                                                emptySpanL="4"
+                                                emptySpanM="0"
+                                                emptySpanS="0"
+                                                columnsXL="2"
+                                                columnsL="1"
+                                                columnsM="1"
+                                                singleContainerFullSize="false"
+                                            />
+                                        </f:layout>
+                                        <f:formContainers>
+                                            <f:FormContainer
+                                                id="_IDGenFormContainer12"
+                                                title="Package Info"
+                                            >
+                                                <f:formElements>
+                                                    <f:FormElement
+                                                        id="_IDGenFormElement22"
+                                                        label="Package Number"
+                                                    >
+                                                        <f:fields>
+                                                            <Input
+                                                                value=""
+                                                                id="packageNumber"
+                                                            />
+                                                        </f:fields>
+                                                    </f:FormElement>
+                                                    <f:FormElement
+                                                        id="_IDGenFormElement2we2222"
+                                                        label="Shipping Address"
+                                                    >
+                                                        <f:fields>
+                                                            <Input
+                                                                value=""
+                                                                id="shippingAddress"
+                                                            />
+                                                        </f:fields>
+                                                    </f:FormElement>
+                                                </f:formElements>
+                                            </f:FormContainer>
+                                            <f:FormContainer
+                                                id="_IDGenFormContainer122"
+                                                title="Package Dimensions"
+                                            >
+                                                <f:formElements>
+                                                    <f:FormElement
+                                                        id="_IDGenFormElement2222"
+                                                        label="Package Weight"
+                                                    >
+                                                        <f:fields>
+                                                            <Input
+                                                                value=""
+                                                                id="packageWeight"
+                                                            />
+                                                        </f:fields>
+                                                    </f:FormElement>
+                                                    <f:FormElement
+                                                        id="_IDGenFormElement22222"
+                                                        label="Package Height"
+                                                    >
+                                                        <f:fields>
+                                                            <Input
+                                                                value=""
+                                                                id="packageHeight"
+                                                            />
+                                                        </f:fields>
+                                                    </f:FormElement>
+                                                </f:formElements>
+                                            </f:FormContainer>
+                                        </f:formContainers>
+                                    </f:Form>
+                                </VBox>
+                            </uxap:blocks>
+                        </uxap:ObjectPageSubSection>
+                    </uxap:subSections>
+                </uxap:ObjectPageSection>
+
+                <!-- Receiver Details Section -->
+                <uxap:ObjectPageSection
+                    id="_IDGenObjectPageSection2"
+                    title="Receiver Details"
+                >
+                    <uxap:subSections>
+                        <uxap:ObjectPageSubSection
+                            id="_IDGenObjectPageSubSection2"
+                        >
+                            <uxap:blocks>
+                                <VBox
+                                    id="_IDGenVBox4"
+                                    class="sapUiSmallMargin"
+                                >
+                                    <f:Form
+                                        id="FormDisplay354wideDual"
+                                        editable="false"
+                                    >
+                                        <f:layout>
+                                            <f:ResponsiveGridLayout
+                                                id="_IDGenResponsiveGridLayout1"
+                                                labelSpanXL="4"
+                                                labelSpanL="3"
+                                                labelSpanM="4"
+                                                labelSpanS="12"
+                                                adjustLabelSpan="false"
+                                                emptySpanXL="0"
+                                                emptySpanL="4"
+                                                emptySpanM="0"
+                                                emptySpanS="0"
+                                                columnsXL="2"
+                                                columnsL="1"
+                                                columnsM="1"
+                                                singleContainerFullSize="false"
+                                            />
+                                        </f:layout>
+                                        <f:formContainers>
+                                            <f:FormContainer
+                                                id="_IDGenFormContainer1"
+                                                title="Package Receiver"
+                                            >
+                                                <f:formElements>
+                                                    <f:FormElement
+                                                        id="_IDGenFormElement1"
+                                                        label="Selected Receiver"
+                                                    >
+                                                        <f:fields>
+                                                            <Select
+                                                                id="userSelect"
+                                                                items="{/Users}"
+                                                                change=".SenderCreate.onSelectChange"
+                                                                selectedKey="{receiver_ID}"
+                                                            >
+                                                                <core:Item
+                                                                    id="_IDGenItem1"
+                                                                    key="{ID}"
+                                                                    text="{first_name} {last_name}"
+                                                                />
+                                                            </Select>
+                                                        </f:fields>
+                                                    </f:FormElement>
+                                                </f:formElements>
+                                            </f:FormContainer>
+                                            <f:FormContainer
+                                                id="_IDGenFormContainer212"
+                                                title="Receiver Info"
+                                            >
+                                                <f:formElements>
+                                                    <f:FormElement
+                                                        id="_IDGenFormElement122"
+                                                        label="First Name"
+                                                    >
+                                                        <f:fields>
+                                                            <Label
+                                                                id="userFirstName"
+                                                                text=""
+                                                            />
+                                                        </f:fields>
+                                                    </f:FormElement>
+                                                    <f:FormElement
+                                                        id="_IDGenFormElement222"
+                                                        label="Last Name"
+                                                    >
+                                                        <f:fields>
+                                                            <Label
+                                                                id="userLastName"
+                                                                text=""
+                                                            />
+                                                        </f:fields>
+                                                    </f:FormElement>
+                                                </f:formElements>
+                                            </f:FormContainer>
+                                        </f:formContainers>
+                                    </f:Form>
+                                </VBox>
+                            </uxap:blocks>
+                        </uxap:ObjectPageSubSection>
+                    </uxap:subSections>
+                </uxap:ObjectPageSection>
+            </uxap:sections>
+        </uxap:ObjectPageLayout>
 </core:FragmentDefinition>

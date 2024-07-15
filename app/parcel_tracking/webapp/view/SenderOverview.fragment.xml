@@ -11,7 +11,7 @@
 			<Toolbar id="_IDGenToolbar1" height="3rem">
 				<Title id="senderOverviewTitle" text="Overview" />
 				<ToolbarSpacer id="_IDGenToolbarSpacer" />
-				<SearchField id="searchField" width="60%" liveChange=".SenderOverview.onSearch"/>
+				<SearchField id="searchField" width="30%" liveChange=".SenderOverview.onSearch"/>
 				<Button
                     id="addButton"
                     icon="sap-icon://add"
@@ -51,7 +51,7 @@
 							<Title id="packageNumberTitle" text="{packageNumber}" wrapping="true" />
 							<t:InfoLabel id="statusInfoLabel" text="{status}" colorScheme="4" />
 						</HBox>
-						<Label id="receiverIdLabel" text="{receiver_ID}" wrapping="true" class="sapUiTinyMarginBottom" />
+						<Label id="receiverIdLabel" text="{receiver/first_name} {receiver/last_name}" wrapping="true" class="sapUiTinyMarginBottom" />
 						<Text id="shippingAddressText" text="{shippingAddress}" wrapping="true" />
 					</VBox>
 				</VBox>

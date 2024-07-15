@@ -68,17 +68,70 @@
                             type="XML"
                         />
                     </ScrollContainer>
-                    <ScrollContainer
+                    <Page
                         id="Sender_Create"
-                        horizontal="false"
-                        vertical="true"
-                        height="100%"
+                        title="{i18n>createTitle}"
+                        showNavButton="true"
+                        navButtonPress=".onNavBack"
+                        enableScrolling="false"
                     >
                         <core:Fragment
                             fragmentName="parceltracking.view.SenderCreate"
+                            id="SenderCreateFragment"
                             type="XML"
                         />
-                    </ScrollContainer>
+                        <footer>
+                            <OverflowToolbar id="overflowToolbar123">
+                                <content>
+                                    <ToolbarSpacer id="toolbarSpacer123" />
+                                    <Button
+                                        id="onCancel"
+                                        text="Cancel"
+                                        press=".SenderCreate.onCancel"
+                                        icon="sap-icon://cancel"
+                                    />
+                                    <Button
+                                        id="onSubmit"
+                                        text="Submit"
+                                        press=".SenderCreate.onSubmit"
+                                        icon="sap-icon://complete"
+                                    />
+                                </content>
+                            </OverflowToolbar>
+                        </footer>
+                    </Page>
+                    <Page
+                        id="Sender_Edit"
+                        title="{i18n>editTitle}"
+                        showNavButton="true"
+                        navButtonPress=".onNavBack"
+                        enableScrolling="false"
+                    >
+                        <core:Fragment
+                            fragmentName="parceltracking.view.SenderEdit"
+                            id="SenderEditFragment"
+                            type="XML"
+                        />
+                        <footer>
+                            <OverflowToolbar id="overflowToolbar124">
+                                <content>
+                                    <ToolbarSpacer id="toolbarSpacer124" />
+                                    <Button
+                                        id="onCancelEdit"
+                                        text="Cancel"
+                                        press=".SenderEdit.onCancel"
+                                        icon="sap-icon://cancel"
+                                    />
+                                    <Button
+                                        id="onSubmitEdit"
+                                        text="Submit"
+                                        press=".SenderEdit.onSubmit"
+                                        icon="sap-icon://complete"
+                                    />
+                                </content>
+                            </OverflowToolbar>
+                        </footer>
+                    </Page>
                     <ScrollContainer
                         id="Receiver_Overview"
                         horizontal="false"
