@@ -105,7 +105,7 @@
                         title="{i18n>editTitle}"
                         showNavButton="true"
                         navButtonPress=".onNavBack"
-                        enableScrolling="false"
+                        enableScrolling="true"
                     >
                         <core:Fragment
                             fragmentName="parceltracking.view.SenderEdit"

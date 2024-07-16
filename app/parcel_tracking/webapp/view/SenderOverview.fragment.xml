@@ -48,11 +48,11 @@
 					</OverflowToolbar>
 					<VBox id="vBox2" class="sapUiSmallMargin">
 						<HBox id="hBox1" justifyContent="SpaceBetween">
-							<Title id="packageNumberTitle" text="{packageNumber}" wrapping="true" />
-							<t:InfoLabel id="statusInfoLabel" text="{status}" colorScheme="4" />
+							<Title id="packageNumberTitle" text="Package:{packageNumber}" wrapping="true" />
+							<t:InfoLabel id="statusInfoLabel" text="{status}" colorScheme="7" />
 						</HBox>
-						<Label id="receiverIdLabel" text="{receiver/first_name} {receiver/last_name}" wrapping="true" class="sapUiTinyMarginBottom" />
-						<Text id="shippingAddressText" text="{shippingAddress}" wrapping="true" />
+						<Label id="receiverIdLabel" text="Receiver:{receiver/first_name} {receiver/last_name}" wrapping="true" class="sapUiTinyMarginBottom" />
+						<Text id="shippingAddressText" text="Address:{shippingAddress}" wrapping="true" />
 					</VBox>
 				</VBox>
 			</f:GridListItem>

@@ -7,21 +7,41 @@ sap.ui.define([
 
   return Controller.extend("parceltracking.controller.SenderEdit", {
 
+    onEdit: async function (oEvent) {
+      var packageId = oEvent.getParameter("arguments").packageId;
+      await this.getView().bindElement("/Packages(" + packageId + ")");
+      await this.getView().getBindingContext().requestObject();
+      await this.checkUpdateStatusAvailable();
+    },
     onCancel: function () {
       this.onNavBack();
     },
-    onSubmit: function () {
-      var sFragmentId = this.getView().createId("SenderEditFragment");
-      var oModel = this.getView().getModel();
-      oModel.submitBatch(oModel.getUpdateGroupId());
-      var packageNumber = sap.ui.core.Fragment.byId(sFragmentId, "packageNumber").getValue();
-      sap.m.MessageBox.success("Package \"" + packageNumber + "\" edited successfully.");
-      this.onNavBack();
-      oModel.refresh();
-    },
-
     onNavBack: function () {
       this.byId("pageContainer").back();
+    },
+
+    onSubmit: function () {
+      var sFragmentId = this.getView().createId("SenderEditFragment");
+      var that = this; // Keep reference to the controller
+
+      // Show confirmation dialog
+      sap.m.MessageBox.confirm(
+        "Do you want to edit this package?",
+        {
+          title: "Confirm Edit",
+          onClose: function (oAction) {
+            if (oAction === sap.m.MessageBox.Action.OK) {
+              // User clicked OK, proceed with edit
+              var oModel = that.getView().getModel();
+              oModel.submitBatch(oModel.getUpdateGroupId());
+              var packageNumber = sap.ui.core.Fragment.byId(sFragmentId, "packageNumber").getValue();
+              sap.m.MessageToast.show("Package \"" + packageNumber + "\" edited successfully.");
+              oModel.refresh();
+              that.onNavBack();
+            }
+          }
+        }
+      );
     },
     stateFormatter: function (status) {
       switch (status) {
@@ -36,7 +56,6 @@ sap.ui.define([
       }
     },
     onSelectChange: function (oEvent) {
-      var sFragmentId = this.getView().createId("SenderEditFragment");
       // Get the selected item context
       var oSelect = oEvent.getSource();
       var oSelectedItem = oSelect.getSelectedItem();
@@ -45,11 +64,6 @@ sap.ui.define([
         var oContext = oSelectedItem.getBindingContext();
         // Retrieve the user details from the context
         var oUser = oContext.getObject();
-        // Set values to the respective inputs
-        var firstName = sap.ui.core.Fragment.byId(sFragmentId, "userFirstName");
-        firstName.setText(oUser.first_name || "")
-        var lastName = sap.ui.core.Fragment.byId(sFragmentId, "userLastName");
-        lastName.setText(oUser.last_name || "");
       }
     },
     onEditPress: function (oEvent) {
@@ -60,13 +74,33 @@ sap.ui.define([
         this.showToast("Currently exited edit mode");
       } else {
         this.allInputFieldEditable(true)
+        this.showToast("Currently in edit mode");
         oToggleButton.setText("Currently in edit mode");
+      }
+    },
+    checkUpdateStatusAvailable: async function () {
+      try {
+        var oContext = this.getView().getBindingContext();
+        console.log("Checking current status...");
+        var currentStatus = oContext.getProperty("status");
+
+        if (!currentStatus) {
+          console.error("ObjectStatus not found!");
+          return;
+        }
+        console.log("Current Status: ", currentStatus);
+        // Enable the button only if the status is "NEW" or "SHIPPING"
+        var isButtonEnabled = (currentStatus === "NEW" || currentStatus === "SHIPPING");
+        this.getView().byId("updateStatusButton").setEnabled(isButtonEnabled);
+
+      } catch (error) {
+        console.error("Error in checkUpdateStatusAvailable: ", error);
       }
     },
 
     allInputFieldEditable: function (state) {
       var oView = this.getView();
-      this.getView().byId("_IDGenSelect1").setEnabled(state);
+      this.getView().byId("_IDGenComboBox1").setEnabled(state);
       this.getView().byId("updateStatusButton").setEnabled(state);
       var aInputs = oView.findAggregatedObjects(true).filter(function (oControl) {
         return oControl instanceof sap.m.Input;
@@ -93,35 +127,37 @@ sap.ui.define([
     },
     onUpdateStatus: function () {
       var that = this; // Reference to the controller context
-
       // Show a warning message box
       sap.m.MessageBox.warning("Are you sure you want to update the package status?", {
         title: "Confirm Status Update",
         actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
         onClose: function (oAction) {
           if (oAction === sap.m.MessageBox.Action.OK) {
+            console.log(that);
             // If OK is pressed, proceed to update the status
-            that.updateStatus(); // Call the internal function to update the status
+            that.SenderEdit.updateStatus(that); // Call the internal function to update the status
           }
         }
       });
     },
-    updateStatus: function () {
-      var oObjectStatus = this.byId("_IDGenObjectStatus1");
+
+    updateStatus: function (that) {
+      var sFragmentId = that.getView().createId("SenderEditFragment");
+      var oObjectStatus = sap.ui.core.Fragment.byId(sFragmentId, "_IDGenObjectStatus1");
       var currentStatus = oObjectStatus.getText();
       console.log("Current Status:", currentStatus);
 
       // Assuming you have a method to get the next status based on the current status
-      var nextStatus = this.getNextStatus(currentStatus);
+      var nextStatus = that.SenderEdit.getNextStatus(currentStatus);
       console.log("Next Status:", nextStatus);
 
       // Retrieve the package ID from the input field
-      var oInput = this.byId("packageID");
+      var oInput = sap.ui.core.Fragment.byId(sFragmentId, "packageID");
       var sPackageId = oInput.getValue();
       console.log("Package ID:", sPackageId);
 
       // Get the model
-      var oModel = this.getView().getModel();
+      var oModel = that.getView().getModel();
 
       // Construct the path to the package in the model
       var sPath = "/Packages(" + sPackageId + ")";
@@ -137,12 +173,8 @@ sap.ui.define([
       oBindingContext.setProperty("status", nextStatus);
       oModel.refresh();
 
+      that.SenderEdit.showToast("Package \"" + packageNumber + "\" status successfully updated to " + nextStatus);
     },
-
-
-
-
-
 
     getNextStatus: function (currentStatus) {
       switch (currentStatus) {

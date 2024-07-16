@@ -5,7 +5,7 @@ using { cuid, managed } from '@sap/cds/common';
 entity Packages : cuid, managed  {
     packageNumber : String(30);
     receiver : Association to Users;
-    shippingAddress : String(30);
+    shippingAddress : String(100);
     weight : String(10);
     height : String(10);
     status : String enum { NEW; SHIPPING; DELIVERED };
