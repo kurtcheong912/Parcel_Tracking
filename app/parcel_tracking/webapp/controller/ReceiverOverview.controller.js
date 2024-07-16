@@ -89,13 +89,16 @@ sap.ui.define([
             },
             onItemSelect: function (oEvent) {
                 var item = oEvent.getParameter('item');
-                if (item.getKey() != 'Create') {
-                    this.byId("pageContainer").to(this.getView().createId(item.getKey()))
-                } else {
-                    var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-                    oRouter.navTo("create");
+                var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+                switch (item.getKey()) {
+                  case "Sender_Overview":
+                    oRouter.navTo("home");
+                    break;
+                  case "Receiver_Overview":
+                    oRouter.navTo("receiver");
+                    break;
                 }
-            },
+              },
             handleSortButtonPressed: function () {
                 this.getViewSettingsDialog("parceltracking.view.SortDialog").then(function (oViewSettingsDialog) {
                     oViewSettingsDialog.open();

@@ -56,20 +56,9 @@
         <tnt:mainContents>
             <NavContainer
                 id="pageContainer"
-                initialPage="Sender_Overview"
+                initialPage="Receiver_Overview"
             >
                 <pages>
-                    <ScrollContainer
-                        id="Sender_Overview"
-                        horizontal="false"
-                        vertical="true"
-                        height="100%"
-                    >
-                        <Text
-                            id="_IDGenText1"
-                            text="Sender"
-                        />
-                    </ScrollContainer>
                     <ScrollContainer
                         id="Receiver_Overview"
                         horizontal="false"

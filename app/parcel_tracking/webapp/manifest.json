@@ -99,7 +99,24 @@
         {
           "name": "home",
           "pattern": ":?query:",
-          "target": "home"
+          "target": [
+            "home"
+          ]
+        },
+        {
+          "pattern": "package/{packageId}",
+          "name": "edit",
+          "target": "edit"
+        },
+        {
+          "pattern": "package/",
+          "name": "create",
+          "target": "create"
+        },
+        {
+          "pattern": "receiver",
+          "name": "receiver",
+          "target" : "receiver"
         },
         {
           "pattern": "detail/{packageId}",
@@ -135,6 +152,13 @@
           "clearControlAggregation": false,
           "viewId": "ReceiverOverview",
           "viewName": "ReceiverOverview"
+        },
+        "detail" : {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "ReceiverDetail",
+          "viewName": "ReceiverDetail"
         }
       }
     },

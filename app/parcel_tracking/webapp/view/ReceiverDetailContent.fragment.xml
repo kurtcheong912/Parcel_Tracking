@@ -1,0 +1,70 @@
+<core:FragmentDefinition
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:m="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:uxap="sap.uxap"
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form"
+>
+
+    <f:Form id="FormDisplay354wideDual2" editable="false">
+      <f:layout>
+        <f:ResponsiveGridLayout id="_IDGenResponsiveGridLayout12"
+          labelSpanXL="4"
+          labelSpanL="4"
+          labelSpanM="4"
+          labelSpanS="12"
+          adjustLabelSpan="true"
+          emptySpanXL="0"
+          emptySpanL="0"
+          emptySpanM="0"
+          emptySpanS="0"
+          columnsXL="2"
+          columnsL="2"
+          columnsM="1"
+          singleContainerFullSize="false" />
+      </f:layout>
+      
+      <f:formContainers>
+      
+        <!-- Left Side: Package Info -->
+        <f:FormContainer id="_IDGenFormContainer12" title="Package Info">
+          <f:formElements>
+              <f:FormElement id="_IDGenFormElement122" label="Package status">
+              <f:fields>
+                <ObjectStatus
+                    id="_IDGenObjectStatus1"
+                 class="sapMObjectStatusLarge customObjectStatus"
+                    text="{status}"
+                    icon="sap-icon://shipping-status"
+                    state="{path: 'status', formatter: '.stateFormatter'}" />
+              </f:fields>
+            </f:FormElement>
+            <f:FormElement id="_IDGenFormElement12" label="Package ID">
+              <f:fields>
+                <Text text="{ID}" id="packageID" />
+              </f:fields>
+            </f:FormElement>
+            <f:FormElement id="_IDGenFormElement22" label="Package Number">
+              <f:fields>
+                <Text text="{packageNumber}" id="packageNumber" />
+              </f:fields>
+            </f:FormElement>
+            <f:FormElement id="_IDGenFormElement2222" label="Package Weight">
+              <f:fields>
+                <Text text="{weight}" id="packageWeight" />
+              </f:fields>
+            </f:FormElement>
+            <f:FormElement id="_IDGenFormElement22222" label="Package Height">
+              <f:fields>
+                <Text text="{height}" id="packageHeight" />
+              </f:fields>
+            </f:FormElement>
+             <f:FormElement id="_IDGenFormElementUpdateStatus">
+            </f:FormElement>
+          </f:formElements>
+        </f:FormContainer>
+      </f:formContainers>
+    </f:Form>
+</core:FragmentDefinition>
