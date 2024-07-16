@@ -4,7 +4,6 @@
     xmlns:core="sap.ui.core"
     expanded="true"
     itemSelect="onItemSelect"
-    selectedKey="Sender_Overview"
 >
     <NavigationList id="_IDGenNavigationList1">
         <NavigationListItem

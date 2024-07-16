@@ -24,20 +24,6 @@
                 menuButtonPressed="onMenuButtonPress"
                 notificationsNumber="2"
             >
-                <f:menu>
-                    <Menu id="_IDGenMenu1">
-                        <MenuItem
-                            id="_IDGenMenuItem1"
-                            text="Flight booking"
-                            icon="sap-icon://flight"
-                        />
-                        <MenuItem
-                            id="_IDGenMenuItem2"
-                            text="Car rental"
-                            icon="sap-icon://car-rental"
-                        />
-                    </Menu>
-                </f:menu>
                 <f:profile>
                     <Avatar
                         id="_IDGenAvatar1"

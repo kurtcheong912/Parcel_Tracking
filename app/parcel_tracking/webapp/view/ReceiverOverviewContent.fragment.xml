@@ -31,31 +31,23 @@
                 />
                 <Text
                     id="_IDGenText2"
-                    text="Red Point Stores"
+                    text="Sample User"
                 />
                 <Label
                     id="_IDGenLabel5"
-                    text="Street/No."
+                    text="Email"
                 />
                 <Text
                     id="_IDGenText1144"
-                    text="Main St 1618"
+                    text="test@sample.com"
                 />
                 <Label
                     id="_IDGenLabel6"
-                    text="ZIP Code/City"
+                    text="Phone"
                 />
                 <Text
                     id="_IDGenText1232"
-                    text="31415 Maintown"
-                />
-                <Label
-                    id="_IDGenLabel7"
-                    text="Country"
-                />
-                <Text
-                    id="_IDGenText2213"
-                    text="Germany"
+                    text="+(60) 1234-5678"
                 />
                 <core:Title
                     id="_IDGenTitle2"
@@ -118,6 +110,7 @@
                         tooltip="Filter"
                         icon="sap-icon://filter"
                         press="handleFilterButtonPressed"
+                        visible="false"
                     />
                     <Button
                         id="_IDGenButton3"
