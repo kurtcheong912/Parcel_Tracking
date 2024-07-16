@@ -161,22 +161,6 @@
                                                             />
                                                         </f:fields>
                                                     </f:FormElement>
-                                                    <f:FormElement
-                                                        id="_IDGenFormElementUpdateStatus"
-                                                    >
-                                                        <f:fields>
-                                                            <Button
-                                                                id="updateStatusButton"
-                                                                tooltip="Update delivery status"
-                                                                icon="sap-icon://action"
-                                                                text="Update status"
-                                                                type="Emphasized"
-                                                                press="onUpdateStatus"
-                                                                ariaLabelledBy="actionButtonLabel"
-                                                                class="responsiveButton"
-                                                            />
-                                                        </f:fields>
-                                                    </f:FormElement>
                                                 </f:formElements>
                                             </f:FormContainer>
                                         </f:formContainers>

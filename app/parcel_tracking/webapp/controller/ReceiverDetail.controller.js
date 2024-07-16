@@ -23,7 +23,7 @@ sap.ui.define([
               var currentStatus = oContext.getProperty("status");
        
             // Enable the button only if the status is "NEW" or "SHIPPING"
-              var isButtonEnabled = (currentStatus === "SHIPPING");
+              var isButtonEnabled = (currentStatus === "DELIVERED");
               this.getView().byId("toggleableButtonSection").setVisible(isButtonEnabled);
 
             } catch (error) {
