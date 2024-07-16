@@ -1,0 +1,97 @@
+<core:FragmentDefinition
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:m="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:uxap="sap.uxap"
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form"
+>
+
+   <HBox id="_IDGenHBox1" justifyContent="End" class="responsiveHBox">
+
+
+    
+</HBox>
+    <f:Form id="FormDisplay354wideDual2" editable="false">
+      <f:layout>
+        <f:ResponsiveGridLayout id="_IDGenResponsiveGridLayout12"
+          labelSpanXL="4"
+          labelSpanL="4"
+          labelSpanM="4"
+          labelSpanS="12"
+          adjustLabelSpan="true"
+          emptySpanXL="0"
+          emptySpanL="0"
+          emptySpanM="0"
+          emptySpanS="0"
+          columnsXL="2"
+          columnsL="2"
+          columnsM="1"
+          singleContainerFullSize="false" />
+      </f:layout>
+      
+      <f:formContainers>
+      
+        <!-- Left Side: Package Info -->
+        <f:FormContainer id="_IDGenFormContainer12" title="Package Info">
+          <f:formElements>
+              <f:FormElement id="_IDGenFormElement122" label="Package status">
+              <f:fields>
+                <ObjectStatus
+                    id="_IDGenObjectStatus1"
+                 class="sapMObjectStatusLarge customObjectStatus"
+                    text="{status}"
+                    icon="sap-icon://shipping-status"
+                    state="{path: 'status', formatter: '.SenderEdit.stateFormatter'}" />
+              </f:fields>
+            </f:FormElement>
+            <f:FormElement id="_IDGenFormElement12" label="Package ID">
+              <f:fields>
+                <Input value="{ID}" id="packageID" />
+              </f:fields>
+            </f:FormElement>
+            <f:FormElement id="_IDGenFormElement22" label="Package Number">
+              <f:fields>
+                <Input value="{packageNumber}" id="packageNumber" />
+              </f:fields>
+            </f:FormElement>
+            <f:FormElement id="_IDGenFormElement2222" label="Package Weight">
+              <f:fields>
+                <Input value="{weight}" id="packageWeight" />
+              </f:fields>
+            </f:FormElement>
+            <f:FormElement id="_IDGenFormElement22222" label="Package Height">
+              <f:fields>
+                <Input value="{height}" id="packageHeight" />
+              </f:fields>
+            </f:FormElement>
+             <f:FormElement id="_IDGenFormElementUpdateStatus">
+              <f:fields>
+                <Button id="updateStatusButton" tooltip="Update delivery status" icon="sap-icon://action" text="Update status" type="Emphasized" 
+                        press=".SenderEdit.onUpdateStatus" ariaLabelledBy="actionButtonLabel" class="responsiveButton" enabled="{= ${status} !== 'DELIVERED' }"/>
+              </f:fields>
+            </f:FormElement>
+          </f:formElements>
+        </f:FormContainer>
+
+        <!-- Right Side: Package Destination and Receiver Details -->
+        <f:FormContainer id="_IDGenFormContainer1222" title="Receiver Details">
+          <f:formElements>
+      <f:FormElement id="_IDGenFormElement2we2222" label="Shipping Address">
+              <f:fields>
+                <Input value="{shippingAddress}" id="shippingAddress" />
+              </f:fields>
+            </f:FormElement>
+            <f:FormElement id="_IDGenFormElementpackageCreationAt" label="Package Receiver">
+              <f:fields>
+                <ComboBox id="_IDGenComboBox1" items="{/Users}" selectionChange=".SenderEdit.onSelectChange" selectedKey="{receiver_ID}">
+  <core:Item id="_IDGenItem1" key="{ID}" text="{first_name} {last_name}" />
+</ComboBox>
+              </f:fields>
+            </f:FormElement>
+          </f:formElements>    
+        </f:FormContainer>
+      </f:formContainers>
+    </f:Form>
+</core:FragmentDefinition>

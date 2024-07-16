@@ -1,0 +1,61 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:grid="sap.ui.layout.cssgrid"
+	xmlns:f="sap.f"
+	xmlns:core="sap.ui.core"
+	xmlns:t="sap.tnt"
+>    
+	<Panel id="_IDGenPanel1" width="100%" backgroundDesign="Transparent">
+		<headerToolbar>
+			<Toolbar id="_IDGenToolbar1" height="3rem">
+				<Title id="senderOverviewTitle" text="Overview" />
+				<ToolbarSpacer id="_IDGenToolbarSpacer" />
+				<SearchField id="searchField" width="30%" liveChange=".SenderOverview.onSearch"/>
+				<Button
+                    id="addButton"
+                    icon="sap-icon://add"
+                    type="Transparent"
+                    press=".SenderOverview.onCreate"
+                />
+			</Toolbar>
+		</headerToolbar>
+		<f:GridList id="gridList3" items="{/Packages}">
+			<f:customLayout>
+				<grid:GridResponsiveLayout id="_IDGenGridResponsiveLayout1" layoutChange="onLayoutChange">
+					<grid:layoutS>
+						<grid:GridSettings id="_IDGenGridSettings1" gridTemplateColumns="repeat(auto-fit, 100%)" gridGap="0.25rem 0.25rem" />
+					</grid:layoutS>
+					<grid:layoutM>
+						<grid:GridSettings id="_IDGenGridSettings2" gridTemplateColumns="repeat(auto-fit, 49%)" gridGap="0.5rem 0.5rem" />
+					</grid:layoutM>
+					<grid:layoutL>
+						<grid:GridSettings id="_IDGenGridSettings3" gridTemplateColumns="repeat(auto-fit, 32%)" gridGap="0.75rem 0.75rem" />
+					</grid:layoutL>
+					<grid:layoutXL>
+						<grid:GridSettings id="_IDGenGridSettings4" gridTemplateColumns="repeat(auto-fit, 18%)" gridGap="1rem 1rem" />
+					</grid:layoutXL>
+				</grid:GridResponsiveLayout>
+			</f:customLayout>
+			<f:GridListItem id="_IDGenGridListItem1">
+				<VBox id="vBox1" height="100%" justifyContent="SpaceBetween">
+					<layoutData>
+						<FlexItemData id="flexItemData" growFactor="1" shrinkFactor="0" /><!-- Don't shrink below minimum size. Fill space if available. -->
+					</layoutData>
+					<OverflowToolbar id="overflowToolbar" design="Solid">
+						<ToolbarSpacer id="toolbarSpacer" />
+						<Button id="editButton" icon="sap-icon://edit" type="Transparent" press=".SenderOverview.onListItemPress"/>
+					</OverflowToolbar>
+					<VBox id="vBox2" class="sapUiSmallMargin">
+						<HBox id="hBox1" justifyContent="SpaceBetween">
+							<Title id="packageNumberTitle" text="Package:{packageNumber}" wrapping="true" />
+							<t:InfoLabel id="statusInfoLabel" text="{status}" colorScheme="7" />
+						</HBox>
+						<Label id="receiverIdLabel" text="Receiver:{receiver/first_name} {receiver/last_name}" wrapping="true" class="sapUiTinyMarginBottom" />
+						<Text id="shippingAddressText" text="Address:{shippingAddress}" wrapping="true" />
+					</VBox>
+				</VBox>
+			</f:GridListItem>
+		</f:GridList>
+	</Panel>
+</core:FragmentDefinition>
