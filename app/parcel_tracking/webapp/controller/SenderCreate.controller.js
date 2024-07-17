@@ -219,7 +219,8 @@ sap.ui.define([
         weight: weight,
         height: height,
         signature: null,
-        status: 'NEW',
+        shippingStatus: 'NEW',
+        packageStatus: null,
       });
       this.oNewPackage.created().then(function () {
         sap.m.MessageToast.show("Package saved successfully!");
