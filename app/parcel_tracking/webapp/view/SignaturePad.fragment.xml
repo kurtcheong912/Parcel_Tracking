@@ -1,0 +1,37 @@
+<core:FragmentDefinition
+    id="_IDGenFragmentDefinition1"
+    xmlns:core="sap.ui.core"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+>
+    <Dialog
+        id="_IDGenDialog1"
+        title="Signature Pad"
+    >
+        <VBox id="_IDGenVBox5141">
+            <core:HTML id="html" />
+        </VBox>
+        <VBox id="_IDGenVBox212414">
+            <HBox id="_IDGenHBox1124515" />
+        </VBox>
+        <footer>
+            <Toolbar id="dialogToolbarSignaturePad">
+                <Button
+                    id="clear"
+                    text="Clear"
+                    press="clearButton"
+                />
+                <Button
+                    id="Save"
+                    text="Save"
+                    press="saveButton"
+                />
+                <Button
+                    id="close"
+                    text="Close"
+                    press="onCloseDialog"
+                />
+            </Toolbar>
+        </footer>
+    </Dialog>
+</core:FragmentDefinition>

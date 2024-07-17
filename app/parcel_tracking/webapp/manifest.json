@@ -1,0 +1,177 @@
+{
+  "_version": "1.59.0",
+  "sap.app": {
+    "id": "parceltracking",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:basic",
+      "version": "1.14.1",
+      "toolsId": "c3016cf7-8dd2-4a8c-8810-f165e82a1f38"
+    },
+    "dataSources": {
+      "mainService": {
+        "uri": "/odata/v4/parcel-tracking-/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "odataVersion": "4.0"
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": true,
+    "dependencies": {
+      "minUI5Version": "1.125.1",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.f": {},
+        "sap.suite.ui.generic.template": {},
+        "sap.ui.comp": {},
+        "sap.ui.generic.app": {},
+        "sap.ui.table": {},
+        "sap.ushell": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "parceltracking.i18n.i18n"
+        }
+      },
+      "": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {
+          "operationMode": "Server",
+          "autoExpandSelect": true,
+          "earlyRequests": true
+        }
+      }
+    },
+    "resources": {
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ]
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "viewType": "XML",
+        "async": true,
+        "viewPath": "parceltracking.view",
+        "controlAggregation": "pages",
+        "controlId": "app",
+        "clearControlAggregation": false
+      },
+      "routes": [
+        {
+          "name": "home",
+          "pattern": ":?query:",
+          "target": [
+            "sender"
+          ]
+        },
+        {
+          "pattern": "sender",
+          "name" : "sender",
+          "target" : "sender"
+        },
+        {
+          "pattern": "package/{packageId}",
+          "name": "edit",
+          "target": "edit"
+        },
+        {
+          "pattern": "package/",
+          "name": "create",
+          "target": "create"
+        },
+        {
+          "pattern": "receiver",
+          "name": "receiver",
+          "target" : "receiver"
+        },
+        {
+          "pattern": "detail/{packageId}",
+          "name": "detail",
+          "target": "detail"
+        }
+      ],
+      "targets": {
+        "edit": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "SenderEdit",
+          "viewName": "SenderEdit"
+        },
+        "create": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "SenderCreate",
+          "viewName": "SenderCreate"
+        },
+        "receiver": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "ReceiverOverview",
+          "viewName": "ReceiverOverview"
+        },
+        "detail" : {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "ReceiverDetail",
+          "viewName": "ReceiverDetail"
+        },
+        "sender" : {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "SenderOverview",
+          "viewName": "SenderOverview"
+        }
+      }
+    },
+    "rootView": {
+      "viewName": "parceltracking.view.App",
+      "type": "XML",
+      "async": true,
+      "id": "App"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<ViewSettingsDialog id="_IDGenViewSettingsGroupDialog"
+		confirm=".handleGroupDialogConfirm"
+		reset=".resetGroupDialog">
+		<groupItems>
+			<ViewSettingsItem id="_IDGenViewSettingsGroupItem1" text="Status" key="status" />
+			<ViewSettingsItem id="_IDGenViewSettingsGroupItem2" text="Created Date" key="createdAt" />
+		</groupItems>
+	</ViewSettingsDialog>
+</core:FragmentDefinition>

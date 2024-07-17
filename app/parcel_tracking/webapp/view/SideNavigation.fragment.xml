@@ -1,0 +1,34 @@
+<SideNavigation
+    id="_IDGenSideNavigation1"
+    xmlns="sap.tnt"
+    xmlns:core="sap.ui.core"
+    expanded="true"
+    itemSelect="onItemSelect"
+>
+    <NavigationList id="_IDGenNavigationList1">
+        <NavigationListItem
+            id="_IDGenNavigationListItem4"
+            text="Sender"
+            icon="sap-icon://shipping-status"
+            selectable="false"
+        >
+            <NavigationListItem
+                id="_IDGenNavigationListItem5"
+                text="Overview"
+                key="Sender_Overview"
+            />
+        </NavigationListItem>
+        <NavigationListItem
+            id="_IDGenNavigationListItem6"
+            text="Receiver"
+            icon="sap-icon://product"
+            selectable="false"
+        >
+            <NavigationListItem
+                id="_IDGenNavigationListItem7"
+                text="Overview"
+                key="Receiver_Overview"
+            />
+        </NavigationListItem>
+    </NavigationList>
+</SideNavigation>

@@ -1,0 +1,12 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<ViewSettingsDialog id="_IDGenViewSettingsSortDialog"
+		confirm="handleSortDialogConfirm">
+		<sortItems>
+			<ViewSettingsItem id="_IDGenViewSettingsSortDialogItem1" text="Package_ID" key="ID" selected="true" />
+			<ViewSettingsItem id="_IDGenViewSettingsSortDialogItem2" text="Status" key="status" />
+            <ViewSettingsItem id="_IDGenViewSettingsSortDialogItem5" text="Created Date" key="createdAt" />
+		</sortItems>
+	</ViewSettingsDialog>
+</core:FragmentDefinition>

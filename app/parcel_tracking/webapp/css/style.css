@@ -1,0 +1,58 @@
+/* Enter your custom styles here */
+.responsiveVBox {
+    width: 100%;
+    padding: 1rem; /* Optional padding */
+}
+
+.responsiveHBox {
+    flex-wrap: wrap; /* Allows items to wrap on smaller screens */
+}
+
+.responsiveButton {
+    width: 100%; /* Full width on small screens */
+    margin-top: 1rem; /* Spacing for better visibility */
+}
+
+.customObjectStatus {
+    font-size: 10px; /* Adjust font size as needed */
+    padding: 2px; /* Adjust padding as needed */
+}
+
+.customButton {
+    width: 20%; /* Set your desired width */
+}
+
+.floatLeft {
+    justify-content: flex-start; /* Aligns items to the left */
+    padding-right: 80%;
+}
+
+.IconStyle {
+    cursor: pointer;
+}
+
+div#container-parceltracking---ReceiverDetail--toggleableButtonSection {
+    
+    justify-content: end!important;
+}
+
+div#container-parceltracking---ReceiverDetail--toggleableButtonSection button {
+    margin-right: 10px;
+}
+
+.signature-pad {
+    border: 1px solid black;
+}
+
+div#container-parceltracking---ReceiverDetail--_IDGenHBox1124515 {
+    justify-content: center;
+    margin: auto;
+}
+
+div#container-parceltracking---ReceiverDetail--dialogToolbarSignaturePad {
+    justify-content: end;
+}
+
+img#container-parceltracking---ReceiverDetail--_IDGenImage12 {
+    border: 1px solid black;
+}
