@@ -59,9 +59,10 @@ sap.ui.define([
               var sPackageWeight = sap.ui.core.Fragment.byId(sFragmentId, "packageWeight").getValue();
               var sPackageHeight = sap.ui.core.Fragment.byId(sFragmentId, "packageHeight").getValue();
               var sShippingAddress = sap.ui.core.Fragment.byId(sFragmentId, "shippingAddress").getValue();
-              var sReceiverID = sap.ui.core.Fragment.byId(sFragmentId, "_IDGenComboBox1").getValue()
+              var oComboBox = sap.ui.core.Fragment.byId(sFragmentId, "_IDGenComboBox1");
+              var sReceiverID = oComboBox.getSelectedKey();
 
-              console.log(packageNumber);
+              console.log(sReceiverID);
 
               var sPackageId = sap.ui.core.Fragment.byId(sFragmentId, "packageID").getValue();
               var oModel = that.getView().getModel();
@@ -81,7 +82,7 @@ sap.ui.define([
               oBindingContext.setProperty("weight", sPackageWeight);
               oBindingContext.setProperty("height", sPackageHeight);
               oBindingContext.setProperty("shippingAddress", sShippingAddress);
-              // oBindingContext.setProperty("receiver_ID", sReceiverID);
+              oBindingContext.setProperty("receiver_ID", sReceiverID);
 
 
               sap.m.MessageToast.show("Package \"" + packageNumber + "\" edited successfully.");
@@ -145,7 +146,7 @@ sap.ui.define([
       try {
         var oContext = await this.getView().getBindingContext();
         console.log("Checking current status...");
-        var currentStatus = await oContext.getProperty("status");
+        var currentStatus = await oContext.getProperty("shippingStatus");
         if (!currentStatus) {
           console.error("ObjectStatus not found!");
           return;
@@ -161,10 +162,10 @@ sap.ui.define([
           console.log("After setting visible:", this.getView().byId("onSubmit").getVisible());
         }
 
-        // Enable the button only if the status is "NEW" or "SHIPPING"
-        var isButtonEnabled = (currentStatus === "NEW" || currentStatus === "SHIPPING");
+        // Enable the button only if the status is "NEW"
+        var isButtonEnabled = (currentStatus === "NEW");
         this.getView().byId("updateStatusButton").setEnabled(isButtonEnabled);
-
+        this.getView().byId("updateStatusButton").setVisible(isButtonEnabled);
 
       } catch (error) {
         console.error("Error in checkUpdateStatusAvailable: ", error);
@@ -176,13 +177,19 @@ sap.ui.define([
       var sFragmentId = this.getView().createId("SenderEditFragment");
       var comboBox = sap.ui.core.Fragment.byId(sFragmentId, "_IDGenComboBox1");
       comboBox.setEnabled(state);
+      var packageWeight = sap.ui.core.Fragment.byId(sFragmentId, "packageWeight");
+      packageWeight.setEnabled(false);
+      var packageHeight = sap.ui.core.Fragment.byId(sFragmentId, "packageHeight");
+      packageHeight.setEnabled(false);
+      var packageNumber = sap.ui.core.Fragment.byId(sFragmentId, "packageNumber");
+      packageNumber.setEnabled(false);
       this.getView().byId("updateStatusButton").setEnabled(state);
       var aInputs = oView.findAggregatedObjects(true).filter(function (oControl) {
         return oControl instanceof sap.m.Input;
       });
       aInputs.forEach(function (oInput) {
         // Check if the input ID is the one you want to make non-editable
-        if (oInput.getId() !== oView.createId("packageID")) {
+        if (oInput.getId() !== oView.createId("packageID")||oInput.getId() !== oView.createId("packageWeight")||oInput.getId() !== oView.createId("packageHeight")||oInput.getId() !== oView.createId("packageNumber")) {
           oInput.setEditable(state);
         } else {
           oInput.setEditable(false); // Ensure this specific input is not editable
@@ -249,17 +256,13 @@ sap.ui.define([
 
 
       // Update the data
-      oBindingContext.setProperty("status", nextStatus);
+      oBindingContext.setProperty("shippingStatus", nextStatus);
 
       this.showToast("Package \"" + packageNumber + "\" status successfully updated to " + nextStatus);
-      if (nextStatus == "DELIVERED") {
-
-        this.getView().byId("updateStatusButton").setEnabled(false);
-      }
       await this.getView().byId("onSubmit").setVisible(false);
-      var isButtonEnabled = (nextStatus === "NEW" || nextStatus === "SHIPPING");
       this.allInputFieldEditable(false);
-      this.getView().byId("updateStatusButton").setEnabled(isButtonEnabled);
+      this.getView().byId("updateStatusButton").setEnabled(false);
+      this.getView().byId("updateStatusButton").setVisible(false);
       oModel.refresh();
 
 
@@ -273,8 +276,6 @@ sap.ui.define([
       switch (currentStatus) {
         case "NEW":
           return "SHIPPING";
-        case "SHIPPING":
-          return "DELIVERED";
         default:
           return null;
       }
@@ -296,6 +297,7 @@ sap.ui.define([
 
         // Optionally clear the selection
         oComboBox.setSelectedKey("");
+        
       } else if (!value) {
         inputField.setValueState(sap.ui.core.ValueState.Error);
         inputField.setValueStateText("This field is required.");
@@ -304,6 +306,7 @@ sap.ui.define([
         // Set the selected key if valid
         oComboBox.setSelectedKey(aItems.find(oItem => oItem.getText() === sInputValue).getKey());
       }
+      this.validateForm();
     },
     onInputChange: function (oEvent) {
       var inputField = oEvent.getSource();

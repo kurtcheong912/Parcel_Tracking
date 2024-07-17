@@ -50,9 +50,9 @@
                             <ObjectStatus
                                 id="_IDGenObjectStatus1"
                                 class="sapMObjectStatusLarge customObjectStatus"
-                                text="{status}"
+                                text="{shippingStatus}"
                                 icon="sap-icon://shipping-status"
-                                state="{path: 'status', formatter: '.stateFormatter'}"
+                                state="{path: 'shippingStatus', formatter: '.stateFormatter'}"
                             />
                         </f:fields>
                     </f:FormElement>
@@ -71,7 +71,7 @@
                     </f:FormElement>
                     <f:FormElement
                         id="_IDGenFormElement22"
-                        label="Package Number"
+                        label="Package ID"
                     >
                         <f:fields>
                             <Input
@@ -83,7 +83,7 @@
                     </f:FormElement>
                     <f:FormElement
                         id="_IDGenFormElement2222"
-                        label="Package Weight"
+                        label="Package Weight (kg)"
                     >
                         <f:fields>
                             <Input
@@ -95,7 +95,7 @@
                     </f:FormElement>
                     <f:FormElement
                         id="_IDGenFormElement22222"
-                        label="Package Height"
+                        label="Package Height (cm)"
                     >
                         <f:fields>
                             <Input
@@ -126,8 +126,9 @@
                     >
                         <f:fields>
                             <Input
-                                value="{shippingAddress}"
+                                value="{path: 'shippingAddress', mode: 'sap.ui.model.BindingMode.OneWay'}"
                                 id="shippingAddress"
+                                change="onInputChange"
                             />
                         </f:fields>
                     </f:FormElement>
@@ -141,7 +142,7 @@
                                 items="{/Users}"
                                 selectionChange="onSelectChange"
                                 change="onComboBoxChange"
-                                selectedKey="{receiver_ID}"
+                                selectedKey="{path: 'receiver_ID', mode: 'sap.ui.model.BindingMode.OneWay'}"
                             >
                                 <core:Item
                                     id="_IDGenItem1"
