@@ -220,6 +220,8 @@ sap.ui.define([
       this.getView().byId("toggleableButtonSection").setVisible(false);
       this.getView().byId("_IDGenFormElement22222222").setVisible(true);
       this.onCloseDialog();
+      sap.m.MessageToast.show("Package Signed");
+
   },
 
     /************Clear Signature Pad**************************/
