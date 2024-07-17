@@ -20,10 +20,13 @@ sap.ui.define([
       try {
         var oContext = this.getView().getBindingContext();
         var currentStatus = oContext.getProperty("status");
+        var signature = oContext.getProperty("signature");
 
         // Enable the button only if the status is "NEW" or "SHIPPING"
-        var isButtonEnabled = (currentStatus === "NEW");
+        var isButtonEnabled = (currentStatus === "DELIVERED");
+        var isSigned = signature != null;
         this.getView().byId("toggleableButtonSection").setVisible(isButtonEnabled);
+        this.getView().byId("_IDGenFormElement22222222").setVisible(isSigned);
 
       } catch (error) {
         console.error("Error in checkUpdateStatusAvailable: ", error);
@@ -192,32 +195,30 @@ sap.ui.define([
         canvas.addEventListener('mousedown', on_mousedown, false);
       }
     },
-    saveButton: function (oEvent) {
+    saveButton :async function(oEvent){
       var canvas = document.getElementById("signature-pad");
       var link = document.createElement('a');
+      link.href = canvas.toDataURL('image/jpeg',0.3);
 
-      link.href = canvas.toDataURL('image/jpeg');
       link.download = 'sign.jpeg';
-      link.click();
-      var signaturePad = new SignaturePad(document.getElementById('signature-pad'), {
-        backgroundColor: '#ffffff',
-        penColor: 'rgb(0, 0, 0)'
-      })
 
       var packageId = this.byId("packageID").getText();
 
       var oModel = this.getView().getModel();
 
-      var sPath = "/Packages(" + packageId + ")";
+      var sPath = "/Packages("+ packageId + ")";
 
       var oContext = oModel.bindContext(sPath);
 
       var oBindingContext = oContext.getBoundContext();
 
       oBindingContext.setProperty("status", this.orderStatus);
+      oBindingContext.setProperty("signature",  link.href);
       oModel.refresh();
-      window.location.reload();
-    },
+      this.getView().byId("toggleableButtonSection").setVisible(false);
+      this.getView().byId("_IDGenFormElement22222222").setVisible(true);
+      this.onCloseDialog();
+  },
 
     /************Clear Signature Pad**************************/
 
