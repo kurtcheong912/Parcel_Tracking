@@ -22,7 +22,7 @@ function (Controller, SenderOverview, SenderCreate, SenderEdit) {
             var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
             switch (item.getKey()) {
               case "Sender_Overview":
-                oRouter.navTo("home");
+                oRouter.navTo("sender");
                 break;
               case "Receiver_Overview":
                 oRouter.navTo("receiver");

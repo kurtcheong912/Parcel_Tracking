@@ -203,7 +203,7 @@
                                                             <Select
                                                                 id="userSelect"
                                                                 items="{/Users}"
-                                                                change=".SenderCreate.onSelectChange"
+                                                                change="onSelectChange"
                                                                 selectedKey="{receiver_ID}"
                                                             >
                                                                 <core:Item

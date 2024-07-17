@@ -16,7 +16,7 @@
                     id="addButton"
                     icon="sap-icon://add"
                     type="Transparent"
-                    press=".SenderOverview.onCreate"
+                    press="onCreate"
                 />
 			</Toolbar>
 		</headerToolbar>
@@ -44,7 +44,7 @@
 					</layoutData>
 					<OverflowToolbar id="overflowToolbar" design="Solid">
 						<ToolbarSpacer id="toolbarSpacer" />
-						<Button id="editButton" icon="sap-icon://edit" type="Transparent" press=".SenderOverview.onListItemPress"/>
+						<Button id="editButton" icon="sap-icon://edit" type="Transparent" press="onListItemPress"/>
 					</OverflowToolbar>
 					<VBox id="vBox2" class="sapUiSmallMargin">
 						<HBox id="hBox1" justifyContent="SpaceBetween">

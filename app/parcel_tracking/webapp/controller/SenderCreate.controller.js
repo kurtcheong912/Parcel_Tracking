@@ -10,13 +10,36 @@ sap.ui.define([
         },
 
         onNavBack: function () {
-            this.byId("pageContainer").back();
+            var oHistory = History.getInstance();
+            var sPreviousHash = oHistory.getPreviousHash();
+      
+            if (sPreviousHash !== undefined) {
+              window.history.go(-1);
+            } else {
+              var oRouter = this.getOwnerComponent().getRouter();
+              oRouter.navTo("sender", {}, true);
+            }
         },
 
         onCancel: function () {
             this.onNavBack();
         },
-
+        onMenuButtonPress: function () {
+            var toolPage = this.byId("toolPage");
+            toolPage.setSideExpanded(!toolPage.getSideExpanded());
+        },
+          onItemSelect: function (oEvent) {
+            var item = oEvent.getParameter('item');
+            var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+            switch (item.getKey()) {
+              case "Sender_Overview":
+                oRouter.navTo("home");
+                break;
+              case "Receiver_Overview":
+                oRouter.navTo("receiver");
+                break;
+            }
+          },
         onSelectChange: function (oEvent) {
             var sFragmentId = this.getView().createId("SenderCreateFragment");
             // Get the selected item context

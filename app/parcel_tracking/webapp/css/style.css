@@ -18,6 +18,15 @@
     padding: 2px; /* Adjust padding as needed */
 }
 
+.customButton {
+    width: 20%; /* Set your desired width */
+}
+
+.floatLeft {
+    justify-content: flex-start; /* Aligns items to the left */
+    padding-right: 80%;
+}
+
 .IconStyle {
     cursor: pointer;
 }

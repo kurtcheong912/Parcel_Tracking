@@ -1,0 +1,82 @@
+<mvc:View
+    height="100%"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:ff="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
+    xmlns:tnt="sap.tnt"
+    xmlns:t="sap.ui.table"
+    xmlns:trm="sap.ui.table.rowmodes"
+    controllerName="parceltracking.controller.SenderCreate"
+>
+    <tnt:ToolPage id="toolPage">
+        <tnt:header>
+            <f:ShellBar
+                id="_IDGenShellBar1"
+                title="Package Tracking Service"
+                showMenuButton="true"
+                homeIcon="img/logo.png"
+                showCopilot="true"
+                showNotifications="true"
+                menuButtonPressed="onMenuButtonPress"
+                notificationsNumber="2"
+            >
+                <f:profile>
+                    <Avatar
+                        id="_IDGenAvatar1"
+                        initials="UI"
+                    />
+                </f:profile>
+            </f:ShellBar>
+        </tnt:header>
+        <tnt:sideContent>
+            <core:Fragment
+                fragmentName="parceltracking.view.SideNavigation"
+                id="fragment"
+                type="XML"
+            />
+        </tnt:sideContent>
+        <tnt:mainContents>
+            <NavContainer
+                id="pageContainer"
+                initialPage="Sender_Create"
+            >
+                <pages>
+                    <Page
+                        id="Sender_Create"
+                        title="{i18n>createTitle}"
+                        showNavButton="true"
+                        navButtonPress=".onNavBack"
+                        enableScrolling="false"
+                    >
+                        <core:Fragment
+                            fragmentName="parceltracking.view.SenderCreate"
+                            id="SenderCreateFragment"
+                            type="XML"
+                        />
+                        <footer>
+                            <OverflowToolbar id="overflowToolbar123">
+                                <content>
+                                    <ToolbarSpacer id="toolbarSpacer123" />
+                                    <Button
+                                        id="onCancel"
+                                        text="Cancel"
+                                        press="onCancel"
+                                        icon="sap-icon://cancel"
+                                    />
+                                    <Button
+                                        id="onSubmit"
+                                        text="Submit"
+                                        press="onSubmit"
+                                        icon="sap-icon://complete"
+                                    />
+                                </content>
+                            </OverflowToolbar>
+                        </footer>
+                    </Page>
+                </pages>
+            </NavContainer>
+        </tnt:mainContents>
+    </tnt:ToolPage>
+</mvc:View>
