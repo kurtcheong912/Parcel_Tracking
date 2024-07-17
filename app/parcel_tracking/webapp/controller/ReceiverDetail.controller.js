@@ -1,13 +1,32 @@
 sap.ui.define([
   'sap/ui/core/mvc/Controller',
   'sap/ui/core/Fragment',
-  'sap/ui/core/routing/History'
-], function (Controller, Fragment, History) {
+  'sap/ui/core/routing/History',
+  'sap/ui/Device'
+], function (Controller, Fragment, History, Device) {
   "use strict";
   return Controller.extend("parceltracking.controller.ReceiverDetail", {
     onInit: async function () {
       var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
       await oRouter.getRoute("detail").attachPatternMatched(await this.onEdit, this);
+
+      Device.media.attachHandler(this.checkSize, null, Device.media.RANGESETS.SAP_STANDARD_EXTENDED);
+      var oParams = Device.media.getCurrentRange(Device.media.RANGESETS.SAP_STANDARD_EXTENDED);
+      var toolPage = this.byId("toolPage");
+      var shellBar = this.byId("_IDGenShellBar1");
+
+      switch(oParams.name)
+      {
+          case "Phone":
+          case "Tablet":
+              toolPage.setSideExpanded(false);
+              shellBar.setShowMenuButton(false);
+              break;
+          default: 
+              toolPage.setSideExpanded(true);
+              shellBar.setShowMenuButton(true);
+              break;
+      }
     },
     onEdit: async function (oEvent) {
       var packageId = oEvent.getParameter("arguments").packageId;

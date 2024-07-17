@@ -48,7 +48,6 @@
                         title="{i18n>createTitle}"
                         showNavButton="true"
                         navButtonPress=".onNavBack"
-                        enableScrolling="false"
                     >
                         <core:Fragment
                             fragmentName="parceltracking.view.SenderCreate"
@@ -56,20 +55,24 @@
                             type="XML"
                         />
                         <footer>
-                            <OverflowToolbar id="overflowToolbar123">
+                            <OverflowToolbar id="_IDGenOverflowToolbar1">
                                 <content>
-                                    <ToolbarSpacer id="toolbarSpacer123" />
+                                    <ToolbarSpacer id="_IDGenToolbarSpacer1" />
                                     <Button
                                         id="onCancel"
                                         text="Cancel"
                                         press="onCancel"
                                         icon="sap-icon://cancel"
+                                        class="floatLeft"
                                     />
                                     <Button
                                         id="onSubmit"
-                                        text="Submit"
+                                        text="Create"
                                         press="onSubmit"
                                         icon="sap-icon://complete"
+                                        type="Emphasized"
+                                        ariaLabelledBy="actionButtonLabel"
+                                        class="responsiveButton customButton"
                                     />
                                 </content>
                             </OverflowToolbar>

@@ -14,6 +14,9 @@ sap.ui.define([
         "use strict";
         return Controller.extend("parcelTracking.controller.ReceiverOverview", {
             onInit: function () {
+                var oModel = 
+
+
                 Device.media.attachHandler(this.checkSize, null, Device.media.RANGESETS.SAP_STANDARD_EXTENDED);
                 var oParams = Device.media.getCurrentRange(Device.media.RANGESETS.SAP_STANDARD_EXTENDED);
                 var toolPage = this.byId("toolPage");
@@ -30,7 +33,6 @@ sap.ui.define([
                         toolPage.setSideExpanded(true);
                         shellBar.setShowMenuButton(true);
                         break;
-
                 }
 
                 console.log(oParams);

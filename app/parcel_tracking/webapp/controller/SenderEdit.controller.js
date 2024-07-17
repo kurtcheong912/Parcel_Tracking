@@ -1,14 +1,32 @@
 sap.ui.define([
   "sap/ui/core/mvc/Controller",
   "sap/m/MessageToast",
-  "sap/ui/core/routing/History"
-], function (Controller, MessageToast, History) {
+  "sap/ui/core/routing/History",
+  'sap/ui/Device'
+], function (Controller, MessageToast, History, Device) {
   "use strict";
 
   return Controller.extend("parceltracking.controller.Edit", {
     onInit: async function () {
       var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
       await oRouter.getRoute("edit").attachPatternMatched(await this.onEdit, this);
+
+      Device.media.attachHandler(this.checkSize, null, Device.media.RANGESETS.SAP_STANDARD_EXTENDED);
+      var oParams = Device.media.getCurrentRange(Device.media.RANGESETS.SAP_STANDARD_EXTENDED);
+      var toolPage = this.byId("toolPage");
+      var shellBar = this.byId("_IDGenShellBar1");
+
+      switch (oParams.name) {
+        case "Phone":
+        case "Tablet":
+          toolPage.setSideExpanded(false);
+          shellBar.setShowMenuButton(false);
+          break;
+        default:
+          toolPage.setSideExpanded(true);
+          shellBar.setShowMenuButton(true);
+          break;
+      }
     },
 
     onEdit: async function (oEvent) {
@@ -34,39 +52,41 @@ sap.ui.define([
           title: "Confirm Edit",
           onClose: async function (oAction) {
             if (oAction === sap.m.MessageBox.Action.OK) {
-               // User clicked OK, proceed with edit
-               var oModel = that.getView().getModel();
-               oModel.submitBatch(oModel.getUpdateGroupId());
-               var packageNumber = sap.ui.core.Fragment.byId(sFragmentId, "packageNumber").getValue();
-               var sPackageWeight = sap.ui.core.Fragment.byId(sFragmentId, "packageWeight").getValue();
-               var sPackageHeight = sap.ui.core.Fragment.byId(sFragmentId, "packageHeight").getValue();
-               var sShippingAddress = sap.ui.core.Fragment.byId(sFragmentId, "shippingAddress").getValue();
-               var sReceiverID = sap.ui.core.Fragment.byId(sFragmentId, "_IDGenComboBox1").getValue()
- 
-               console.log(packageNumber);
-           
-               var sPackageId =sap.ui.core.Fragment.byId(sFragmentId, "packageID").getValue();
-               var oModel = that.getView().getModel();
- 
-               // Construct the path to the package in the model
-               var sPath = "/Packages(" + sPackageId + ")";
-         
-               // Bind the context
-               var oContext = oModel.bindContext(sPath);
-         
-               // Get the context object
-               var oBindingContext = oContext.getBoundContext();
-         
-         
-               // Update the data
-                oBindingContext.setProperty("packageNumber", packageNumber);
-                oBindingContext.setProperty("weight", sPackageWeight);
-                oBindingContext.setProperty("height", sPackageHeight);
-                oBindingContext.setProperty("shippingAddress", sShippingAddress);
-                oBindingContext.setProperty("receiver_ID", sReceiverID);
-                
-            
+              // User clicked OK, proceed with edit
+              var oModel = that.getView().getModel();
+              oModel.submitBatch(oModel.getUpdateGroupId());
+              var packageNumber = sap.ui.core.Fragment.byId(sFragmentId, "packageNumber").getValue();
+              var sPackageWeight = sap.ui.core.Fragment.byId(sFragmentId, "packageWeight").getValue();
+              var sPackageHeight = sap.ui.core.Fragment.byId(sFragmentId, "packageHeight").getValue();
+              var sShippingAddress = sap.ui.core.Fragment.byId(sFragmentId, "shippingAddress").getValue();
+              var sReceiverID = sap.ui.core.Fragment.byId(sFragmentId, "_IDGenComboBox1").getValue()
+
+              console.log(packageNumber);
+
+              var sPackageId = sap.ui.core.Fragment.byId(sFragmentId, "packageID").getValue();
+              var oModel = that.getView().getModel();
+
+              // Construct the path to the package in the model
+              var sPath = "/Packages(" + sPackageId + ")";
+
+              // Bind the context
+              var oContext = oModel.bindContext(sPath);
+
+              // Get the context object
+              var oBindingContext = oContext.getBoundContext();
+
+
+              // Update the data
+              oBindingContext.setProperty("packageNumber", packageNumber);
+              oBindingContext.setProperty("weight", sPackageWeight);
+              oBindingContext.setProperty("height", sPackageHeight);
+              oBindingContext.setProperty("shippingAddress", sShippingAddress);
+              // oBindingContext.setProperty("receiver_ID", sReceiverID);
+
+
               sap.m.MessageToast.show("Package \"" + packageNumber + "\" edited successfully.");
+              oModel.refresh();
+              that.onNavBack();
             }
           }
         }
@@ -125,7 +145,7 @@ sap.ui.define([
       try {
         var oContext = await this.getView().getBindingContext();
         console.log("Checking current status...");
-        var currentStatus =await oContext.getProperty("status");
+        var currentStatus = await oContext.getProperty("status");
         if (!currentStatus) {
           console.error("ObjectStatus not found!");
           return;
@@ -137,14 +157,14 @@ sap.ui.define([
         } else {
           this.allInputFieldEditable(false);
           console.log("byebye");
-         await this.getView().byId("onSubmit").setVisible(false);
-         console.log("After setting visible:", this.getView().byId("onSubmit").getVisible());
+          await this.getView().byId("onSubmit").setVisible(false);
+          console.log("After setting visible:", this.getView().byId("onSubmit").getVisible());
         }
 
         // Enable the button only if the status is "NEW" or "SHIPPING"
         var isButtonEnabled = (currentStatus === "NEW" || currentStatus === "SHIPPING");
         this.getView().byId("updateStatusButton").setEnabled(isButtonEnabled);
-     
+
 
       } catch (error) {
         console.error("Error in checkUpdateStatusAvailable: ", error);
@@ -156,7 +176,7 @@ sap.ui.define([
       var sFragmentId = this.getView().createId("SenderEditFragment");
       var comboBox = sap.ui.core.Fragment.byId(sFragmentId, "_IDGenComboBox1");
       comboBox.setEnabled(state);
-       this.getView().byId("updateStatusButton").setEnabled(state);
+      this.getView().byId("updateStatusButton").setEnabled(state);
       var aInputs = oView.findAggregatedObjects(true).filter(function (oControl) {
         return oControl instanceof sap.m.Input;
       });
@@ -200,8 +220,8 @@ sap.ui.define([
 
       var mycontext = await this.getView().getBindingContext();
       var packageNumber = await mycontext.getProperty("packageNumber");
-    
-      
+
+
       var oObjectStatus = sap.ui.core.Fragment.byId(sFragmentId, "_IDGenObjectStatus1");
       var currentStatus = oObjectStatus.getText();
       console.log("Current Status:", currentStatus);
@@ -211,7 +231,7 @@ sap.ui.define([
       console.log("Next Status:", nextStatus);
 
       // Retrieve the package ID from the input field
-      var oInput =  sap.ui.core.Fragment.byId(sFragmentId, "packageID");
+      var oInput = sap.ui.core.Fragment.byId(sFragmentId, "packageID");
       var sPackageId = oInput.getValue();
       console.log("Package ID:", sPackageId);
 
@@ -233,7 +253,7 @@ sap.ui.define([
 
       this.showToast("Package \"" + packageNumber + "\" status successfully updated to " + nextStatus);
       if (nextStatus == "DELIVERED") {
-        
+
         this.getView().byId("updateStatusButton").setEnabled(false);
       }
       await this.getView().byId("onSubmit").setVisible(false);
@@ -242,13 +262,13 @@ sap.ui.define([
       this.getView().byId("updateStatusButton").setEnabled(isButtonEnabled);
       oModel.refresh();
 
-      
-            var oInput = sap.ui.core.Fragment.byId(sFragmentId, "packageNumber");
+
+      var oInput = sap.ui.core.Fragment.byId(sFragmentId, "packageNumber");
       // Set the value
       oInput.setValue(packageNumber);
 
     },
-  
+
     getNextStatus: function (currentStatus) {
       switch (currentStatus) {
         case "NEW":
@@ -305,26 +325,29 @@ sap.ui.define([
       if (value.trim() === "" || isNaN(value)) {
         inputField.setValueState(sap.ui.core.ValueState.Error);
         inputField.setValueStateText("Please enter a valid number.");
-      } else {
+      } else if (Number(value) >= 1000) {
+        inputField.setValueStateText("Value exceeded 1000.");
+      }
+      else {
         inputField.setValueState(sap.ui.core.ValueState.None);
       }
     },
     onMenuButtonPress: function () {
       var toolPage = this.byId("toolPage");
       toolPage.setSideExpanded(!toolPage.getSideExpanded());
-  },
-  onItemSelect: function (oEvent) {
-    var item = oEvent.getParameter('item');
-    var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-    switch (item.getKey()) {
-      case "Sender_Overview":
-        oRouter.navTo("home");
-        break;
-      case "Receiver_Overview":
-        oRouter.navTo("receiver");
-        break;
-    }
-  },
+    },
+    onItemSelect: function (oEvent) {
+      var item = oEvent.getParameter('item');
+      var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+      switch (item.getKey()) {
+        case "Sender_Overview":
+          oRouter.navTo("home");
+          break;
+        case "Receiver_Overview":
+          oRouter.navTo("receiver");
+          break;
+      }
+    },
     validateForm: function () {
       var oModel = this.getView().getModel();
       var sFragmentId = this.getView().createId("SenderEditFragment");
@@ -335,18 +358,18 @@ sap.ui.define([
       var sPackageHeight = sap.ui.core.Fragment.byId(sFragmentId, "packageHeight").getValue();
       var sShippingAddress = sap.ui.core.Fragment.byId(sFragmentId, "shippingAddress").getValue();
       var sReceiverID = sap.ui.core.Fragment.byId(sFragmentId, "_IDGenComboBox1").getValue()
-  
+
       // Check if all required fields are filled
-      var isFormValid = sPackageNumber !== "" && 
-      sPackageWeight !== "" && 
-      sPackageHeight !== "" && 
-      sShippingAddress !== "" && 
-      sReceiverID !== "";
+      var isFormValid = sPackageNumber !== "" &&
+        sPackageWeight !== "" &&
+        sPackageHeight !== "" &&
+        sShippingAddress !== "" &&
+        sReceiverID !== "";
       // Enable or disable the submit button based on the validation
       this.getView().byId("onSubmit").setEnabled(isFormValid);
       this.getView().byId("updateStatusButton").setEnabled(isFormValid);
       this.checkUpdateStatusAvailable();
-  }
+    }
 
   });
 });

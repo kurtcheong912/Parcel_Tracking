@@ -43,16 +43,16 @@
 						<FlexItemData id="flexItemData" growFactor="1" shrinkFactor="0" /><!-- Don't shrink below minimum size. Fill space if available. -->
 					</layoutData>
 					<OverflowToolbar id="overflowToolbar" design="Solid">
-						<ToolbarSpacer id="toolbarSpacer" />
+						<Title id="_IDGenLabel1" text="Package: {packageNumber}"/>
+												<ToolbarSpacer id="toolbarSpacer" />
 						<Button id="editButton" icon="sap-icon://edit" type="Transparent" press="onListItemPress"/>
 					</OverflowToolbar>
 					<VBox id="vBox2" class="sapUiSmallMargin">
 						<HBox id="hBox1" justifyContent="SpaceBetween">
-							<Title id="packageNumberTitle" text="Package:{packageNumber}" wrapping="true" />
+							<Title id="packageNumberTitle" text="Receiver:{receiver/first_name} {receiver/last_name}" wrapping="true" />
 							<t:InfoLabel id="statusInfoLabel" text="{status}" colorScheme="7" />
 						</HBox>
-						<Label id="receiverIdLabel" text="Receiver:{receiver/first_name} {receiver/last_name}" wrapping="true" class="sapUiTinyMarginBottom" />
-						<Text id="shippingAddressText" text="Address:{shippingAddress}" wrapping="true" />
+						<Label id="receiverIdLabel" text="Address:{shippingAddress}" wrapping="true" class="sapUiTinyMarginBottom" />
 					</VBox>
 				</VBox>
 			</f:GridListItem>

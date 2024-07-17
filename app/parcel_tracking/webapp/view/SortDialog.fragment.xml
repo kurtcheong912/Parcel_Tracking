@@ -6,8 +6,6 @@
 		<sortItems>
 			<ViewSettingsItem id="_IDGenViewSettingsSortDialogItem1" text="Package_ID" key="ID" selected="true" />
 			<ViewSettingsItem id="_IDGenViewSettingsSortDialogItem2" text="Status" key="status" />
-            <ViewSettingsItem id="_IDGenViewSettingsSortDialogItem4" text="Weight" key="weight" />
-			<ViewSettingsItem id="_IDGenViewSettingsSortDialogItem3" text="Sender" key="sender" />
             <ViewSettingsItem id="_IDGenViewSettingsSortDialogItem5" text="Created Date" key="createdAt" />
 		</sortItems>
 	</ViewSettingsDialog>

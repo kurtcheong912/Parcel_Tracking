@@ -54,6 +54,7 @@
                     <f:FormElement
                         id="_IDGenFormElement12"
                         label="Package ID"
+                        visible="false"
                     >
                         <f:fields>
                             <Text
