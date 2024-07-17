@@ -9,7 +9,7 @@ entity Packages : cuid, managed  {
     weight : String(10);
     height : String(10);
     signature : String;
-    status : String enum { NEW; SHIPPING; DELIVERED; RECEIVED; DAMAGED };
+    status : String enum { NEW; SHIPPING; DELIVERED; RECEIVED; DAMAGED; };
 }
 
 entity Users : cuid, managed {

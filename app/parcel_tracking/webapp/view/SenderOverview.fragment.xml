@@ -11,7 +11,7 @@
 			<Toolbar id="_IDGenToolbar1" height="3rem">
 				<Title id="senderOverviewTitle" text="Overview" />
 				<ToolbarSpacer id="_IDGenToolbarSpacer" />
-				<SearchField id="searchField" width="30%" liveChange=".SenderOverview.onSearch"/>
+				<SearchField id="searchField" width="30%" liveChange="onSearch"/>
 				<Button
                     id="addButton"
                     icon="sap-icon://add"

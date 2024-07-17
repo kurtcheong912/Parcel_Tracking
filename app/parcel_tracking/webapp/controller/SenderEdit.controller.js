@@ -32,13 +32,40 @@ sap.ui.define([
         "Do you want to edit this package?",
         {
           title: "Confirm Edit",
-          onClose: function (oAction) {
+          onClose: async function (oAction) {
             if (oAction === sap.m.MessageBox.Action.OK) {
-              // User clicked OK, proceed with edit
-              var oModel = that.getView().getModel();
-              oModel.submitBatch(oModel.getUpdateGroupId());
-              var packageNumber = sap.ui.core.Fragment.byId(sFragmentId, "packageNumber").getValue();
-              console.log(packageNumber);
+               // User clicked OK, proceed with edit
+               var oModel = that.getView().getModel();
+               oModel.submitBatch(oModel.getUpdateGroupId());
+               var packageNumber = sap.ui.core.Fragment.byId(sFragmentId, "packageNumber").getValue();
+               var sPackageWeight = sap.ui.core.Fragment.byId(sFragmentId, "packageWeight").getValue();
+               var sPackageHeight = sap.ui.core.Fragment.byId(sFragmentId, "packageHeight").getValue();
+               var sShippingAddress = sap.ui.core.Fragment.byId(sFragmentId, "shippingAddress").getValue();
+               var sReceiverID = sap.ui.core.Fragment.byId(sFragmentId, "_IDGenComboBox1").getValue()
+ 
+               console.log(packageNumber);
+           
+               var sPackageId =sap.ui.core.Fragment.byId(sFragmentId, "packageID").getValue();
+               var oModel = that.getView().getModel();
+ 
+               // Construct the path to the package in the model
+               var sPath = "/Packages(" + sPackageId + ")";
+         
+               // Bind the context
+               var oContext = oModel.bindContext(sPath);
+         
+               // Get the context object
+               var oBindingContext = oContext.getBoundContext();
+         
+         
+               // Update the data
+                oBindingContext.setProperty("packageNumber", packageNumber);
+                oBindingContext.setProperty("weight", sPackageWeight);
+                oBindingContext.setProperty("height", sPackageHeight);
+                oBindingContext.setProperty("shippingAddress", sShippingAddress);
+                oBindingContext.setProperty("receiver_ID", sReceiverID);
+                
+            
               sap.m.MessageToast.show("Package \"" + packageNumber + "\" edited successfully.");
             }
           }

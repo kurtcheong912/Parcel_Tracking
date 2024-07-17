@@ -24,7 +24,9 @@ sap.ui.define([
 
         // Enable the button only if the status is "NEW" or "SHIPPING"
         var isButtonEnabled = (currentStatus === "DELIVERED");
-        var isSigned = signature != null;
+        var  isSigned = signature !==  null;
+        console.log(signature);
+
         this.getView().byId("toggleableButtonSection").setVisible(isButtonEnabled);
         this.getView().byId("_IDGenFormElement22222222").setVisible(isSigned);
 
@@ -37,11 +39,11 @@ sap.ui.define([
       toolPage.setSideExpanded(!toolPage.getSideExpanded());
   },
     onOrderReceived: function () {
-      this.orderStatus = "Received";
+      this.orderStatus = "RECEIVED";
       this.onReceiveDialogPress();
     },
     onOrderDamaged: function () {
-      this.orderStatus = "Damaged";
+      this.orderStatus = "DAMAGED";
       this.onReceiveDialogPress();
     },
     onReceiveDialogPress: function () {
