@@ -37,9 +37,10 @@ sap.ui.define([
       await this.allInputFieldEditable(true);
       await this.checkUpdateStatusAvailable();
       await this.validateForm();
+      await this.editMode(false);
     },
     onCancel: function () {
-      this.onNavBack();
+      this.editMode(false);
     },
     onSubmit: function () {
       var that = this; // Keep reference to the controller
@@ -87,7 +88,7 @@ sap.ui.define([
 
               sap.m.MessageToast.show("Package \"" + packageNumber + "\" edited successfully.");
               oModel.refresh();
-              that.onNavBack();
+              that.editMode(false);
             }
           }
         }
@@ -372,6 +373,29 @@ sap.ui.define([
       this.getView().byId("onSubmit").setEnabled(isFormValid);
       this.getView().byId("updateStatusButton").setEnabled(isFormValid);
       this.checkUpdateStatusAvailable();
+    },
+    editMode: async function(canEdit){
+       var sFragmentId = this.getView().createId("SenderEditFragment");
+       sap.ui.core.Fragment.byId(sFragmentId, "packageEditForm").setVisible(canEdit);
+       sap.ui.core.Fragment.byId(sFragmentId, "packageDetailsForm").setVisible(!canEdit);
+      await this.getView().byId("onEdit").setVisible(!canEdit);
+      await this.getView().byId("onBack").setVisible(!canEdit);
+      await this.getView().byId("onCancel").setVisible(canEdit);
+      await this.getView().byId("onSubmit").setVisible(canEdit);
+      await this.getView().byId("updateStatusButton").setVisible(canEdit);  
+      var oPage = this.byId("Sender_Edit");
+      if(canEdit){
+        oPage.setTitle("Edit");
+      }else{
+        oPage.setTitle("Details");
+      }
+    },
+    onEnableEditMode: function(){
+      this.editMode(true);
+      this.checkUpdateStatusAvailable();
+    },
+    onBack: function(){
+      this.onNavBack();
     }
 
   });

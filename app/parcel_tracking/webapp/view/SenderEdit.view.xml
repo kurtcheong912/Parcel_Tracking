@@ -55,19 +55,58 @@
                             id="SenderEditFragment"
                             type="XML"
                         />
-    <footer>
-      <OverflowToolbar id="_IDGenOverflowToolbar1">
-        <content>
-          <ToolbarSpacer id="_IDGenToolbarSpacer1" />
-          <Button id="onCancel" text="Cancel" press="onCancel" icon="sap-icon://cancel" class="floatLeft"/>
+                        <footer>
+                            <OverflowToolbar id="_IDGenOverflowToolbar1">
+                                <content>
+                                    <ToolbarSpacer id="_IDGenToolbarSpacer1" />
+                                    <Button
+                                        id="onCancel"
+                                        text="Cancel"
+                                        press="onCancel"
+                                        icon="sap-icon://cancel"
+                                        class="floatLeft"
+                                    />
 
-           <Button id="updateStatusButton" tooltip="Update delivery status" icon="sap-icon://action" text="Update status" type="Emphasized" 
-                        press="onUpdateStatus" ariaLabelledBy="actionButtonLabel" class="responsiveButton customButton" enabled="false"/>
-                  <Button id="onSubmit" text="Submit" press="onSubmit" icon="sap-icon://complete" type="Emphasized" 
-                         ariaLabelledBy="actionButtonLabel" class="responsiveButton customButton"  visible="false" />
-        </content>
-      </OverflowToolbar>
-    </footer>
+                                    <Button
+                                        id="updateStatusButton"
+                                        tooltip="Update delivery status"
+                                        icon="sap-icon://action"
+                                        text="Update status"
+                                        type="Emphasized"
+                                        press="onUpdateStatus"
+                                        ariaLabelledBy="actionButtonLabel"
+                                        class="responsiveButton customButton"
+                                        enabled="false"
+                                    />
+                                    <Button
+                                        id="onSubmit"
+                                        text="Submit"
+                                        press="onSubmit"
+                                        icon="sap-icon://complete"
+                                        type="Emphasized"
+                                        ariaLabelledBy="actionButtonLabel"
+                                        class="responsiveButton customButton"
+                                        visible="false"
+                                    />
+                                    <Button
+                                        id="onBack"
+                                        text="Back"
+                                        press="onBack"
+                                        icon="sap-icon://cancel"
+                                        class="floatLeft"
+                                    />
+                                    <Button
+                                        id="onEdit"
+                                        text="Edit"
+                                        press="onEnableEditMode"
+                                        icon="sap-icon://complete"
+                                        type="Emphasized"
+                                        ariaLabelledBy="actionButtonLabel"
+                                        class="responsiveButton customButton"
+                                    />
+                                </content>
+                            </OverflowToolbar>
+                        </footer>
                     </Page>
                 </pages>
             </NavContainer>
