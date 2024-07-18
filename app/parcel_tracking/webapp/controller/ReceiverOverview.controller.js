@@ -14,9 +14,6 @@ sap.ui.define([
         "use strict";
         return Controller.extend("parcelTracking.controller.ReceiverOverview", {
             onInit: function () {
-                var oModel = 
-
-
                 Device.media.attachHandler(this.checkSize, null, Device.media.RANGESETS.SAP_STANDARD_EXTENDED);
                 var oParams = Device.media.getCurrentRange(Device.media.RANGESETS.SAP_STANDARD_EXTENDED);
                 var toolPage = this.byId("toolPage");
@@ -121,16 +118,29 @@ sap.ui.define([
                 this.filtering(sQuery);
             },
             filtering: function(value) {
-                var oFilterId = new Filter("ID", FilterOperator.Contains, value);
-                var oFilterStatus = new Filter("status", FilterOperator.Contains, value);
-                var oFilterWeight = new Filter("weight", FilterOperator.Contains, value);
-                var oFilterHeight = new Filter("height", FilterOperator.Contains, value);
-                var oFilterAddress = new Filter("shippingAddress", FilterOperator.Contains, value);
-                var oFilterNumber = new Filter("packageNumber", FilterOperator.Contains, value);
-                var allFilter = new Filter([oFilterStatus, oFilterNumber, oFilterWeight, oFilterHeight], false)
+                var aFilters = [];
+            
+                // Always apply the initial filter for excluding "NEW" shipping status
+                var oInitialFilter = new sap.ui.model.Filter("shippingStatus", sap.ui.model.FilterOperator.NE, "NEW");
+                aFilters.push(oInitialFilter);
+            
+                if (value && value.length > 0) {
+                    // Apply search filters if value is not empty
+                    var oFilterStatus = new Filter("shippingStatus", FilterOperator.Contains, value);
+                    var oFilterWeight = new Filter("weight", FilterOperator.Contains, value);
+                    var oFilterHeight = new Filter("height", FilterOperator.Contains, value);
+                    var oFilterNumber = new Filter("packageNumber", FilterOperator.Contains, value);
+            
+                    // Combine all search filters with OR logic
+                    var oSearchFilters = new Filter([oFilterStatus, oFilterWeight, oFilterHeight, oFilterNumber], false);
+                    aFilters.push(oSearchFilters);
+                }
+            
                 var oTable = this.byId("idProductsTable");
                 var oBinding = oTable.getBinding("items");
-                oBinding.filter(allFilter);
+            
+                // Apply the combined filters
+                oBinding.filter(aFilters);
             },
             handleSortDialogConfirm: function(oEvent) {
                 var oTable = this.byId("idProductsTable"),
