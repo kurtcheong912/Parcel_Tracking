@@ -37,25 +37,53 @@
 					</grid:layoutXL>
 				</grid:GridResponsiveLayout>
 			</f:customLayout>
-			<f:GridListItem id="_IDGenGridListItem1">
-				<VBox id="vBox1" height="100%" justifyContent="SpaceBetween">
-					<layoutData>
-						<FlexItemData id="flexItemData" growFactor="1" shrinkFactor="0" /><!-- Don't shrink below minimum size. Fill space if available. -->
-					</layoutData>
-					<OverflowToolbar id="overflowToolbar" design="Solid">
-						<Title id="_IDGenLabel1" text="Package: {packageNumber}"/>
-												<ToolbarSpacer id="toolbarSpacer" />
-						<Button id="editButton" icon="sap-icon://edit" type="Transparent" press="onListItemPress"/>
-					</OverflowToolbar>
-					<VBox id="vBox2" class="sapUiSmallMargin">
-						<HBox id="hBox1" justifyContent="SpaceBetween">
-							<Title id="packageNumberTitle" text="Receiver:{receiver/first_name} {receiver/last_name}" wrapping="true" />
-							<t:InfoLabel id="statusInfoLabel" text="{status}" colorScheme="7" />
-						</HBox>
-						<Label id="receiverIdLabel" text="Address:{shippingAddress}" wrapping="true" class="sapUiTinyMarginBottom" />
-					</VBox>
-				</VBox>
-			</f:GridListItem>
+			<f:GridListItem id="_IDGenGridListItem1" type="Active" press=".onListItemPress">
+                <VBox
+                    id="vBox1"
+                    height="100%"
+                    justifyContent="SpaceBetween"
+                >
+                    <layoutData>
+                        <FlexItemData
+                            id="_IDGenFlexItemData3"
+                            growFactor="1"
+                            shrinkFactor="0"
+                        />
+                        <!-- Don't shrink below minimum size. Fill space if available. -->
+                    </layoutData>
+                    <VBox
+                        id="_IDGenVBox2"
+                        class="sapUiSmallMargin"
+                    >
+                        <HBox
+                            id="_IDGenHBox1"
+                            justifyContent="SpaceBetween"
+                        >
+                            <Title
+                                id="_IDGenTitle4"
+                                text="Package ID:{packageNumber}"
+                                wrapping="true"
+                            />
+                            <t:InfoLabel
+                                id="_IDGenInfoLabel1"
+                                text="{shippingStatus}"
+                                colorScheme="7"
+                            />
+                        </HBox>
+                        <Label
+                            id="_IDGenLabel7"
+                            text="Receiver:{receiver/first_name} {receiver/last_name}"
+                            wrapping="true"
+                            class="sapUiTinyMarginBottom"
+                        />
+                        <Text
+                            id="_IDGenText8"
+                            text="Address:{shippingAddress}"
+                            wrapping="true"
+                        />
+                    </VBox>
+                </VBox>
+            </f:GridListItem>
 		</f:GridList>
 	</Panel>
 </core:FragmentDefinition>
