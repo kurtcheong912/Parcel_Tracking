@@ -108,6 +108,14 @@ sap.ui.define([
           return "None"; // Default state if needed
       }
     },
+    iconFormatter: function (status) {
+      switch (status) {
+        case "RECEIVED":
+          return "sap-icon://sys-enter-2";
+        case "DAMAGED":
+          return "sap-icon://decline"
+      }
+    },
     packageFormatter: function (status) {
       switch (status) {
         case "RECEIVED":

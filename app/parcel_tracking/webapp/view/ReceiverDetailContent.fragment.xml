@@ -108,9 +108,8 @@
                         <f:fields>
                             <ObjectStatus
                                 id="_IDGenObjectStatus2"
-                                class="sapUiSmallMarginBottom"
                                 text="{packageStatus}"
-                                icon="sap-icon://sys-enter-2"
+                                icon="{path: 'packageStatus', formatter: '.iconFormatter'}"
                                 state="{path: 'packageStatus', formatter: '.packageFormatter'}"
                             />
                         </f:fields>
