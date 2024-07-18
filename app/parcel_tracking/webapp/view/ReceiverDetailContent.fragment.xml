@@ -38,39 +38,6 @@
             >
                 <f:formElements>
                     <f:FormElement
-                        id="_IDGenFormElement122"
-                        label="Shipping Status"
-                    >
-                        <f:fields>
-                        						<ObjectStatus
-                                                              id="_IDGenObjectStatus1"
-							class="sapUiSmallMarginBottom"
-							text="Product Shipped"
-							icon="sap-icon://shipping-status"
-							state="{path: 'shippingStatus', formatter: '.stateFormatter'}"
-                             />
-                            <!-- <ObjectStatus
-                  
-                                class="sapMObjectStatusLarge customObjectStatus"
-                                text="{shippingStatus}"
-                                icon="sap-icon://shipping-status"
-                                state="{path: 'shippingStatus', formatter: '.stateFormatter'}"
-                            /> -->
-                        </f:fields>
-                    </f:FormElement>
-                    <f:FormElement
-                        id="_IDGenFormElement1242"
-                        label="Package Status"
-                    >
-                        <f:fields>
-						<ObjectStatus id="_IDGenObjectStatus2"
-							class="sapUiSmallMarginBottom"
-							text="Product Shipped"
-							icon="sap-icon://sys-enter-2"
-							state="Success" />
-                        </f:fields>
-                    </f:FormElement>
-                    <f:FormElement
                         id="_IDGenFormElement12"
                         label="Package ID"
                         visible="false"
@@ -115,7 +82,39 @@
                             />
                         </f:fields>
                     </f:FormElement>
-                    <f:FormElement id="_IDGenFormElementUpdateStatus" />
+                </f:formElements>
+            </f:FormContainer>
+
+            <f:FormContainer id="_IDGenFormContainer1222"
+                            title=" ">
+                <f:formElements>
+                    <f:FormElement
+                        id="_IDGenFormElement122"
+                        label="Shipping Status"
+                    >
+                        <f:fields>
+                            <ObjectStatus
+                                id="_IDGenObjectStatus1"
+                                text="{shippingStatus}"
+                                icon="sap-icon://shipping-status"
+                                state="{path: 'shippingStatus', formatter: '.stateFormatter'}"
+                            />
+                        </f:fields>
+                    </f:FormElement>
+                    <f:FormElement
+                        id="_IDGenFormElement1242"
+                        label="Package Status"
+                    >
+                        <f:fields>
+                            <ObjectStatus
+                                id="_IDGenObjectStatus2"
+                                class="sapUiSmallMarginBottom"
+                                text="{packageStatus}"
+                                icon="sap-icon://sys-enter-2"
+                                state="{path: 'packageStatus', formatter: '.packageFormatter'}"
+                            />
+                        </f:fields>
+                    </f:FormElement>
                     <f:FormElement
                         id="_IDGenFormElement22222222"
                         label="User confirmation signature"
