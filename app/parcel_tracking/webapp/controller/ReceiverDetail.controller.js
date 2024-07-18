@@ -15,17 +15,16 @@ sap.ui.define([
       var toolPage = this.byId("toolPage");
       var shellBar = this.byId("_IDGenShellBar1");
 
-      switch(oParams.name)
-      {
-          case "Phone":
-          case "Tablet":
-              toolPage.setSideExpanded(false);
-              shellBar.setShowMenuButton(false);
-              break;
-          default: 
-              toolPage.setSideExpanded(true);
-              shellBar.setShowMenuButton(true);
-              break;
+      switch (oParams.name) {
+        case "Phone":
+        case "Tablet":
+          toolPage.setSideExpanded(false);
+          shellBar.setShowMenuButton(false);
+          break;
+        default:
+          toolPage.setSideExpanded(true);
+          shellBar.setShowMenuButton(true);
+          break;
       }
     },
     onEdit: async function (oEvent) {
@@ -38,16 +37,17 @@ sap.ui.define([
     checkUpdateStatusAvailable: async function () {
       try {
         var oContext = this.getView().getBindingContext();
-        var currentStatus = oContext.getProperty("status");
+        var currentStatus = oContext.getProperty("shippingStatus");
         var signature = oContext.getProperty("signature");
 
         // Enable the button only if the status is "NEW" or "SHIPPING"
-        var isButtonEnabled = (currentStatus === "DELIVERED");
-        var  isSigned = signature !==  null;
+        var isButtonEnabled = (currentStatus === "SHIPPING");
+        var isSigned = signature !== null;
         console.log(signature);
 
         this.getView().byId("toggleableButtonSection").setVisible(isButtonEnabled);
         this.getView().byId("_IDGenFormElement22222222").setVisible(isSigned);
+        this.getView().byId("_IDGenFormElement1242").setVisible(isSigned);
 
       } catch (error) {
         console.error("Error in checkUpdateStatusAvailable: ", error);
@@ -56,7 +56,7 @@ sap.ui.define([
     onMenuButtonPress: function () {
       var toolPage = this.byId("toolPage");
       toolPage.setSideExpanded(!toolPage.getSideExpanded());
-  },
+    },
     onOrderReceived: function () {
       this.orderStatus = "RECEIVED";
       this.onReceiveDialogPress();
@@ -106,6 +106,16 @@ sap.ui.define([
           return "Success";
         default:
           return "None"; // Default state if needed
+      }
+    },
+    packageFormatter: function (status) {
+      switch (status) {
+        case "RECEIVED":
+          return "Success";
+        case "DAMAGED":
+          return "Error";
+        default:
+          return "Information";
       }
     },
     onSign: function (oEvent) {
@@ -216,10 +226,10 @@ sap.ui.define([
         canvas.addEventListener('mousedown', on_mousedown, false);
       }
     },
-    saveButton :async function(oEvent){
+    saveButton: async function (oEvent) {
       var canvas = document.getElementById("signature-pad");
       var link = document.createElement('a');
-      link.href = canvas.toDataURL('image/jpeg',0.3);
+      link.href = canvas.toDataURL('image/jpeg', 0.3);
 
       link.download = 'sign.jpeg';
 
@@ -227,21 +237,24 @@ sap.ui.define([
 
       var oModel = this.getView().getModel();
 
-      var sPath = "/Packages("+ packageId + ")";
+      var sPath = "/Packages(" + packageId + ")";
 
       var oContext = oModel.bindContext(sPath);
 
       var oBindingContext = oContext.getBoundContext();
 
-      oBindingContext.setProperty("status", this.orderStatus);
-      oBindingContext.setProperty("signature",  link.href);
+      oBindingContext.setProperty("shippingStatus", "DELIVERED");
+      oBindingContext.setProperty("packageStatus", this.orderStatus);
+      oBindingContext.setProperty("signature", link.href);
       oModel.refresh();
       this.getView().byId("toggleableButtonSection").setVisible(false);
       this.getView().byId("_IDGenFormElement22222222").setVisible(true);
+      this.getView().byId("_IDGenFormElement1242").setVisible(true);
+
       this.onCloseDialog();
       sap.m.MessageToast.show("Package Signed");
 
-  },
+    },
 
     /************Clear Signature Pad**************************/
 
