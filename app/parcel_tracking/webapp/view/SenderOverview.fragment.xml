@@ -50,7 +50,7 @@
 					<VBox id="vBox2" class="sapUiSmallMargin">
 						<HBox id="hBox1" justifyContent="SpaceBetween">
 							<Title id="packageNumberTitle" text="Receiver:{receiver/first_name} {receiver/last_name}" wrapping="true" />
-							<t:InfoLabel id="statusInfoLabel" text="{status}" colorScheme="7" />
+							<t:InfoLabel id="statusInfoLabel" text="{shippingStatus}" colorScheme="7" />
 						</HBox>
 						<Label id="receiverIdLabel" text="Address:{shippingAddress}" wrapping="true" class="sapUiTinyMarginBottom" />
 					</VBox>
