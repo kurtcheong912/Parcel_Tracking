@@ -39,16 +39,35 @@
                 <f:formElements>
                     <f:FormElement
                         id="_IDGenFormElement122"
-                        label="Package status"
+                        label="Shipping Status"
                     >
                         <f:fields>
-                            <ObjectStatus
-                                id="_IDGenObjectStatus1"
+                        						<ObjectStatus
+                                                              id="_IDGenObjectStatus1"
+							class="sapUiSmallMarginBottom"
+							text="Product Shipped"
+							icon="sap-icon://shipping-status"
+							state="{path: 'shippingStatus', formatter: '.stateFormatter'}"
+                             />
+                            <!-- <ObjectStatus
+                  
                                 class="sapMObjectStatusLarge customObjectStatus"
-                                text="{status}"
+                                text="{shippingStatus}"
                                 icon="sap-icon://shipping-status"
-                                state="{path: 'status', formatter: '.stateFormatter'}"
-                            />
+                                state="{path: 'shippingStatus', formatter: '.stateFormatter'}"
+                            /> -->
+                        </f:fields>
+                    </f:FormElement>
+                    <f:FormElement
+                        id="_IDGenFormElement1242"
+                        label="Package Status"
+                    >
+                        <f:fields>
+						<ObjectStatus id="_IDGenObjectStatus2"
+							class="sapUiSmallMarginBottom"
+							text="Product Shipped"
+							icon="sap-icon://sys-enter-2"
+							state="Success" />
                         </f:fields>
                     </f:FormElement>
                     <f:FormElement
@@ -65,7 +84,7 @@
                     </f:FormElement>
                     <f:FormElement
                         id="_IDGenFormElement22"
-                        label="Package Number"
+                        label="Package ID"
                     >
                         <f:fields>
                             <Text

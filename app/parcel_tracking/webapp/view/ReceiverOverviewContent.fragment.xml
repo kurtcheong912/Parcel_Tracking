@@ -92,9 +92,9 @@
             items="{
         path: '/Packages',
         filters: [{
-            path: 'status',
+            path: 'shippingStatus',
             operator: 'EQ',
-            value1: 'DELIVERED' 
+            value1: 'SHIPPING' 
         }]}"
         >
             <headerToolbar>
@@ -156,7 +156,7 @@
                 >
                     <Text
                         id="_IDGenText9"
-                        text="Status"
+                        text="Shipping Status"
                     />
                 </Column>
                 <Column
@@ -166,7 +166,7 @@
                 >
                     <Text
                         id="_IDGenText10"
-                        text="Weight"
+                        text="Weight (Kg)"
                     />
                 </Column>
                 <Column
@@ -176,7 +176,7 @@
                 >
                     <Text
                         id="_IDGenText11"
-                        text="Height"
+                        text="Height (Cm)"
                     />
                 </Column>
                 <Column
@@ -215,7 +215,7 @@
                         />
                         <Text
                             id="_IDGenText13"
-                            text="{status}"
+                            text="{shippingStatus}"
                         />
                         <Text
                             id="_IDGenText14"

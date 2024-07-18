@@ -37,7 +37,7 @@
 					</grid:layoutXL>
 				</grid:GridResponsiveLayout>
 			</f:customLayout>
-			<f:GridListItem id="_IDGenGridListItem1">
+			<f:GridListItem id="_IDGenGridListItem1" >
 				<VBox id="vBox1" height="100%" justifyContent="SpaceBetween">
 					<layoutData>
 						<FlexItemData id="flexItemData" growFactor="1" shrinkFactor="0" /><!-- Don't shrink below minimum size. Fill space if available. -->
