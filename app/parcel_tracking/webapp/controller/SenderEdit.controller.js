@@ -2,10 +2,12 @@ sap.ui.define([
   "sap/ui/core/mvc/Controller",
   "sap/m/MessageToast",
   "sap/ui/core/routing/History",
-  'sap/ui/Device'
-], function (Controller, MessageToast, History, Device) {
+  'sap/ui/Device',
+  'sap/ui/core/Fragment',
+  "sap/ui/core/syncStyleClass",
+], function (Controller, MessageToast, History, Device, Fragment, syncStyleClass) {
   "use strict";
-
+  var iTimeoutId
   return Controller.extend("parceltracking.controller.Edit", {
     onInit: async function () {
       var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
@@ -89,7 +91,7 @@ sap.ui.define([
               sap.m.MessageToast.show("Package \"" + packageNumber + "\" edited successfully.");
               oModel.refresh();
               that.editMode(false);
-              await this.getView().byId("onEdit").setVisible(true);
+              await that.getView().byId("onEdit").setVisible(true);
             }
           }
         }
@@ -213,13 +215,14 @@ sap.ui.define([
       var that = this; // Reference to the controller context
 
       // Show a warning message box
-      sap.m.MessageBox.warning("Are you sure you want to update the package status?", {
+      sap.m.MessageBox.warning("Are you sure you want to update the package status from New to Shipping?", {
         title: "Confirm Status Update",
         actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
         onClose: function (oAction) {
           if (oAction === sap.m.MessageBox.Action.OK) {
             // If OK is pressed, proceed to update the status
-            that.updateStatus(); // Call the internal function to update the status
+            that.onOpenDialog();
+          //  that.updateStatus(); // Call the internal function to update the status
           }
         }
       });
@@ -401,7 +404,45 @@ sap.ui.define([
     },
     onBack: function () {
       this.onNavBack();
-    }
+    },
+    onOpenDialog: function () {
+			// load BusyDialog fragment asynchronously
+			if (!this._pBusyDialog) {
+				this._pBusyDialog = Fragment.load({
+					name: "parceltracking.view.BusyDialog",
+					controller: this
+				}).then(function (oBusyDialog) {
+					this.getView().addDependent(oBusyDialog);
+					syncStyleClass("sapUiSizeCompact", this.getView(), oBusyDialog);
+					return oBusyDialog;
+				}.bind(this));
+			}
+
+			this._pBusyDialog.then(function(oBusyDialog) {
+				oBusyDialog.open();
+				this.simulateServerRequest();
+			}.bind(this));
+		},
+
+		simulateServerRequest: function () {
+			// simulate a longer running operation
+			this.iTimeoutId = setTimeout(function() {
+				this._pBusyDialog.then(function(oBusyDialog) {
+					oBusyDialog.close();
+				});
+			}.bind(this), 3000);
+		},
+
+		onDialogClosed: function (oEvent) {
+			clearTimeout(this.iTimeoutId);
+
+			if (oEvent.getParameter("cancelPressed")) {
+				MessageToast.show("The update status operation has been cancelled");
+			} else {
+        this.updateStatus();
+			}
+		}
+
 
   });
 });
