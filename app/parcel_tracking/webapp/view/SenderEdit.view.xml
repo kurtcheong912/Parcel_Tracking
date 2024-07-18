@@ -75,7 +75,6 @@
                                         type="Emphasized"
                                         press="onUpdateStatus"
                                         ariaLabelledBy="actionButtonLabel"
-                                        class="responsiveButton customButton"
                                         enabled="false"
                                     />
                                     <Button
@@ -85,7 +84,6 @@
                                         icon="sap-icon://complete"
                                         type="Emphasized"
                                         ariaLabelledBy="actionButtonLabel"
-                                        class="responsiveButton customButton"
                                         visible="false"
                                     />
                                     <Button
@@ -102,7 +100,6 @@
                                         icon="sap-icon://complete"
                                         type="Emphasized"
                                         ariaLabelledBy="actionButtonLabel"
-                                        class="responsiveButton customButton"
                                     />
                                 </content>
                             </OverflowToolbar>

@@ -56,3 +56,12 @@ div#container-parceltracking---ReceiverDetail--dialogToolbarSignaturePad {
 img#container-parceltracking---ReceiverDetail--_IDGenImage12 {
     border: 1px solid black;
 }
+
+.sapUiRGLContainerCont label {
+    padding-top: 0.5rem;
+}
+
+
+.customStatus {
+    padding-top: 0.65rem;
+}
