@@ -382,8 +382,13 @@ sap.ui.define([
       await this.getView().byId("onBack").setVisible(!canEdit);
       await this.getView().byId("onCancel").setVisible(canEdit);
       await this.getView().byId("onSubmit").setVisible(canEdit);
-      await this.getView().byId("updateStatusButton").setVisible(canEdit);
-
+      await this.getView().byId("updateStatusButton").setVisible(canEdit);  
+      var oPage = this.byId("Sender_Edit");
+      if(canEdit){
+        oPage.setTitle("Edit");
+      }else{
+        oPage.setTitle("Details");
+      }
     },
     onEnableEditMode: function(){
       this.editMode(true);
