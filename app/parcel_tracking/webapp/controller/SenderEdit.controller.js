@@ -88,7 +88,7 @@ sap.ui.define([
 
               sap.m.MessageToast.show("Package \"" + packageNumber + "\" edited successfully.");
               oModel.refresh();
-              that.onNavBack();
+              that.editMode(false);
             }
           }
         }
@@ -374,15 +374,15 @@ sap.ui.define([
       this.getView().byId("updateStatusButton").setEnabled(isFormValid);
       this.checkUpdateStatusAvailable();
     },
-    editMode: function(canEdit){
+    editMode: async function(canEdit){
        var sFragmentId = this.getView().createId("SenderEditFragment");
        sap.ui.core.Fragment.byId(sFragmentId, "packageEditForm").setVisible(canEdit);
        sap.ui.core.Fragment.byId(sFragmentId, "packageDetailsForm").setVisible(!canEdit);
-       this.getView().byId("onEdit").setVisible(!canEdit);
-       this.getView().byId("onBack").setVisible(!canEdit);
-       this.getView().byId("onCancel").setVisible(canEdit);
-       this.getView().byId("onSubmit").setVisible(canEdit);
-       this.getView().byId("updateStatusButton").setVisible(canEdit);
+      await this.getView().byId("onEdit").setVisible(!canEdit);
+      await this.getView().byId("onBack").setVisible(!canEdit);
+      await this.getView().byId("onCancel").setVisible(canEdit);
+      await this.getView().byId("onSubmit").setVisible(canEdit);
+      await this.getView().byId("updateStatusButton").setVisible(canEdit);
 
     },
     onEnableEditMode: function(){

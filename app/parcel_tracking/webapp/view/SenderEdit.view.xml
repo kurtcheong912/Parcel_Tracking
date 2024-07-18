@@ -103,7 +103,6 @@
                                         type="Emphasized"
                                         ariaLabelledBy="actionButtonLabel"
                                         class="responsiveButton customButton"
-                                        visible="{/showEdit}"
                                     />
                                 </content>
                             </OverflowToolbar>
