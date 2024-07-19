@@ -1,33 +1,30 @@
 sap.ui.define([
   "sap/ui/core/mvc/Controller",
   "sap/ui/model/Filter",
-  "sap/ui/model/FilterOperator"
+  "sap/ui/model/FilterOperator",
+  'sap/ui/model/Sorter',
+  'sap/ui/core/Fragment',
+  'sap/ui/Device',
 ],
-  function (Controller, Filter, FilterOperator) {
+  function (Controller, Filter, FilterOperator, Sorter, Fragment, Device) {
     "use strict";
 
     return Controller.extend("parceltracking.controller.SenderOverview", {
       onInit: function () {
+        this._mViewSettingsDialogs = {};
       },
 
       onListItemPress: function (oEvent) {
         var oItem = oEvent.getSource();
-        var oRouter =  sap.ui.core.UIComponent.getRouterFor(this);
+        var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
         oRouter.navTo("edit", {
-            packageId: oItem.getBindingContext().getProperty("ID")
+          packageId: oItem.getBindingContext().getProperty("ID")
         });
-        // var oItem = oEvent.getSource();
-        // var id = oItem.getBindingContext().getProperty("ID");
-        // var oNavContainer = this.byId("pageContainer");
-        // var oSenderEditPage = this.getView().createId("Sender_Edit");
-        // var oSenderEditPage = this.byId("Sender_Edit");
-        // oSenderEditPage.bindElement("/Packages(" + id + ")");
-        // oNavContainer.to(oSenderEditPage);
       },
       onMenuButtonPress: function () {
         var toolPage = this.byId("toolPage");
         toolPage.setSideExpanded(!toolPage.getSideExpanded());
-    },
+      },
       onItemSelect: function (oEvent) {
         var item = oEvent.getParameter('item');
         var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
@@ -41,14 +38,16 @@ sap.ui.define([
         }
       },
       onCreate: function () {
-        var oRouter =  sap.ui.core.UIComponent.getRouterFor(this);
+        var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
         oRouter.navTo("create");
       },
 
       onSearch: function (oEvent) {
-        var sQuery = oEvent.getSource().getValue().toLowerCase();
-        var oGridList = this.byId("gridList3");
-        var oBinding = oGridList.getBinding("items");
+        var sQuery = this.byId("searchField").getValue().toLowerCase();
+        var oList = this.byId("packageList");
+        var oGridList = this.byId("packageGridList");
+        var gridBinding = oGridList.getBinding("items");
+        var listBinding = oList.getBinding("items");
 
         if (sQuery && sQuery.length > 0) {
           var aFilters = [];
@@ -109,7 +108,7 @@ sap.ui.define([
 
           // Filter for Status (case-insensitive)
           aFilters.push(new Filter({
-            path: "status",
+            path: "shippingStatus",
             operator: FilterOperator.Contains,
             value1: sQuery,
             caseSensitive: false
@@ -121,10 +120,87 @@ sap.ui.define([
             and: false
           });
 
-          oBinding.filter(oCombinedFilter);
+          gridBinding.filter(oCombinedFilter);
+          listBinding.filter(oCombinedFilter);
         } else {
-          oBinding.filter([]);
+          gridBinding.filter([]);
+          listBinding.filter([]);
         }
       },
+
+      //Sorting Dialog
+      getViewSettingsDialog: function (sDialogFragmentName) {
+        var pDialog = this._mViewSettingsDialogs[sDialogFragmentName];
+
+        if (!pDialog) {
+          pDialog = Fragment.load({
+            id: this.getView().getId(),
+            name: sDialogFragmentName,
+            controller: this
+          }).then(function (oDialog) {
+            if (Device.system.desktop) {
+              oDialog.addStyleClass("sapUiSizeCompact");
+            }
+            return oDialog;
+          });
+          this._mViewSettingsDialogs[sDialogFragmentName] = pDialog;
+        }
+        return pDialog;
+      },
+      handleSortButtonPressed: function () {
+        this.getViewSettingsDialog("parceltracking.view.SortDialog").then(function (oViewSettingsDialog) {
+          oViewSettingsDialog.open();
+        });
+      },
+      handleSortDialogConfirm: function (oEvent) {
+        var oList = this.byId("packageList");
+        var oGridList = this.byId("packageGridList"),
+        mParams = oEvent.getParameters(),
+        sPath,
+        bDescending,
+        aSorters = [];
+        var gridBinding = oGridList.getBinding("items");
+        var listBinding = oList.getBinding("items");
+        sPath = mParams.sortItem.getKey();
+        bDescending = mParams.sortDescending;
+        aSorters.push(new Sorter(sPath, bDescending));
+
+        gridBinding.sort(aSorters);
+        listBinding.sort(aSorters);
+      },
+
+      //Color Formatter for Shipping Status
+      formatColorScheme: function (shippingStatus) {
+        switch (shippingStatus) {
+          case "NEW":
+            return 6;
+          case "SHIPPING":
+            return 1;
+          case "DELIVERED":
+            return 8;
+          default:
+            return 7; // Default color scheme
+        }
+      },
+
+      onGrid: function (oEvent) {
+        if (oEvent.getSource().getPressed()) {
+          this.byId("packageList").setVisible(false);
+          this.byId("packageGridList").setVisible(true);
+          this.byId("listToggleButton").setPressed(false);
+        } else {
+          this.byId("gridToggleButton").setPressed(true);
+        }
+      },
+
+      onList: function (oEvent) {
+        if (oEvent.getSource().getPressed()) {
+          this.byId("packageGridList").setVisible(false);
+          this.byId("packageList").setVisible(true);
+          this.byId("gridToggleButton").setPressed(false);
+        } else {
+          this.byId("listToggleButton").setPressed(true);
+        }
+      }
     });
   });

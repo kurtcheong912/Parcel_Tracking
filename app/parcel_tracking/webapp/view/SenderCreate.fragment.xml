@@ -49,7 +49,7 @@
                         <f:fields>
                             <ObjectStatus
                                 id="_IDGenObjectStatus1"
-                                class="sapMObjectStatusLarge customObjectStatus"
+                                class="sapUiSmallMarginBottom"
                                 text="NEW"
                                 icon="sap-icon://shipping-status"
                                 state="Information"

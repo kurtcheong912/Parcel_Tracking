@@ -13,7 +13,7 @@
         class="responsiveHBox"
     />
     <f:Form
-        id="FormDisplay354wideDual2"
+        id="packageEditForm"
         editable="false"
     >
         <f:layout>
@@ -49,7 +49,7 @@
                         <f:fields>
                             <ObjectStatus
                                 id="_IDGenObjectStatus1"
-                                class="sapMObjectStatusLarge customObjectStatus"
+                                class="sapUiSmallMarginBottom"
                                 text="{shippingStatus}"
                                 icon="sap-icon://shipping-status"
                                 state="{path: 'shippingStatus', formatter: '.stateFormatter'}"
@@ -155,5 +155,135 @@
                 </f:formElements>
             </f:FormContainer>
         </f:formContainers>
+
+          
+
+    </f:Form>
+
+
+    <f:Form
+        id="packageDetailsForm"
+        editable="false"
+        visible="false"
+    >
+        <f:layout>
+            <f:ResponsiveGridLayout
+                id="_IDGenResponsiveGridLayout12333"
+                labelSpanXL="4"
+                labelSpanL="4"
+                labelSpanM="4"
+                labelSpanS="12"
+                adjustLabelSpan="true"
+                emptySpanXL="0"
+                emptySpanL="0"
+                emptySpanM="0"
+                emptySpanS="0"
+                columnsXL="2"
+                columnsL="2"
+                columnsM="1"
+                singleContainerFullSize="false"
+            />
+        </f:layout>
+      <f:formContainers>
+    <!-- Left Side: Package Info -->
+    <f:FormContainer
+        id="_IDGenFormContainer15"
+        title="Package Info"
+    >
+        <f:formElements>
+            <f:FormElement
+                id="_IDGenFormElement125"
+                label="Package status"
+            >
+                <f:fields>
+                    <ObjectStatus
+                        id="_IDGenObjectStatus5"
+                        class=""
+                        text="{shippingStatus}"
+                        icon="sap-icon://shipping-status"
+                        state="{path: 'shippingStatus', formatter: '.stateFormatter'}"
+                    />
+                </f:fields>
+            </f:FormElement>
+            <f:FormElement
+                id="_IDGenFormElement55"
+                label="Package ID"
+                visible="false"
+            >
+                <f:fields>
+                    <Label
+                        id="packageIDLabel"
+                        text="{ID}"
+                        visible="false"
+                    />
+                </f:fields>
+            </f:FormElement>
+            <f:FormElement
+                id="_IDGenFormElement555555"
+                label="Package Number"
+            >
+                <f:fields>
+                    <Label
+                        id="packageNumberLabel"
+                        text="{path: 'packageNumber', mode: 'sap.ui.model.BindingMode.OneWay'}"
+                    />
+                </f:fields>
+            </f:FormElement>
+            <f:FormElement
+                id="_IDGenFormElement555"
+                label="Package Weight (kg)"
+            >
+                <f:fields>
+                    <Label
+                        id="packageWeightLabel"
+                        text="{weight}"
+                    />
+                </f:fields>
+            </f:FormElement>
+            <f:FormElement
+                id="_IDGenFormElement55555"
+                label="Package Height (cm)"
+            >
+                <f:fields>
+                    <Label
+                        id="packageHeightLabel"
+                        text="{height}"
+                    />
+                </f:fields>
+            </f:FormElement>
+        </f:formElements>
+    </f:FormContainer>
+
+    <!-- Right Side: Package Destination and Receiver Details -->
+    <f:FormContainer
+        id="_IDGenFormContainer55"
+        title="Receiver Details"
+    >
+        <f:formElements>
+            <f:FormElement
+                id="_IDGenFormElement545"
+                label="Shipping Address"
+            >
+                <f:fields>
+                    <Label
+                        id="shippingAddressLabel"
+                        text="{path: 'shippingAddress', mode: 'sap.ui.model.BindingMode.OneWay'}"
+                    />
+                </f:fields>
+            </f:FormElement>
+            <f:FormElement
+                id="_IDGenFormElementpackageReceiver"
+                label="Package Receiver"
+            >
+                <f:fields>
+                    <Label
+                        id="packageReceiverLabel"
+                        text="{path: 'receiver_ID', mode: 'sap.ui.model.BindingMode.OneWay'}"
+                    />
+                </f:fields>
+            </f:FormElement>
+        </f:formElements>
+    </f:FormContainer>
+</f:formContainers>
     </f:Form>
 </core:FragmentDefinition>
