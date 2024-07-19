@@ -191,7 +191,7 @@
                 <items>
                     <ColumnListItem id="_IDGenColumnListItem1"
                         vAlign="Middle"
-                        press="onEditButtonPress"
+                        press=".onListItemPress"
                         type="Active"
                     >
                         <cells>

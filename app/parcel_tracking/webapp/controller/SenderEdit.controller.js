@@ -2,10 +2,12 @@ sap.ui.define([
   "sap/ui/core/mvc/Controller",
   "sap/m/MessageToast",
   "sap/ui/core/routing/History",
-  'sap/ui/Device'
-], function (Controller, MessageToast, History, Device) {
+  'sap/ui/Device',
+  'sap/ui/core/Fragment',
+  "sap/ui/core/syncStyleClass",
+], function (Controller, MessageToast, History, Device, Fragment, syncStyleClass) {
   "use strict";
-
+  var iTimeoutId
   return Controller.extend("parceltracking.controller.Edit", {
     onInit: async function () {
       var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
@@ -89,6 +91,7 @@ sap.ui.define([
               sap.m.MessageToast.show("Package \"" + packageNumber + "\" edited successfully.");
               oModel.refresh();
               that.editMode(false);
+              await that.getView().byId("onEdit").setVisible(true);
             }
           }
         }
@@ -158,7 +161,7 @@ sap.ui.define([
           this.getView().byId("onSubmit").setVisible(true);
         } else {
           this.allInputFieldEditable(false);
-          console.log("byebye");
+          await this.getView().byId("onEdit").setVisible(false);
           await this.getView().byId("onSubmit").setVisible(false);
           console.log("After setting visible:", this.getView().byId("onSubmit").getVisible());
         }
@@ -190,7 +193,7 @@ sap.ui.define([
       });
       aInputs.forEach(function (oInput) {
         // Check if the input ID is the one you want to make non-editable
-        if (oInput.getId() !== oView.createId("packageID")||oInput.getId() !== oView.createId("packageWeight")||oInput.getId() !== oView.createId("packageHeight")||oInput.getId() !== oView.createId("packageNumber")) {
+        if (oInput.getId() !== oView.createId("packageID") || oInput.getId() !== oView.createId("packageWeight") || oInput.getId() !== oView.createId("packageHeight") || oInput.getId() !== oView.createId("packageNumber")) {
           oInput.setEditable(state);
         } else {
           oInput.setEditable(false); // Ensure this specific input is not editable
@@ -212,13 +215,14 @@ sap.ui.define([
       var that = this; // Reference to the controller context
 
       // Show a warning message box
-      sap.m.MessageBox.warning("Are you sure you want to update the package status?", {
+      sap.m.MessageBox.warning("Are you sure you want to update the package status from New to Shipping?", {
         title: "Confirm Status Update",
         actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
         onClose: function (oAction) {
           if (oAction === sap.m.MessageBox.Action.OK) {
             // If OK is pressed, proceed to update the status
-            that.updateStatus(); // Call the internal function to update the status
+            that.onOpenDialog();
+          //  that.updateStatus(); // Call the internal function to update the status
           }
         }
       });
@@ -270,7 +274,8 @@ sap.ui.define([
       var oInput = sap.ui.core.Fragment.byId(sFragmentId, "packageNumber");
       // Set the value
       oInput.setValue(packageNumber);
-
+      this.editMode(false);
+      await this.getView().byId("onEdit").setVisible(false);
     },
 
     getNextStatus: function (currentStatus) {
@@ -298,7 +303,7 @@ sap.ui.define([
 
         // Optionally clear the selection
         oComboBox.setSelectedKey("");
-        
+
       } else if (!value) {
         inputField.setValueState(sap.ui.core.ValueState.Error);
         inputField.setValueStateText("This field is required.");
@@ -374,29 +379,70 @@ sap.ui.define([
       this.getView().byId("updateStatusButton").setEnabled(isFormValid);
       this.checkUpdateStatusAvailable();
     },
-    editMode: async function(canEdit){
-       var sFragmentId = this.getView().createId("SenderEditFragment");
-       sap.ui.core.Fragment.byId(sFragmentId, "packageEditForm").setVisible(canEdit);
-       sap.ui.core.Fragment.byId(sFragmentId, "packageDetailsForm").setVisible(!canEdit);
+    editMode: async function (canEdit) {
+      var sFragmentId = this.getView().createId("SenderEditFragment");
+      sap.ui.core.Fragment.byId(sFragmentId, "packageEditForm").setVisible(canEdit);
+      sap.ui.core.Fragment.byId(sFragmentId, "packageDetailsForm").setVisible(!canEdit);
+      
       await this.getView().byId("onEdit").setVisible(!canEdit);
       await this.getView().byId("onBack").setVisible(!canEdit);
       await this.getView().byId("onCancel").setVisible(canEdit);
       await this.getView().byId("onSubmit").setVisible(canEdit);
-      await this.getView().byId("updateStatusButton").setVisible(canEdit);  
+      await this.getView().byId("updateStatusButton").setVisible(canEdit);
+      
       var oPage = this.byId("Sender_Edit");
-      if(canEdit){
+      if (canEdit) {
         oPage.setTitle("Edit");
-      }else{
+      } else {
         oPage.setTitle("Details");
       }
     },
-    onEnableEditMode: function(){
-      this.editMode(true);
-      this.checkUpdateStatusAvailable();
+    onEnableEditMode: async function () {
+      await this.editMode(true);
+      await this.checkUpdateStatusAvailable();
+      
     },
-    onBack: function(){
+    onBack: function () {
       this.onNavBack();
-    }
+    },
+    onOpenDialog: function () {
+			// load BusyDialog fragment asynchronously
+			if (!this._pBusyDialog) {
+				this._pBusyDialog = Fragment.load({
+					name: "parceltracking.view.BusyDialog",
+					controller: this
+				}).then(function (oBusyDialog) {
+					this.getView().addDependent(oBusyDialog);
+					syncStyleClass("sapUiSizeCompact", this.getView(), oBusyDialog);
+					return oBusyDialog;
+				}.bind(this));
+			}
+
+			this._pBusyDialog.then(function(oBusyDialog) {
+				oBusyDialog.open();
+				this.simulateServerRequest();
+			}.bind(this));
+		},
+
+		simulateServerRequest: function () {
+			// simulate a longer running operation
+			this.iTimeoutId = setTimeout(function() {
+				this._pBusyDialog.then(function(oBusyDialog) {
+					oBusyDialog.close();
+				});
+			}.bind(this), 3000);
+		},
+
+		onDialogClosed: function (oEvent) {
+			clearTimeout(this.iTimeoutId);
+
+			if (oEvent.getParameter("cancelPressed")) {
+				MessageToast.show("The update status operation has been cancelled");
+			} else {
+        this.updateStatus();
+			}
+		}
+
 
   });
 });
