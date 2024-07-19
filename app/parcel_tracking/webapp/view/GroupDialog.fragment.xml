@@ -5,7 +5,7 @@
 		confirm=".handleGroupDialogConfirm"
 		reset=".resetGroupDialog">
 		<groupItems>
-			<ViewSettingsItem id="_IDGenViewSettingsGroupItem1" text="Status" key="status" />
+			<ViewSettingsItem id="_IDGenViewSettingsGroupItem1" text="Status" key="shippingStatus" />
 			<ViewSettingsItem id="_IDGenViewSettingsGroupItem2" text="Created Date" key="createdAt" />
 		</groupItems>
 	</ViewSettingsDialog>

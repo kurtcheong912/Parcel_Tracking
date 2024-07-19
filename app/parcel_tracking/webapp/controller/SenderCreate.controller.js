@@ -7,15 +7,14 @@ sap.ui.define([
   "use strict";
 
   return Controller.extend("parceltracking.controller.SenderCreate", {
-    onInit: async function () {
+    onInit: function () {
       var sFragmentId = this.getView().createId("SenderCreateFragment");
 
-      sap.ui.core.Fragment.byId(sFragmentId, "packageNumberCreate").setValue("");
-      sap.ui.core.Fragment.byId(sFragmentId, "packageWeightCreate").setValue("");
-      sap.ui.core.Fragment.byId(sFragmentId, "packageHeightCreate").setValue("");
-      sap.ui.core.Fragment.byId(sFragmentId, "shippingAddressCreate").setValue("");
-      sap.ui.core.Fragment.byId(sFragmentId, "_IDGenComboBox1Create").setSelectedKey("");
       sap.ui.core.Fragment.byId(sFragmentId, "packageNumber").setValue("");
+      sap.ui.core.Fragment.byId(sFragmentId, "packageWeight").setValue("");
+      sap.ui.core.Fragment.byId(sFragmentId, "packageHeight").setValue("");
+      sap.ui.core.Fragment.byId(sFragmentId, "shippingAddress").setValue("");
+      sap.ui.core.Fragment.byId(sFragmentId, "_IDGenComboBox1").setSelectedKey("");
 
       Device.media.attachHandler(this.checkSize, null, Device.media.RANGESETS.SAP_STANDARD_EXTENDED);
       var oParams = Device.media.getCurrentRange(Device.media.RANGESETS.SAP_STANDARD_EXTENDED);
@@ -38,55 +37,6 @@ sap.ui.define([
     onCancel: function () {
       this.onNavBack();
     },
-    //   onSubmit: function () {
-    //     var that = this; // Keep reference to the controller
-    //     var sFragmentId = this.getView().createId("SenderCreateFragment");
-
-    //     // Show confirmation dialog
-    //     sap.m.MessageBox.confirm(
-    //       "Do you want to edit this package?",
-    //       {
-    //         title: "Confirm Edit",
-    //         onClose: async function (oAction) {
-    //           if (oAction === sap.m.MessageBox.Action.OK) {
-    //              // User clicked OK, proceed with edit
-    //              var oModel = that.getView().getModel();
-    //              oModel.submitBatch(oModel.getUpdateGroupId());
-    //              var packageNumber = sap.ui.core.Fragment.byId(sFragmentId, "packageNumber").getValue();
-    //              var sPackageWeight = sap.ui.core.Fragment.byId(sFragmentId, "packageWeight").getValue();
-    //              var sPackageHeight = sap.ui.core.Fragment.byId(sFragmentId, "packageHeight").getValue();
-    //              var sShippingAddress = sap.ui.core.Fragment.byId(sFragmentId, "shippingAddress").getValue();
-    //              var sReceiverID = sap.ui.core.Fragment.byId(sFragmentId, "_IDGenComboBox1").getValue()
-
-    //              console.log(packageNumber);
-
-    //              var sPackageId =sap.ui.core.Fragment.byId(sFragmentId, "packageID").getValue();
-    //              var oModel = that.getView().getModel();
-
-    //              // Construct the path to the package in the model
-    //              var sPath = "/Packages(" + sPackageId + ")";
-
-    //              // Bind the context
-    //              var oContext = oModel.bindContext(sPath);
-
-    //              // Get the context object
-    //              var oBindingContext = oContext.getBoundContext();
-
-
-    //              // Update the data
-    //               oBindingContext.setProperty("packageNumber", packageNumber);
-    //               oBindingContext.setProperty("weight", sPackageWeight);
-    //               oBindingContext.setProperty("height", sPackageHeight);
-    //               oBindingContext.setProperty("shippingAddress", sShippingAddress);
-    //               oBindingContext.setProperty("receiver_ID", sReceiverID);
-
-
-    //             sap.m.MessageToast.show("Package \"" + packageNumber + "\" edited successfully.");
-    //           }
-    //         }
-    //       }
-    //     );
-    //   },
 
     onNavBack: function () {
       var oHistory = History.getInstance();
@@ -98,17 +48,6 @@ sap.ui.define([
         var oRouter = this.getOwnerComponent().getRouter();
         oRouter.navTo("home", {}, true);
       }
-    },
-
-    showToast: function (sMessage) {
-      sap.m.MessageToast.show(sMessage, {
-        duration: 3000, // Duration in milliseconds
-        width: "15em", // Width of the toast
-        my: "center bottom", // Positioning
-        at: "center bottom",
-        offset: "0 50",
-        autoClose: true // Automatically close after duration
-      });
     },
 
     onComboBoxChange: function (oEvent) {
@@ -138,6 +77,34 @@ sap.ui.define([
         oComboBox.setSelectedKey(aItems.find(oItem => oItem.getText() === sInputValue).getKey());
       }
     },
+
+    onPackageIDChange: function (oEvent) {
+      var inputField = oEvent.getSource();
+      var value = inputField.getValue();
+      var oModel = this.getView().getModel();
+      let oBindList = oModel.bindList("/Packages");
+      let aFilter = new sap.ui.model.Filter("packageNumber", sap.ui.model.FilterOperator.EQ, value);
+
+      this.validateForm();
+      if (!value) {
+        inputField.setValueState(sap.ui.core.ValueState.Error);
+        inputField.setValueStateText("This field is required.");
+      } else {
+        inputField.setValueState(sap.ui.core.ValueState.None);
+      }
+
+      oBindList.filter(aFilter).requestContexts().then(function (aContexts) {
+        if (aContexts[0].getObject() !== null) {
+          inputField.setValueState(sap.ui.core.ValueState.Error);
+          inputField.setValueStateText("This package ID is existed.");
+        } else {
+          inputField.setValueState(sap.ui.core.ValueState.None);
+        }
+      });
+
+      
+    },
+
     onInputChange: function (oEvent) {
       var inputField = oEvent.getSource();
       var value = inputField.getValue();
@@ -150,6 +117,7 @@ sap.ui.define([
         inputField.setValueState(sap.ui.core.ValueState.None);
       }
     },
+
     onDigitInputChange: function (oEvent) {
       var inputField = oEvent.getSource();
       var value = inputField.getValue();
@@ -165,24 +133,8 @@ sap.ui.define([
         inputField.setValueState(sap.ui.core.ValueState.None);
       }
     },
-    onMenuButtonPress: function () {
-      var toolPage = this.byId("toolPage");
-      toolPage.setSideExpanded(!toolPage.getSideExpanded());
-    },
-    onItemSelect: function (oEvent) {
-      var item = oEvent.getParameter('item');
-      var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-      switch (item.getKey()) {
-        case "Sender_Overview":
-          oRouter.navTo("home");
-          break;
-        case "Receiver_Overview":
-          oRouter.navTo("receiver");
-          break;
-      }
-    },
+
     validateForm: function () {
-      var oModel = this.getView().getModel();
       var sFragmentId = this.getView().createId("SenderCreateFragment");
 
       // Get required fields
@@ -230,6 +182,24 @@ sap.ui.define([
         function (oError) {
           sap.m.MessageToast.show("Error saving package.");
         });
-    }
+    },
+
+    onMenuButtonPress: function () {
+      var toolPage = this.byId("toolPage");
+      toolPage.setSideExpanded(!toolPage.getSideExpanded());
+    },
+
+    onItemSelect: function (oEvent) {
+      var item = oEvent.getParameter('item');
+      var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+      switch (item.getKey()) {
+        case "Sender_Overview":
+          oRouter.navTo("home");
+          break;
+        case "Receiver_Overview":
+          oRouter.navTo("receiver");
+          break;
+      }
+    },
   });
 });

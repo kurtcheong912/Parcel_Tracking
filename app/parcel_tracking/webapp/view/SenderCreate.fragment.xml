@@ -77,7 +77,7 @@
                             <Input
                                 value=""
                                 id="packageNumber"
-                                change="onInputChange"
+                                change="onPackageIDChange"
                             />
                         </f:fields>
                     </f:FormElement>
