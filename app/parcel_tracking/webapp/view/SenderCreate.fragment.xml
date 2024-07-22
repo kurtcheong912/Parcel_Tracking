@@ -49,8 +49,8 @@
                         <f:fields>
                             <ObjectStatus
                                 id="_IDGenObjectStatus1"
-                                class="sapUiSmallMarginBottom"
-                                text="NEW"
+                                class="customStatus"
+                                text="New"
                                 icon="sap-icon://shipping-status"
                                 state="Information"
                             />
@@ -90,6 +90,7 @@
                                 value=""
                                 id="packageWeight"
                                 change="onDigitInputChange"
+                                type="Number"
                             />
                         </f:fields>
                     </f:FormElement>
@@ -102,6 +103,7 @@
                                 value=""
                                 id="packageHeight"
                                 change="onDigitInputChange"
+                                type="Number"
                             />
                         </f:fields>
                     </f:FormElement>
