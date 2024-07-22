@@ -85,8 +85,10 @@
                 </f:formElements>
             </f:FormContainer>
 
-            <f:FormContainer id="_IDGenFormContainer1222"
-                            title=" ">
+            <f:FormContainer
+                id="_IDGenFormContainer1222"
+                title=" "
+            >
                 <f:formElements>
                     <f:FormElement
                         id="_IDGenFormElement122"
@@ -96,6 +98,7 @@
                             <ObjectStatus
                                 id="_IDGenObjectStatus1"
                                 text="{shippingStatus}"
+                                class="customStatus"
                                 icon="sap-icon://shipping-status"
                                 state="{path: 'shippingStatus', formatter: '.stateFormatter'}"
                             />
@@ -109,6 +112,7 @@
                             <ObjectStatus
                                 id="_IDGenObjectStatus2"
                                 text="{packageStatus}"
+                                class="customStatus"
                                 icon="{path: 'packageStatus', formatter: '.iconFormatter'}"
                                 state="{path: 'packageStatus', formatter: '.packageFormatter'}"
                             />
