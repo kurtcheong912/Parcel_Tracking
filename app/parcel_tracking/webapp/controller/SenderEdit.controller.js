@@ -180,6 +180,7 @@ sap.ui.define([
       var that = this;
       sap.m.MessageBox.warning("Are you sure you want to update the package status from New to Shipping?", {
         title: "Confirm Status Update",
+        emphasizedAction: sap.m.MessageBox.Action.OK,
         actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
         onClose: function (oAction) {
           if (oAction === sap.m.MessageBox.Action.OK) {
