@@ -39,6 +39,12 @@ sap.ui.define([
     },
 
     onNavBack: function () {
+      var sFragmentId = this.getView().createId("SenderCreateFragment");
+      sap.ui.core.Fragment.byId(sFragmentId, "packageNumber").setValue("");
+      sap.ui.core.Fragment.byId(sFragmentId, "packageWeight").setValue("");
+      sap.ui.core.Fragment.byId(sFragmentId, "packageHeight").setValue("");
+      sap.ui.core.Fragment.byId(sFragmentId, "shippingAddress").setValue("");
+      sap.ui.core.Fragment.byId(sFragmentId, "_IDGenComboBox1").setSelectedKey("");
       var oHistory = History.getInstance();
       var sPreviousHash = oHistory.getPreviousHash();
 
@@ -102,7 +108,7 @@ sap.ui.define([
         }
       });
 
-      
+
     },
 
     onInputChange: function (oEvent) {
