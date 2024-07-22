@@ -297,13 +297,14 @@ sap.ui.define([
       });
       var inputField = oEvent.getSource();
       var value = inputField.getValue();
-      if (!bExists) {
+       if (!value) {
+        inputField.setValueState(sap.ui.core.ValueState.Error);
+        inputField.setValueStateText("This field is required.");
+      }
+      else if (!bExists) {
         // Optionally clear the selection
         inputField.setValueState(sap.ui.core.ValueState.Error);
         inputField.setValueStateText("This user does not exist in the list.");
-      } else if (!value) {
-        inputField.setValueState(sap.ui.core.ValueState.Error);
-        inputField.setValueStateText("This field is required.");
       }
       else {
         inputField.setValueState(sap.ui.core.ValueState.None);
