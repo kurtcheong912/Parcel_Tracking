@@ -380,7 +380,6 @@ sap.ui.define([
 
       // Validate each input field
       aInputs.forEach(function (oInput) {
-
         oInput.setValueState(sap.ui.core.ValueState.None);
       });
 
