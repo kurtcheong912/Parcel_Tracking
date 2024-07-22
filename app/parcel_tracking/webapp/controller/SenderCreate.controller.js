@@ -32,6 +32,7 @@ sap.ui.define([
           shellBar.setShowMenuButton(true);
           break;
       }
+      this.validateReset();
     },
 
     onCancel: function () {
@@ -54,6 +55,8 @@ sap.ui.define([
         var oRouter = this.getOwnerComponent().getRouter();
         oRouter.navTo("home", {}, true);
       }
+
+      this.validateReset();
     },
 
     onComboBoxChange: function (oEvent) {
@@ -67,7 +70,7 @@ sap.ui.define([
       });
       var inputField = oEvent.getSource();
       var value = inputField.getValue();
-       if (!value) {
+      if (!value) {
         inputField.setValueState(sap.ui.core.ValueState.Error);
         inputField.setValueStateText("This field is required.");
       }
@@ -133,6 +136,7 @@ sap.ui.define([
         inputField.setValueState(sap.ui.core.ValueState.Error);
         inputField.setValueStateText("Please enter a valid number.");
       } else if (Number(value) >= 1000) {
+        inputField.setValueState(sap.ui.core.ValueState.Error);
         inputField.setValueStateText("Value exceeded 1000.");
       }
       else {
@@ -148,12 +152,12 @@ sap.ui.define([
       var sPackageWeight = sap.ui.core.Fragment.byId(sFragmentId, "packageWeight").getValue();
       var sPackageHeight = sap.ui.core.Fragment.byId(sFragmentId, "packageHeight").getValue();
       var sShippingAddress = sap.ui.core.Fragment.byId(sFragmentId, "shippingAddress").getValue();
-      var sReceiverID = sap.ui.core.Fragment.byId(sFragmentId, "_IDGenComboBox1").getValue()
+      var sReceiverID = sap.ui.core.Fragment.byId(sFragmentId, "_IDGenComboBox1").getSelectedKey();
 
       // Check if all required fields are filled
       var isFormValid = sPackageNumber !== "" &&
-        sPackageWeight !== "" &&
-        sPackageHeight !== "" &&
+        sPackageWeight !== "" &&  !(sPackageWeight >= 1000) &&
+        sPackageHeight !== "" && !(sPackageHeight >= 1000) &&
         sShippingAddress !== "" &&
         sReceiverID !== "";
       // Enable or disable the submit button based on the validation
@@ -206,6 +210,25 @@ sap.ui.define([
           oRouter.navTo("receiver");
           break;
       }
+    },
+    validateReset: function () {
+      var isValid = true;
+      var sFragmentId = this.getView().createId("SenderCreateFragment");
+
+      // Get all input fields
+      var aInputs = [
+        sap.ui.core.Fragment.byId(sFragmentId, "packageNumber"),
+        sap.ui.core.Fragment.byId(sFragmentId, "_IDGenComboBox1"),
+        sap.ui.core.Fragment.byId(sFragmentId, "shippingAddress"),
+        sap.ui.core.Fragment.byId(sFragmentId, "packageWeight"),
+        sap.ui.core.Fragment.byId(sFragmentId, "packageHeight"),
+      ];
+
+      // Validate each input field
+      aInputs.forEach(function (oInput) {
+        oInput.setValueState(sap.ui.core.ValueState.None);
+      });
+
     },
   });
 });

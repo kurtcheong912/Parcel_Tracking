@@ -70,7 +70,7 @@
                                     <Button
                                         id="updateStatusButton"
                                         tooltip="Update delivery status"
-                                        icon="sap-icon://action"
+                                        icon="sap-icon://shipping-status"
                                         text="Update status"
                                         type="Emphasized"
                                         press="onUpdateStatus"
@@ -90,7 +90,7 @@
                                         id="onBack"
                                         text="Back"
                                         press="onBack"
-                                        icon="sap-icon://cancel"
+                                        icon="sap-icon://arrow-left"
                                         class="floatLeft"
                                     />
                                     <Button
