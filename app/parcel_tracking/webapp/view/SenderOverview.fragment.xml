@@ -128,7 +128,7 @@
                                     wrapping="true"
                                 />
                                 <t:InfoLabel id="_IDGenInfoLabel1"
-                                    text="{shippingStatus}"
+                                    text="{path: 'shippingStatus', formatter: '.textFormatter'}"
                                     colorScheme="{path: 'shippingStatus', formatter: '.formatColorScheme', targetType: 'any'}"
                                 />
                             </HBox>
@@ -204,7 +204,7 @@
                             />
                         <t:InfoLabel
                             id="_IDGenInfoLabel2"
-                            text="{shippingStatus}"
+                            text="{path: 'shippingStatus', formatter: '.textFormatter'}"
                             colorScheme="{path: 'shippingStatus', formatter: '.formatColorScheme', targetType: 'any'}"
                         />                            
                         <Text id="_IDGenText10" text="{weight}" />

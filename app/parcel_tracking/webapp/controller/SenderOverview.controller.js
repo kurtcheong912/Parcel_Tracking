@@ -201,6 +201,23 @@ sap.ui.define([
         } else {
           this.byId("listToggleButton").setPressed(true);
         }
-      }
+      },
+      textFormatter: function (status) {
+        console.log(status);
+        switch (status) {
+            case "NEW":
+                return "New";
+            case "SHIPPING":
+                return "Shipping";
+            case "DELIVERED":
+                return "Delivered";
+            case "RECEIVED":
+                return "Received";
+            case "DAMAGED":
+                return "Damaged";
+            default:
+                return "Pending"; // Default color scheme
+        }
+    }
     });
   });
