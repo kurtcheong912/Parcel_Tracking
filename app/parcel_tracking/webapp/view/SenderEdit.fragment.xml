@@ -188,12 +188,12 @@
             <!-- Left Side: Package Info -->
             <f:FormContainer
                 id="_IDGenFormContainer15"
-                title="Package Info"
+                title="{i18n>packageInfoTitle}"
             >
                 <f:formElements>
                     <f:FormElement
                         id="_IDGenFormElement125"
-                        label="Package status"
+                        label="{i18n>packageStatusLabel}"
                     >
                         <f:fields>
                             <ObjectStatus
@@ -207,7 +207,7 @@
                     </f:FormElement>
                     <f:FormElement
                         id="_IDGenFormElement55"
-                        label="Package ID"
+                        label="{i18n>packageIDLabel}"
                         visible="false"
                     >
                         <f:fields>
@@ -220,7 +220,7 @@
                     </f:FormElement>
                     <f:FormElement
                         id="_IDGenFormElement555555"
-                        label="Package Number"
+                        label="{i18n>packageNumberLabel}"
                     >
                         <f:fields>
                             <Label
@@ -231,7 +231,7 @@
                     </f:FormElement>
                     <f:FormElement
                         id="_IDGenFormElement555"
-                        label="Package Weight (kg)"
+                        label="{i18n>packageWeightLabel}"
                     >
                         <f:fields>
                             <Label
@@ -242,7 +242,7 @@
                     </f:FormElement>
                     <f:FormElement
                         id="_IDGenFormElement55555"
-                        label="Package Height (cm)"
+                        label="{i18n>packageHeightLabel}"
                     >
                         <f:fields>
                             <Label
@@ -262,7 +262,7 @@
                 <f:formElements>
                     <f:FormElement
                         id="_IDGenFormElement545"
-                        label="Shipping Address"
+                        label="{i18n>shippingAddressLabel}"
                     >
                         <f:fields>
                             <Label
@@ -273,7 +273,7 @@
                     </f:FormElement>
                     <f:FormElement
                         id="_IDGenFormElementpackageReceiver"
-                        label="Package Receiver"
+                        label="{i18n>packageReceiverLabel}"
                     >
                         <f:fields>
                             <Label

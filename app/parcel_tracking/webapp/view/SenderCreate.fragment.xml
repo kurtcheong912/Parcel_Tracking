@@ -39,12 +39,12 @@
             <!-- Left Side: Package Info -->
             <f:FormContainer
                 id="_IDGenFormContainer12"
-                title="Package Info"
+                title="{i18n>packageInfoTitle}"
             >
                 <f:formElements>
                     <f:FormElement
                         id="_IDGenFormElement122"
-                        label="Package status"
+                        label="{i18n>packageStatusLabel}"
                     >
                         <f:fields>
                             <ObjectStatus
@@ -58,7 +58,7 @@
                     </f:FormElement>
                     <f:FormElement
                         id="_IDGenFormElement12"
-                        label="Package ID"
+                        label="{i18n>packageIDLabel}"
                         visible="false"
                     >
                         <f:fields>
@@ -71,7 +71,7 @@
                     </f:FormElement>
                     <f:FormElement
                         id="_IDGenFormElement22"
-                        label="Package Number"
+                        label="{i18n>packageNumberLabel}"
                     >
                         <f:fields>
                             <Input
@@ -83,7 +83,7 @@
                     </f:FormElement>
                     <f:FormElement
                         id="_IDGenFormElement2222"
-                        label="Package Weight"
+                        label="{i18n>packageWeightLabel}"
                     >
                         <f:fields>
                             <Input
@@ -95,7 +95,7 @@
                     </f:FormElement>
                     <f:FormElement
                         id="_IDGenFormElement22222"
-                        label="Package Height"
+                        label="{i18n>packageHeightLabel}"
                     >
                         <f:fields>
                             <Input
@@ -122,7 +122,7 @@
                 <f:formElements>
                     <f:FormElement
                         id="_IDGenFormElement2we2222"
-                        label="Shipping Address"
+                        label="{i18n>shippingAddressLabel}"
                     >
                         <f:fields>
                             <Input
@@ -134,7 +134,7 @@
                     </f:FormElement>
                     <f:FormElement
                         id="_IDGenFormElementpackageCreationAt"
-                        label="Package Receiver"
+                        label="{i18n>packageReceiverLabel}"
                     >
                         <f:fields>
                             <ComboBox
