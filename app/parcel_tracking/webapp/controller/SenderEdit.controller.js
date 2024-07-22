@@ -7,7 +7,7 @@ sap.ui.define([
   "sap/ui/core/syncStyleClass",
 ], function (Controller, MessageToast, History, Device, Fragment, syncStyleClass) {
   "use strict";
-  var iTimeoutId
+  var iTimeoutId;
   return Controller.extend("parceltracking.controller.Edit", {
     onInit: async function () {
       var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
@@ -298,17 +298,15 @@ sap.ui.define([
       var inputField = oEvent.getSource();
       var value = inputField.getValue();
       if (!bExists) {
-        // Show error message
-        sap.m.MessageToast.show("This user does not exist in the list.");
-
         // Optionally clear the selection
-        oComboBox.setSelectedKey("");
-
+        inputField.setValueState(sap.ui.core.ValueState.Error);
+        inputField.setValueStateText("This user does not exist in the list.");
       } else if (!value) {
         inputField.setValueState(sap.ui.core.ValueState.Error);
         inputField.setValueStateText("This field is required.");
       }
       else {
+        inputField.setValueState(sap.ui.core.ValueState.None);
         // Set the selected key if valid
         oComboBox.setSelectedKey(aItems.find(oItem => oItem.getText() === sInputValue).getKey());
       }
@@ -366,7 +364,7 @@ sap.ui.define([
       var sPackageWeight = sap.ui.core.Fragment.byId(sFragmentId, "packageWeight").getValue();
       var sPackageHeight = sap.ui.core.Fragment.byId(sFragmentId, "packageHeight").getValue();
       var sShippingAddress = sap.ui.core.Fragment.byId(sFragmentId, "shippingAddress").getValue();
-      var sReceiverID = sap.ui.core.Fragment.byId(sFragmentId, "_IDGenComboBox1").getValue()
+      var sReceiverID = sap.ui.core.Fragment.byId(sFragmentId, "_IDGenComboBox1").getSelectedKey();
 
       // Check if all required fields are filled
       var isFormValid = sPackageNumber !== "" &&
