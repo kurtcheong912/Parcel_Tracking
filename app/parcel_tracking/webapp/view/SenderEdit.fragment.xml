@@ -65,6 +65,7 @@
                             <Input
                                 value="{ID}"
                                 id="packageID"
+                                editable="false"
                                 visible="false"
                             />
                         </f:fields>
@@ -77,6 +78,7 @@
                             <Input
                                 value="{path: 'packageNumber', mode: 'sap.ui.model.BindingMode.OneWay'}"
                                 id="packageNumber"
+                                editable="false"
                                 change="onInputChange"
                             />
                         </f:fields>
@@ -89,6 +91,7 @@
                             <Input
                                 value="{weight}"
                                 id="packageWeight"
+                                editable="false"
                                 change="onDigitInputChange"
                             />
                         </f:fields>
@@ -101,6 +104,7 @@
                             <Input
                                 value="{height}"
                                 id="packageHeight"
+                                editable="false"
                                 change="onDigitInputChange"
                             />
                         </f:fields>
