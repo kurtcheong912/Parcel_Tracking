@@ -7,7 +7,7 @@ sap.ui.define([
   "sap/ui/core/syncStyleClass",
 ], function (Controller, MessageToast, History, Device, Fragment, syncStyleClass) {
   "use strict";
-  var iTimeoutId
+  var iTimeoutId;
   return Controller.extend("parceltracking.controller.Edit", {
     onInit: async function () {
       var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
@@ -40,6 +40,7 @@ sap.ui.define([
       await this.checkUpdateStatusAvailable();
       await this.validateForm();
       await this.editMode(false);
+      
     },
     onCancel: function () {
       this.editMode(false);
@@ -297,18 +298,17 @@ sap.ui.define([
       });
       var inputField = oEvent.getSource();
       var value = inputField.getValue();
-      if (!bExists) {
-        // Show error message
-        sap.m.MessageToast.show("This user does not exist in the list.");
-
-        // Optionally clear the selection
-        oComboBox.setSelectedKey("");
-
-      } else if (!value) {
+       if (!value) {
         inputField.setValueState(sap.ui.core.ValueState.Error);
         inputField.setValueStateText("This field is required.");
       }
+      else if (!bExists) {
+        // Optionally clear the selection
+        inputField.setValueState(sap.ui.core.ValueState.Error);
+        inputField.setValueStateText("This user does not exist in the list.");
+      }
       else {
+        inputField.setValueState(sap.ui.core.ValueState.None);
         // Set the selected key if valid
         oComboBox.setSelectedKey(aItems.find(oItem => oItem.getText() === sInputValue).getKey());
       }
@@ -366,7 +366,7 @@ sap.ui.define([
       var sPackageWeight = sap.ui.core.Fragment.byId(sFragmentId, "packageWeight").getValue();
       var sPackageHeight = sap.ui.core.Fragment.byId(sFragmentId, "packageHeight").getValue();
       var sShippingAddress = sap.ui.core.Fragment.byId(sFragmentId, "shippingAddress").getValue();
-      var sReceiverID = sap.ui.core.Fragment.byId(sFragmentId, "_IDGenComboBox1").getValue()
+      var sReceiverID = sap.ui.core.Fragment.byId(sFragmentId, "_IDGenComboBox1").getSelectedKey();
 
       // Check if all required fields are filled
       var isFormValid = sPackageNumber !== "" &&
@@ -400,7 +400,8 @@ sap.ui.define([
     onEnableEditMode: async function () {
       await this.editMode(true);
       await this.checkUpdateStatusAvailable();
-      
+      console.log("ewdfewfw");
+      this.setReceiverAndAddressFields();
     },
     onBack: function () {
       this.onNavBack();
@@ -441,7 +442,21 @@ sap.ui.define([
 			} else {
         this.updateStatus();
 			}
-		}
+		},
+    setReceiverAndAddressFields: async function() {
+      var sFragmentId = this.getView().createId("SenderEditFragment");
+      var mycontext = await this.getView().getBindingContext();
+      var receiverID = await mycontext.getProperty("receiver_ID");
+      var shippingAddress = await mycontext.getProperty("shippingAddress");
+      // Get receiver_ID from ComboBox
+  
+      // Set receiver_ID to _IDGenComboBox1
+      sap.ui.core.Fragment.byId(sFragmentId, "_IDGenComboBox1").setSelectedKey(receiverID);
+  
+      // Set shippingAddress value
+      sap.ui.core.Fragment.byId(sFragmentId, "shippingAddress").setValue(shippingAddress);
+  },
+  
 
 
   });

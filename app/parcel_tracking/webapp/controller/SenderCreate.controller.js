@@ -60,7 +60,6 @@ sap.ui.define([
       var sInputValue = oEvent.getParameter("value");
       var oComboBox = oEvent.getSource();
       var aItems = oComboBox.getItems();
-      this.validateForm();
 
       // Check if the entered value exists in the items
       var bExists = aItems.some(function (oItem) {
@@ -68,20 +67,21 @@ sap.ui.define([
       });
       var inputField = oEvent.getSource();
       var value = inputField.getValue();
-      if (!bExists) {
-        // Show error message
-        sap.m.MessageToast.show("This user does not exist in the list.");
-
-        // Optionally clear the selection
-        oComboBox.setSelectedKey("");
-      } else if (!value) {
+       if (!value) {
         inputField.setValueState(sap.ui.core.ValueState.Error);
         inputField.setValueStateText("This field is required.");
       }
+      else if (!bExists) {
+        // Optionally clear the selection
+        inputField.setValueState(sap.ui.core.ValueState.Error);
+        inputField.setValueStateText("This user does not exist in the list.");
+      }
       else {
+        inputField.setValueState(sap.ui.core.ValueState.None);
         // Set the selected key if valid
         oComboBox.setSelectedKey(aItems.find(oItem => oItem.getText() === sInputValue).getKey());
       }
+      this.validateForm();
     },
 
     onPackageIDChange: function (oEvent) {
