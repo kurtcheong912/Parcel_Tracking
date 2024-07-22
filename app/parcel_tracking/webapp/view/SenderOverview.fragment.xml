@@ -202,8 +202,12 @@
                             <Text id="_IDGenText8"
                                 text="{receiver/first_name} {receiver/last_name}"
                             />
-                            <Text id="_IDGenText9" text="{shippingStatus}" />
-                            <Text id="_IDGenText10" text="{weight}" />
+                        <t:InfoLabel
+                            id="_IDGenInfoLabel2"
+                            text="{shippingStatus}"
+                            colorScheme="{path: 'shippingStatus', formatter: '.formatColorScheme', targetType: 'any'}"
+                        />                            
+                        <Text id="_IDGenText10" text="{weight}" />
                             <Text id="_IDGenText11" text="{height}" />
                             <Text id="_IDGenText12" text="{createdAt}" />
                         </cells>
