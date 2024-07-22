@@ -40,6 +40,7 @@ sap.ui.define([
       await this.checkUpdateStatusAvailable();
       await this.validateForm();
       await this.editMode(false);
+      
     },
     onCancel: function () {
       this.editMode(false);
@@ -399,7 +400,8 @@ sap.ui.define([
     onEnableEditMode: async function () {
       await this.editMode(true);
       await this.checkUpdateStatusAvailable();
-      
+      console.log("ewdfewfw");
+      this.setReceiverAndAddressFields();
     },
     onBack: function () {
       this.onNavBack();
@@ -440,7 +442,21 @@ sap.ui.define([
 			} else {
         this.updateStatus();
 			}
-		}
+		},
+    setReceiverAndAddressFields: async function() {
+      var sFragmentId = this.getView().createId("SenderEditFragment");
+      var mycontext = await this.getView().getBindingContext();
+      var receiverID = await mycontext.getProperty("receiver_ID");
+      var shippingAddress = await mycontext.getProperty("shippingAddress");
+      // Get receiver_ID from ComboBox
+  
+      // Set receiver_ID to _IDGenComboBox1
+      sap.ui.core.Fragment.byId(sFragmentId, "_IDGenComboBox1").setSelectedKey(receiverID);
+  
+      // Set shippingAddress value
+      sap.ui.core.Fragment.byId(sFragmentId, "shippingAddress").setValue(shippingAddress);
+  },
+  
 
 
   });
