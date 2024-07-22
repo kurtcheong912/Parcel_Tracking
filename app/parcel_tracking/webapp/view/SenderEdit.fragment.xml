@@ -44,13 +44,13 @@
                 <f:formElements>
                     <f:FormElement
                         id="_IDGenFormElement122"
-                        label="{i18n>packageStatusLabel}"
+                        label="{i18n>shippingStatusLabel}"
                     >
                         <f:fields>
                             <ObjectStatus
                                 id="_IDGenObjectStatus1"
                                 class="customStatus"
-                                text="{shippingStatus}"
+                                text="{path: 'shippingStatus', formatter: '.textFormatter', targetType: 'any'}"
                                 icon="sap-icon://shipping-status"
                                 state="{path: 'shippingStatus', formatter: '.stateFormatter'}"
                             />
@@ -193,13 +193,13 @@
                 <f:formElements>
                     <f:FormElement
                         id="_IDGenFormElement125"
-                        label="{i18n>packageStatusLabel}"
+                        label="{i18n>shippingStatusLabel}"
                     >
                         <f:fields>
                             <ObjectStatus
                                 id="_IDGenObjectStatus5"
                                 class="customStatus"
-                                text="{shippingStatus}"
+                                text="{path: 'shippingStatus', formatter: '.textFormatter', targetType: 'any'}"
                                 icon="sap-icon://shipping-status"
                                 state="{path: 'shippingStatus', formatter: '.stateFormatter'}"
                             />

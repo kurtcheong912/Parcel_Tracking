@@ -147,7 +147,7 @@
                 >
                     <Text
                         id="_IDGenText8"
-                        text="Package ID"
+                        text="{i18n>packageNumberLabel}"
                     />
                 </Column>
                 <Column
@@ -157,7 +157,7 @@
                 >
                     <Text
                         id="_IDGenText9"
-                        text="Shipping Status"
+                        text="{i18n>shippingStatusLabel}"
                     />
                 </Column>
                 <Column
@@ -167,7 +167,7 @@
                 >
                     <Text
                         id="_IDGenText91"
-                        text="Package Status"
+                        text="{i18n>packageStatusLabel}"
                     />
                 </Column>
                 <Column
@@ -177,7 +177,7 @@
                 >
                     <Text
                         id="_IDGenText10"
-                        text="Weight (Kg)"
+                        text="{i18n>packageWeightLabel}"
                     />
                 </Column>
                 <Column
@@ -187,7 +187,7 @@
                 >
                     <Text
                         id="_IDGenText11"
-                        text="Height (Cm)"
+                        text="{i18n>packageHeightLabel}"
                     />
                 </Column>
                 <Column
@@ -197,7 +197,7 @@
                 >
                     <Text
                         id="_IDGenText12"
-                        text="Created Date"
+                        text="{i18n>packageCreationDate}"
                     />
                 </Column>
                 <!-- <Column
@@ -226,12 +226,12 @@
                         />
                         <tnt:InfoLabel
                             id="_IDGenInfoLabel1"
-                            text="{shippingStatus}"
+                            text="{path: 'shippingStatus', formatter: '.textFormatter', targetType: 'any'}"
                             colorScheme="{path: 'shippingStatus', formatter: '.availableState', targetType: 'any'}"
                         />
                         <tnt:InfoLabel
                             id="_IDGenInfoLabel2"
-                            text="{packageStatus}"
+                            text="{path: 'packageStatus', formatter: '.textFormatter', targetType: 'any'}"
                             colorScheme="{path: 'packageStatus', formatter: '.availableState', targetType: 'any'}"
                         />
                         <Text

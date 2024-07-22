@@ -47,8 +47,6 @@ sap.ui.define([
 
         this.getView().byId("toggleableButtonSection").setVisible(isButtonEnabled);
         this.getView().byId("_IDGenFormElement22222222").setVisible(isSigned);
-        this.getView().byId("_IDGenFormElement1242").setVisible(isSigned);
-
       } catch (error) {
         console.error("Error in checkUpdateStatusAvailable: ", error);
       }
@@ -114,6 +112,8 @@ sap.ui.define([
           return "sap-icon://sys-enter-2";
         case "DAMAGED":
           return "sap-icon://decline"
+          default:
+            return "sap-icon://information";
       }
     },
     packageFormatter: function (status) {
@@ -257,8 +257,6 @@ sap.ui.define([
       oModel.refresh();
       this.getView().byId("toggleableButtonSection").setVisible(false);
       this.getView().byId("_IDGenFormElement22222222").setVisible(true);
-      this.getView().byId("_IDGenFormElement1242").setVisible(true);
-
       this.onCloseDialog();
       sap.m.MessageToast.show("Package Signed");
 
@@ -305,6 +303,23 @@ sap.ui.define([
           oRouter.navTo("receiver");
           break;
       }
-    }
+    },
+    textFormatter: function (status) {
+      console.log(status);
+      switch (status) {
+          case "NEW":
+              return "New";
+          case "SHIPPING":
+              return "Shipping";
+          case "DELIVERED":
+              return "Delivered";
+          case "RECEIVED":
+              return "Received";
+          case "DAMAGED":
+              return "Damaged";
+          default:
+              return "Pending"; // Default color scheme
+      }
+  }
   })
 });

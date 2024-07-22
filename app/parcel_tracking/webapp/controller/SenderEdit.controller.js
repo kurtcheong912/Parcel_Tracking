@@ -385,5 +385,16 @@ sap.ui.define([
       });
 
     },
+    textFormatter: function (status) {
+      console.log(status);
+      switch (status) {
+          case "NEW":
+              return "New";
+          case "SHIPPING":
+              return "Shipping";
+          case "DELIVERED":
+              return "Delivered";
+      }
+  }
   });
 });

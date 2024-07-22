@@ -195,7 +195,24 @@ sap.ui.define([
                     case "DAMAGED":
                         return 2;
                     default:
-                        return 7; // Default color scheme
+                        return 6; // Default color scheme
+                }
+            },
+            textFormatter: function (status) {
+                console.log(status);
+                switch (status) {
+                    case "NEW":
+                        return "New";
+                    case "SHIPPING":
+                        return "Shipping";
+                    case "DELIVERED":
+                        return "Delivered";
+                    case "RECEIVED":
+                        return "Received";
+                    case "DAMAGED":
+                        return "Damaged";
+                    default:
+                        return "Pending"; // Default color scheme
                 }
             }
         });

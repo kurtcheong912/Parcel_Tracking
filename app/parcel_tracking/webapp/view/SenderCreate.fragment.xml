@@ -44,7 +44,7 @@
                 <f:formElements>
                     <f:FormElement
                         id="_IDGenFormElement122"
-                        label="{i18n>packageStatusLabel}"
+                        label="{i18n>shippingStatusLabel}"
                     >
                         <f:fields>
                             <ObjectStatus
