@@ -142,7 +142,7 @@ sap.ui.define([
           this.allInputFieldEditable(true);
           this.getView().byId("onSubmit").setVisible(true);
         } else {
-          this.allInputFieldEditable(false);
+          await this.allInputFieldEditable(false);
           await this.getView().byId("onEdit").setVisible(false);
           await this.getView().byId("onSubmit").setVisible(false);
           console.log("After setting visible:", this.getView().byId("onSubmit").getVisible());
@@ -152,8 +152,10 @@ sap.ui.define([
         var isButtonEnabled = (currentStatus === "NEW");
         this.getView().byId("updateStatusButton").setEnabled(isButtonEnabled);
         this.getView().byId("updateStatusButton").setVisible(isButtonEnabled);
-        this.getView().byId("cancelShippingButton").setVisible(!isButtonEnabled);
-
+        if (currentStatus == "SHIPPING")
+          this.getView().byId("cancelShippingButton").setVisible(true);
+        else
+          this.getView().byId("cancelShippingButton").setVisible(false);
       } catch (error) {
         console.error("Error in checkUpdateStatusAvailable: ", error);
       }
@@ -415,7 +417,7 @@ sap.ui.define([
 
 
     },
-    revertShippingStatus: async function(){
+    revertShippingStatus: async function () {
       var oModel = this.getView().getModel();
       var mycontext = await this.getView().getBindingContext();
       var packageNumber = await mycontext.getProperty("packageNumber");
