@@ -125,13 +125,14 @@ sap.ui.define([
 
                 if (value && value.length > 0) {
                     // Apply search filters if value is not empty
-                    var oFilterStatus = new Filter("shippingStatus", FilterOperator.Contains, value);
+                    var oFilterStatus = new Filter({path:"shippingStatus", operator:FilterOperator.Contains, value1:value, caseSensitive: false});
+                    var oFilterPackage = new Filter({path:"packageStatus", operator:FilterOperator.Contains, value1:value, caseSensitive: false});
                     var oFilterWeight = new Filter("weight", FilterOperator.Contains, value);
-                    var oFilterHeight = new Filter("height", FilterOperator.Contains, value);
-                    var oFilterNumber = new Filter("packageNumber", FilterOperator.Contains, value);
+                    var oFilterHeight = new Filter("height", FilterOperator.Contains, value); 
+                    var oFilterNumber = new Filter({path:"packageNumber", operator:FilterOperator.Contains, value1:value, caseSensitive: false});
 
                     // Combine all search filters with OR logic
-                    var oSearchFilters = new Filter([oFilterStatus, oFilterWeight, oFilterHeight, oFilterNumber], false);
+                    var oSearchFilters = new Filter([oFilterStatus, oFilterWeight, oFilterHeight, oFilterNumber, oFilterPackage], false);
                     aFilters.push(oSearchFilters);
                 }
 
