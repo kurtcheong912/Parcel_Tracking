@@ -152,6 +152,7 @@ sap.ui.define([
         var isButtonEnabled = (currentStatus === "NEW");
         this.getView().byId("updateStatusButton").setEnabled(isButtonEnabled);
         this.getView().byId("updateStatusButton").setVisible(isButtonEnabled);
+        this.getView().byId("cancelShippingButton").setVisible(!isButtonEnabled);
 
       } catch (error) {
         console.error("Error in checkUpdateStatusAvailable: ", error);
@@ -184,7 +185,7 @@ sap.ui.define([
         actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
         onClose: function (oAction) {
           if (oAction === sap.m.MessageBox.Action.OK) {
-            that.onOpenDialog();
+            that.updateStatus();
           }
         }
       });
@@ -203,11 +204,14 @@ sap.ui.define([
       this.showToast("Package \"" + packageNumber + "\" status successfully updated to " + nextStatus);
       await this.getView().byId("onSubmit").setVisible(false);
       this.allInputFieldEditable(false);
-      this.getView().byId("updateStatusButton").setEnabled(false);
-      this.getView().byId("updateStatusButton").setVisible(false);
+      await this.editMode(false);
+      await this.getView().byId("updateStatusButton").setEnabled(false);
+      await this.getView().byId("updateStatusButton").setVisible(false);
 
-      this.editMode(false);
+
       await this.getView().byId("onEdit").setVisible(false);
+      await this.getView().byId("cancelShippingButton").setEnabled(true);
+      await this.getView().byId("cancelShippingButton").setVisible(true);
     },
     getNextStatus: function (currentStatus) {
       return currentStatus === "NEW" ? "SHIPPING" : null;
@@ -303,10 +307,9 @@ sap.ui.define([
       sap.ui.core.Fragment.byId(this.sFragmentId, "packageDetailsForm").setVisible(!canEdit);
 
       await this.getView().byId("onEdit").setVisible(!canEdit);
-      await this.getView().byId("onBack").setVisible(!canEdit);
       await this.getView().byId("onCancel").setVisible(canEdit);
       await this.getView().byId("onSubmit").setVisible(canEdit);
-      await this.getView().byId("updateStatusButton").setVisible(canEdit);
+      await this.getView().byId("updateStatusButton").setVisible(!canEdit);
 
       var oPage = this.byId("Sender_Edit");
       if (canEdit) {
@@ -316,51 +319,52 @@ sap.ui.define([
       }
     },
     onEnableEditMode: async function () {
-      await this.editMode(true);
+
       await this.checkUpdateStatusAvailable();
+      await this.editMode(true);
       console.log("ewdfewfw");
       this.setReceiverAndAddressFields();
     },
     onBack: function () {
       this.onNavBack();
     },
-    onOpenDialog: function () {
-      // load BusyDialog fragment asynchronously
-      if (!this._pBusyDialog) {
-        this._pBusyDialog = Fragment.load({
-          name: "parceltracking.view.BusyDialog",
-          controller: this
-        }).then(function (oBusyDialog) {
-          this.getView().addDependent(oBusyDialog);
-          syncStyleClass("sapUiSizeCompact", this.getView(), oBusyDialog);
-          return oBusyDialog;
-        }.bind(this));
-      }
+    // onOpenDialog: function () {
+    //   // load BusyDialog fragment asynchronously
+    //   if (!this._pBusyDialog) {
+    //     this._pBusyDialog = Fragment.load({
+    //       name: "parceltracking.view.BusyDialog",
+    //       controller: this
+    //     }).then(function (oBusyDialog) {
+    //       this.getView().addDependent(oBusyDialog);
+    //       syncStyleClass("sapUiSizeCompact", this.getView(), oBusyDialog);
+    //       return oBusyDialog;
+    //     }.bind(this));
+    //   }
 
-      this._pBusyDialog.then(function (oBusyDialog) {
-        oBusyDialog.open();
-        this.simulateServerRequest();
-      }.bind(this));
-    },
+    //   this._pBusyDialog.then(function (oBusyDialog) {
+    //     oBusyDialog.open();
+    //     this.simulateServerRequest();
+    //   }.bind(this));
+    // },
 
-    simulateServerRequest: function () {
-      // simulate a longer running operation
-      this.iTimeoutId = setTimeout(function () {
-        this._pBusyDialog.then(function (oBusyDialog) {
-          oBusyDialog.close();
-        });
-      }.bind(this), 3000);
-    },
+    // simulateServerRequest: function () {
+    //   // simulate a longer running operation
+    //   this.iTimeoutId = setTimeout(function () {
+    //     this._pBusyDialog.then(function (oBusyDialog) {
+    //       oBusyDialog.close();
+    //     });
+    //   }.bind(this), 3000);
+    // },
 
-    onDialogClosed: function (oEvent) {
-      clearTimeout(this.iTimeoutId);
+    // onDialogClosed: function (oEvent) {
+    //   clearTimeout(this.iTimeoutId);
 
-      if (oEvent.getParameter("cancelPressed")) {
-        MessageToast.show("The update status operation has been cancelled");
-      } else {
-        this.updateStatus();
-      }
-    },
+    //   if (oEvent.getParameter("cancelPressed")) {
+    //     MessageToast.show("The update status operation has been cancelled");
+    //   } else {
+    //     this.updateStatus();
+    //   }
+    // },
     setReceiverAndAddressFields: async function () {
       var mycontext = await this.getView().getBindingContext();
       var receiverID = await mycontext.getProperty("receiver_ID");
@@ -388,13 +392,45 @@ sap.ui.define([
     textFormatter: function (status) {
       console.log(status);
       switch (status) {
-          case "NEW":
-              return "New";
-          case "SHIPPING":
-              return "Shipping";
-          case "DELIVERED":
-              return "Delivered";
+        case "NEW":
+          return "New";
+        case "SHIPPING":
+          return "Shipping";
+        case "DELIVERED":
+          return "Delivered";
       }
-  }
+    },
+    onCancelShipping: async function () {
+      var that = this;
+      sap.m.MessageBox.warning("Are you sure you want to revert the package status from Shipping to New?", {
+        title: "Confirm Cancel Shipping",
+        emphasizedAction: sap.m.MessageBox.Action.OK,
+        actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
+        onClose: function (oAction) {
+          if (oAction === sap.m.MessageBox.Action.OK) {
+            that.revertShippingStatus();
+          }
+        }
+      });
+
+
+    },
+    revertShippingStatus: async function(){
+      var oModel = this.getView().getModel();
+      var mycontext = await this.getView().getBindingContext();
+      var packageNumber = await mycontext.getProperty("packageNumber");
+
+      var currentStatus = await mycontext.getProperty("shippingStatus");
+      if (currentStatus.toLowerCase() == "shipping") {
+        await mycontext.setProperty("shippingStatus", "NEW");
+        oModel.refresh();
+        this.showToast("Package \"" + packageNumber + "\" status successfully reverted back to " + "New");
+        await this.getView().byId("updateStatusButton").setEnabled(true);
+        await this.getView().byId("updateStatusButton").setVisible(true);
+        await this.getView().byId("onEdit").setVisible(true);
+        await this.getView().byId("cancelShippingButton").setEnabled(false);
+        await this.getView().byId("cancelShippingButton").setVisible(false);
+      }
+    }
   });
 });

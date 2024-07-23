@@ -66,7 +66,13 @@
                                         icon="sap-icon://cancel"
                                         class="floatLeft"
                                     />
-
+                                    <Button
+                                        id="cancelShippingButton"
+                                        text="Cancel Shipping"
+                                        press="onCancelShipping"
+                                        icon="sap-icon://cancel"
+                                        class="floatLeft"
+                                    />
                                     <Button
                                         id="updateStatusButton"
                                         tooltip="Update delivery status"
@@ -86,13 +92,7 @@
                                         ariaLabelledBy="actionButtonLabel"
                                         visible="false"
                                     />
-                                    <Button
-                                        id="onBack"
-                                        text="Back"
-                                        press="onBack"
-                                        icon="sap-icon://arrow-left"
-                                        class="floatLeft"
-                                    />
+
                                     <Button
                                         id="onEdit"
                                         text="Edit"
