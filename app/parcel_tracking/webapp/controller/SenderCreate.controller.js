@@ -156,7 +156,7 @@ sap.ui.define([
 
       // Check if all required fields are filled
       var isFormValid = sPackageNumber !== "" &&
-        sPackageWeight !== "" &&  !(sPackageWeight >= 1000) &&
+        sPackageWeight !== "" && !(sPackageWeight >= 1000) &&
         sPackageHeight !== "" && !(sPackageHeight >= 1000) &&
         sShippingAddress !== "" &&
         sReceiverID !== "";
@@ -164,7 +164,7 @@ sap.ui.define([
       this.getView().byId("onSubmit").setEnabled(isFormValid);
     },
 
-    onSubmit: function () {
+    onSubmit: async function () {
       var sFragmentId = this.getView().createId("SenderCreateFragment");
       var oView = this.getView();
       var oModel = oView.getModel();
@@ -173,25 +173,51 @@ sap.ui.define([
       var shippingAddress = sap.ui.core.Fragment.byId(sFragmentId, "shippingAddress").getValue();
       var weight = sap.ui.core.Fragment.byId(sFragmentId, "packageWeight").getValue();
       var height = sap.ui.core.Fragment.byId(sFragmentId, "packageHeight").getValue();
+
+      var shippingCity = sap.ui.core.Fragment.byId(sFragmentId, "shippingCity").getValue();
+      var shippingState = sap.ui.core.Fragment.byId(sFragmentId, "shippingState").getValue();
+      var shippingCountry = sap.ui.core.Fragment.byId(sFragmentId, "shippingCountry").getValue();
+      var shippingPostal = sap.ui.core.Fragment.byId(sFragmentId, "shippingPostal").getValue();
+      var shippingAddressLine = sap.ui.core.Fragment.byId(sFragmentId, "shippingAddressLine").getValue();
       var packageData = oModel.bindList("/Packages");
-      this.oNewPackage = packageData.create({
+      var addressData = oModel.bindList("/Addresses");
+      var newAddressID = this.generateUUID();
+      var oNewAddress = {
+        ID: newAddressID,
+        addressLine: shippingAddressLine,
+        city: shippingCity,
+        state: shippingState,
+        country: shippingCountry,
+        postalCode: shippingPostal
+      };
+      // Create the new address in the backend
+      await addressData.create(oNewAddress);
+
+
+      // Use addressID as needed
+      var oNewPackage = {
         packageNumber: packageNumber,
-        receiver_ID: receiver,
+        receiver_ID: receiver, // Assuming receiver is the correct ID or key of the user
+        myAddress_ID: newAddressID, // Link to the newly created address
         shippingAddress: shippingAddress,
         weight: weight,
         height: height,
         signature: null,
         shippingStatus: 'NEW',
-        packageStatus: null,
+        packageStatus: null
+      };
+      packageData.create(oNewPackage);
+      sap.m.MessageToast.show("Package saved successfully!");
+      this.onNavBack();
+      oModel.refresh()
+    },
+    generateUUID: function () {
+      // Generate a random UUID following RFC 4122 version 4
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = Math.random() * 16 | 0,
+          v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
       });
-      this.oNewPackage.created().then(function () {
-        sap.m.MessageToast.show("Package saved successfully!");
-        this.onNavBack();
-        oModel.refresh();
-      }.bind(this),
-        function (oError) {
-          sap.m.MessageToast.show("Error saving package.");
-        });
     },
 
     onMenuButtonPress: function () {

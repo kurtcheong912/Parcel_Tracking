@@ -134,6 +134,60 @@
                             />
                         </f:fields>
                     </f:FormElement>
+                     <f:FormElement
+                        id="_IDGenFormElement2we2233322"
+                        label="Address Line"
+                    >
+                        <f:fields>
+                            <Input
+                                value=""
+                                id="shippingAddressLine"
+                                change="onInputChange"
+                            />
+                        </f:fields>
+                    </f:FormElement>
+                    <f:FormElement
+                        id="_IDGenFormElement2we2222222"
+                        label="City/State"
+                    >
+                        <f:fields>
+                         <Input
+                                value=""
+                                id="shippingCity"
+                                change="onInputChange"
+                            />
+                            <Input
+                                value=""
+                                id="shippingState"
+                                change="onInputChange"
+                            >
+              
+					<layoutData>
+						<l:GridData id="_IDGenGridData2" span="XL2 L1 M3 S4" />
+					</layoutData>
+				</Input>
+                        </f:fields>
+                    </f:FormElement>
+                      <f:FormElement
+                        id="_IDGenFormElement2we22322222"
+                        label="Country/Postal"
+                    >
+                        <f:fields>
+                         <Input
+                                value=""
+                                id="shippingCountry"
+                                change="onInputChange"
+                            />
+                            <Input
+                                value=""
+                                id="shippingPostal"
+                                change="onInputChange"
+                           >	<layoutData>
+						<l:GridData id="_IDGenGridData1" span="XL2 L1 M3 S4" />
+					</layoutData>
+				</Input>
+                        </f:fields>
+                    </f:FormElement>
                     <f:FormElement
                         id="_IDGenFormElementpackageCreationAt"
                         label="{i18n>packageReceiverLabel}"

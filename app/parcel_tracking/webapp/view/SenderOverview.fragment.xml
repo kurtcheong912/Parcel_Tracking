@@ -138,7 +138,7 @@
                                 class="sapUiTinyMarginBottom"
                             />
                             <Text id="_IDGenText1"
-                                text="{i18n>shippingAddressLabel}:{shippingAddress}"
+                                text="{i18n>shippingAddressLabel}:{myAddress/addressLine}, {myAddress/city},  {myAddress/state}, {myAddress/country}, {myAddress/postalCode}"
                                 wrapping="true"
                             />
                         </VBox>
