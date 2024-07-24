@@ -25,5 +25,5 @@ entity Addresses : cuid, managed {
    state : String(100);
    country : String(100);
    postalCode : String(20);    
-   packages : Association to many Packages on packages.shippingAddress = $self;
+   packages : Association to one Packages on packages.shippingAddress = $self;
 }

@@ -124,16 +124,58 @@
                 title="Receiver Details"
             >
                 <f:formElements>
-                    <f:FormElement
-                        id="_IDGenFormElement2we2222"
-                        label="{i18n>shippingAddressLabel}"
+                      <f:FormElement
+                        id="_IDGenFormElement2we2233322"
+                        label="Address Line"
                     >
                         <f:fields>
                             <Input
-                                value="{path: 'shippingAddress', mode: 'sap.ui.model.BindingMode.OneWay'}"
-                                id="shippingAddress"
+                                value="{path: 'shippingAddress/addressLine', mode: 'sap.ui.model.BindingMode.OneWay'}"
+                                id="shippingAddressLine"
                                 change="onInputChange"
                             />
+                        </f:fields>
+                    </f:FormElement>
+                    <f:FormElement
+                        id="_IDGenFormElement2we2222222"
+                        label="City/State"
+                    >
+                        <f:fields>
+                         <Input
+                                value="{path:'shippingAddress/city', mode: 'sap.ui.model.BindingMode.OneWay'}"
+                                id="shippingCity"
+                                change="onInputChange"
+                            />
+                            <Input
+                                value="{path:'shippingAddress/state' , mode: 'sap.ui.model.BindingMode.OneWay'}"
+                                id="shippingState"
+                                change="onInputChange"
+                            >
+              
+					<layoutData>
+						<l:GridData id="_IDGenGridData2" span="XL2 L1 M3 S4" />
+					</layoutData>
+				</Input>
+                        </f:fields>
+                    </f:FormElement>
+                      <f:FormElement
+                        id="_IDGenFormElement2we22322222"
+                        label="Country/Postal"
+                    >
+                        <f:fields>
+                         <Input
+                                value="{path: 'shippingAddress/country', mode: 'sap.ui.model.BindingMode.OneWay'}"
+                                id="shippingCountry"
+                                change="onInputChange"
+                            />
+                            <Input
+                                value="{path: 'shippingAddress/postalCode' , mode: 'sap.ui.model.BindingMode.OneWay'}"
+                                id="shippingPostal"
+                                change="onInputChange"
+                           >	<layoutData>
+						<l:GridData id="_IDGenGridData1" span="XL2 L1 M3 S4" />
+					</layoutData>
+				</Input>
                         </f:fields>
                     </f:FormElement>
                     <f:FormElement
@@ -262,13 +304,43 @@
                 <f:formElements>
                     <f:FormElement
                         id="_IDGenFormElement545"
-                        label="{i18n>shippingAddressLabel}"
+                        label="Address Line"
                     >
                         <f:fields>
                             <Label
                                 id="shippingAddressLabel"
-                                text="{path: 'shippingAddress', mode: 'sap.ui.model.BindingMode.OneWay'}"
+                                text="{path: 'shippingAddress/addressLine', mode: 'sap.ui.model.BindingMode.OneWay'}"
                             />
+                            
+              
+					
+                        </f:fields>
+                    </f:FormElement>
+                    <f:FormElement
+                        id="_IDGenFormElement5422215"
+                        label="City/State"
+                    >
+                        <f:fields>
+                            <Label
+                                id="shippingAddressCityLabel"
+                                text="{path: 'shippingAddress/city', mode: 'sap.ui.model.BindingMode.OneWay'}/{path: 'shippingAddress/state', mode: 'sap.ui.model.BindingMode.OneWay'}"
+                            />
+  
+					
+                        </f:fields>
+                    </f:FormElement>
+                      <f:FormElement
+                        id="_IDGenFormElement5422215122112"
+                        label="Country/PostalCode"
+                    >
+                        <f:fields>
+                            <Label
+                                id="shippingAddressCountryLabel"
+                                text="{path: 'shippingAddress/country', mode: 'sap.ui.model.BindingMode.OneWay'}/{path: 'shippingAddress/postalCode', mode: 'sap.ui.model.BindingMode.OneWay'}"
+                            />
+                            
+        
+					
                         </f:fields>
                     </f:FormElement>
                     <f:FormElement
