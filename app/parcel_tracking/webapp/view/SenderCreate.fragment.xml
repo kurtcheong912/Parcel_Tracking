@@ -122,7 +122,7 @@
                 title="Receiver Details"
             >
                 <f:formElements>
-                    <f:FormElement
+                    <!-- <f:FormElement
                         id="_IDGenFormElement2we2222"
                         label="{i18n>shippingAddressLabel}"
                     >
@@ -133,7 +133,7 @@
                                 change="onInputChange"
                             />
                         </f:fields>
-                    </f:FormElement>
+                    </f:FormElement> -->
                      <f:FormElement
                         id="_IDGenFormElement2we2233322"
                         label="Address Line"

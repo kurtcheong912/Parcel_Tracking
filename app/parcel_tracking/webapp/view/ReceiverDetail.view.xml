@@ -82,13 +82,15 @@
                                         id="onCancelEdit"
                                         text="Order Received"
                                         press="onOrderReceived"
-                                        icon="sap-icon://cancel"
+                                        icon="sap-icon://status-completed"
+                                        type="Emphasized"
                                     />
                                     <Button
                                         id="onSubmitEdit"
                                         text="Order Damaged"
                                         press="onOrderDamaged"
-                                        icon="sap-icon://complete"
+                                        icon="sap-icon://alert"
+                                        type="Critical"
                                     />
                                 </content>
                             </OverflowToolbar>

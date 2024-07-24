@@ -13,7 +13,6 @@ sap.ui.define([
       sap.ui.core.Fragment.byId(sFragmentId, "packageNumber").setValue("");
       sap.ui.core.Fragment.byId(sFragmentId, "packageWeight").setValue("");
       sap.ui.core.Fragment.byId(sFragmentId, "packageHeight").setValue("");
-      sap.ui.core.Fragment.byId(sFragmentId, "shippingAddress").setValue("");
       sap.ui.core.Fragment.byId(sFragmentId, "_IDGenComboBox1").setSelectedKey("");
 
       Device.media.attachHandler(this.checkSize, null, Device.media.RANGESETS.SAP_STANDARD_EXTENDED);
@@ -44,7 +43,6 @@ sap.ui.define([
       sap.ui.core.Fragment.byId(sFragmentId, "packageNumber").setValue("");
       sap.ui.core.Fragment.byId(sFragmentId, "packageWeight").setValue("");
       sap.ui.core.Fragment.byId(sFragmentId, "packageHeight").setValue("");
-      sap.ui.core.Fragment.byId(sFragmentId, "shippingAddress").setValue("");
       sap.ui.core.Fragment.byId(sFragmentId, "_IDGenComboBox1").setSelectedKey("");
       var oHistory = History.getInstance();
       var sPreviousHash = oHistory.getPreviousHash();
@@ -151,14 +149,12 @@ sap.ui.define([
       var sPackageNumber = sap.ui.core.Fragment.byId(sFragmentId, "packageNumber").getValue();
       var sPackageWeight = sap.ui.core.Fragment.byId(sFragmentId, "packageWeight").getValue();
       var sPackageHeight = sap.ui.core.Fragment.byId(sFragmentId, "packageHeight").getValue();
-      var sShippingAddress = sap.ui.core.Fragment.byId(sFragmentId, "shippingAddress").getValue();
       var sReceiverID = sap.ui.core.Fragment.byId(sFragmentId, "_IDGenComboBox1").getSelectedKey();
 
       // Check if all required fields are filled
       var isFormValid = sPackageNumber !== "" &&
         sPackageWeight !== "" && !(sPackageWeight >= 1000) &&
         sPackageHeight !== "" && !(sPackageHeight >= 1000) &&
-        sShippingAddress !== "" &&
         sReceiverID !== "";
       // Enable or disable the submit button based on the validation
       this.getView().byId("onSubmit").setEnabled(isFormValid);
@@ -170,7 +166,6 @@ sap.ui.define([
       var oModel = oView.getModel();
       var packageNumber = sap.ui.core.Fragment.byId(sFragmentId, "packageNumber").getValue();
       var receiver = sap.ui.core.Fragment.byId(sFragmentId, "_IDGenComboBox1").getSelectedKey();
-      var shippingAddress = sap.ui.core.Fragment.byId(sFragmentId, "shippingAddress").getValue();
       var weight = sap.ui.core.Fragment.byId(sFragmentId, "packageWeight").getValue();
       var height = sap.ui.core.Fragment.byId(sFragmentId, "packageHeight").getValue();
 
@@ -198,8 +193,7 @@ sap.ui.define([
       var oNewPackage = {
         packageNumber: packageNumber,
         receiver_ID: receiver, // Assuming receiver is the correct ID or key of the user
-        myAddress_ID: newAddressID, // Link to the newly created address
-        shippingAddress: shippingAddress,
+        shippingAddress_ID: newAddressID, // Link to the newly created address
         weight: weight,
         height: height,
         signature: null,
@@ -245,7 +239,6 @@ sap.ui.define([
       var aInputs = [
         sap.ui.core.Fragment.byId(sFragmentId, "packageNumber"),
         sap.ui.core.Fragment.byId(sFragmentId, "_IDGenComboBox1"),
-        sap.ui.core.Fragment.byId(sFragmentId, "shippingAddress"),
         sap.ui.core.Fragment.byId(sFragmentId, "packageWeight"),
         sap.ui.core.Fragment.byId(sFragmentId, "packageHeight"),
       ];
