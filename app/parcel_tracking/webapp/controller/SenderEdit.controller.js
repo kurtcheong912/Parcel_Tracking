@@ -46,51 +46,62 @@ sap.ui.define([
       await this.validateReset();
       this.editMode(false);
     },
-    onSubmit: function () {
+    onSubmit: async function () {
       var that = this; // Keep reference to the controller
-
-      sap.m.MessageBox.confirm(
-        "Do you want to edit this package?",
-        {
-          title: "Confirm Edit",
-          onClose: async function (oAction) {
-            if (oAction === sap.m.MessageBox.Action.OK) {
-              // User clicked OK, proceed with edit
-              var oModel = that.getView().getModel();
-
-              // var sShippingAddress = sap.ui.core.Fragment.byId(that.sFragmentId, "shippingAddress").getValue();
-              var oComboBox = sap.ui.core.Fragment.byId(that.sFragmentId, "_IDGenComboBox1");
-              var sReceiverID = oComboBox.getSelectedKey();
-
-              var mycontext = await that.getView().getBindingContext();
-
-              var shippingCity = sap.ui.core.Fragment.byId(that.sFragmentId, "shippingCity").getValue();
-              var shippingState = sap.ui.core.Fragment.byId(that.sFragmentId, "shippingState").getValue();
-              var shippingCountry = sap.ui.core.Fragment.byId(that.sFragmentId, "shippingCountry").getValue();
-              var shippingPostal = sap.ui.core.Fragment.byId(that.sFragmentId, "shippingPostal").getValue();
-              var shippingAddressLine = sap.ui.core.Fragment.byId(that.sFragmentId, "shippingAddressLine").getValue();
-
-              await mycontext.setProperty("receiver_ID", sReceiverID);
-
-              await mycontext.setProperty("shippingAddress/city", shippingCity);
-              await mycontext.setProperty("shippingAddress/state", shippingState);
-              await mycontext.setProperty("shippingAddress/country", shippingCountry);
-              await mycontext.setProperty("shippingAddress/postalCode", shippingPostal);
-              await mycontext.setProperty("shippingAddress/addressLine", shippingAddressLine);
-              var packageNumber = await mycontext.getProperty("packageNumber");
-              sap.m.MessageToast.show("Package \"" + packageNumber + "\" edited successfully.");
-
-              oModel.refresh();
-              that.editMode(false);
-              await that.getView().byId("onEdit").setVisible(true);
-
-            } else {
-              await that.getView().byId("updateStatusButton").setVisible(false);
+    
+      sap.ui.core.BusyIndicator.show(0); // Show busy indicator
+    
+      try {
+        var oModel = that.getView().getModel();
+    
+        var oAction = await new Promise(function(resolve, reject) {
+          sap.m.MessageBox.confirm(
+            "Do you want to edit this package?",
+            {
+              title: "Confirm Edit",
+              onClose: function (oAction) {
+                resolve(oAction);
+              }
             }
-          }
+          );
+        });
+    
+        if (oAction === sap.m.MessageBox.Action.OK) {
+    
+          var mycontext = await that.getView().getBindingContext();
+          var oComboBox = sap.ui.core.Fragment.byId(that.sFragmentId, "_IDGenComboBox1");
+          var sReceiverID = oComboBox.getSelectedKey();
+    
+          var shippingCity = sap.ui.core.Fragment.byId(that.sFragmentId, "shippingCity").getValue();
+          var shippingState = sap.ui.core.Fragment.byId(that.sFragmentId, "shippingState").getValue();
+          var shippingCountry = sap.ui.core.Fragment.byId(that.sFragmentId, "shippingCountry").getValue();
+          var shippingPostal = sap.ui.core.Fragment.byId(that.sFragmentId, "shippingPostal").getValue();
+          var shippingAddressLine = sap.ui.core.Fragment.byId(that.sFragmentId, "shippingAddressLine").getValue();
+    
+          await mycontext.setProperty("receiver_ID", sReceiverID);
+          await mycontext.setProperty("shippingAddress/city", shippingCity);
+          await mycontext.setProperty("shippingAddress/state", shippingState);
+          await mycontext.setProperty("shippingAddress/country", shippingCountry);
+          await mycontext.setProperty("shippingAddress/postalCode", shippingPostal);
+          await mycontext.setProperty("shippingAddress/addressLine", shippingAddressLine);
+    
+          // Notify user of successful edit
+          var packageNumber = await mycontext.getProperty("packageNumber");
+          sap.m.MessageToast.show("Package \"" + packageNumber + "\" edited successfully.");
+    
+          oModel.refresh();
+          that.editMode(false);
+          await that.getView().byId("onEdit").setVisible(true);
+        } else {
+          await that.getView().byId("updateStatusButton").setVisible(false);
         }
-      );
+      } catch (error) {
+        sap.m.MessageToast.show("Error editing package: " + error.message);
+      } finally {
+        sap.ui.core.BusyIndicator.hide(); // Hide busy indicator regardless of outcome
+      }
     },
+    
 
     onNavBack: function () {
       var oHistory = History.getInstance();
