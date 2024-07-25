@@ -72,7 +72,6 @@
                                         icon="sap-icon://complete"
                                         type="Emphasized"
                                         ariaLabelledBy="actionButtonLabel"
-                                        class="responsiveButton customButton"
                                         enabled="false"
                                     />
                                 </content>
