@@ -73,11 +73,11 @@ sap.ui.define([
 
               await mycontext.setProperty("receiver_ID", sReceiverID);
 
-              mycontext.setProperty("/shippingCity", shippingCity);
-              mycontext.setProperty("/shippingState", shippingState);
-              mycontext.setProperty("/shippingCountry", shippingCountry);
-              mycontext.setProperty("/shippingPostal", shippingPostal);
-              mycontext.setProperty("/shippingAddressLine", shippingAddressLine);
+              await mycontext.setProperty("shippingAddress/city", shippingCity);
+              await mycontext.setProperty("shippingAddress/state", shippingState);
+              await mycontext.setProperty("shippingAddress/country", shippingCountry);
+              await mycontext.setProperty("shippingAddress/postalCode", shippingPostal);
+              await mycontext.setProperty("shippingAddress/addressLine", shippingAddressLine);
               var packageNumber = await mycontext.getProperty("packageNumber");
               sap.m.MessageToast.show("Package \"" + packageNumber + "\" edited successfully.");
 
@@ -85,6 +85,8 @@ sap.ui.define([
               that.editMode(false);
               await that.getView().byId("onEdit").setVisible(true);
 
+            } else {
+              await that.getView().byId("updateStatusButton").setVisible(false);
             }
           }
         }
@@ -301,19 +303,25 @@ sap.ui.define([
       var sPackageNumber = sap.ui.core.Fragment.byId(this.sFragmentId, "packageNumber").getValue();
       var sPackageWeight = sap.ui.core.Fragment.byId(this.sFragmentId, "packageWeight").getValue();
       var sPackageHeight = sap.ui.core.Fragment.byId(this.sFragmentId, "packageHeight").getValue();
-      // var sShippingAddress = sap.ui.core.Fragment.byId(this.sFragmentId, "shippingAddress").getValue();
+      var shippingCity = sap.ui.core.Fragment.byId(this.sFragmentId, "shippingCity").getValue();
+      var shippingState = sap.ui.core.Fragment.byId(this.sFragmentId, "shippingState").getValue();
+      var shippingCountry = sap.ui.core.Fragment.byId(this.sFragmentId, "shippingCountry").getValue();
+      var shippingPostal = sap.ui.core.Fragment.byId(this.sFragmentId, "shippingPostal").getValue();
+      var shippingAddressLine = sap.ui.core.Fragment.byId(this.sFragmentId, "shippingAddressLine").getValue();
       var sReceiverID = sap.ui.core.Fragment.byId(this.sFragmentId, "_IDGenComboBox1").getSelectedKey();
 
       // Check if all required fields are filled
       var isFormValid = sPackageNumber !== "" &&
         sPackageWeight !== "" &&
         sPackageHeight !== "" &&
-        // sShippingAddress !== "" &&
+        shippingCity !== "" &&
+        shippingState !== "" &&
+        shippingCountry !== "" &&
+        shippingPostal !== "" &&
+        shippingAddressLine !== "" &&
         sReceiverID !== "";
       // Enable or disable the submit button based on the validation
       this.getView().byId("onSubmit").setEnabled(isFormValid);
-      this.getView().byId("updateStatusButton").setEnabled(isFormValid);
-      this.checkUpdateStatusAvailable();
     },
     editMode: async function (canEdit) {
       sap.ui.core.Fragment.byId(this.sFragmentId, "packageEditForm").setVisible(canEdit);
@@ -335,7 +343,7 @@ sap.ui.define([
 
       await this.checkUpdateStatusAvailable();
       await this.editMode(true);
-      console.log("ewdfewfw");
+      await this.getView().byId("onSubmit").setEnabled(false);
       this.setReceiverAndAddressFields();
     },
     onBack: function () {
