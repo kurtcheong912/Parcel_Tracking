@@ -38,10 +38,9 @@ sap.ui.define([
       await this.getView().getBindingContext().requestObject();
       await this.validateReset();
       await this.allInputFieldEditable(true);
-      await this.checkUpdateStatusAvailable();
-      await this.validateForm();
       await this.editMode(false);
-
+      await this.checkUpdateStatusAvailable();
+      await this.getView().byId("onSubmit").setVisible(false);
     },
     onCancel: async function () {
       await this.validateReset();
@@ -59,14 +58,25 @@ sap.ui.define([
               // User clicked OK, proceed with edit
               var oModel = that.getView().getModel();
 
-              var sShippingAddress = sap.ui.core.Fragment.byId(that.sFragmentId, "shippingAddress").getValue();
+              // var sShippingAddress = sap.ui.core.Fragment.byId(that.sFragmentId, "shippingAddress").getValue();
               var oComboBox = sap.ui.core.Fragment.byId(that.sFragmentId, "_IDGenComboBox1");
               var sReceiverID = oComboBox.getSelectedKey();
 
               var mycontext = await that.getView().getBindingContext();
-              await mycontext.setProperty("shippingAddress", sShippingAddress);
+
+              var shippingCity = sap.ui.core.Fragment.byId(that.sFragmentId, "shippingCity").getValue();
+              var shippingState = sap.ui.core.Fragment.byId(that.sFragmentId, "shippingState").getValue();
+              var shippingCountry = sap.ui.core.Fragment.byId(that.sFragmentId, "shippingCountry").getValue();
+              var shippingPostal = sap.ui.core.Fragment.byId(that.sFragmentId, "shippingPostal").getValue();
+              var shippingAddressLine = sap.ui.core.Fragment.byId(that.sFragmentId, "shippingAddressLine").getValue();
+
               await mycontext.setProperty("receiver_ID", sReceiverID);
 
+              await mycontext.setProperty("shippingAddress/city", shippingCity);
+              await mycontext.setProperty("shippingAddress/state", shippingState);
+              await mycontext.setProperty("shippingAddress/country", shippingCountry);
+              await mycontext.setProperty("shippingAddress/postalCode", shippingPostal);
+              await mycontext.setProperty("shippingAddress/addressLine", shippingAddressLine);
               var packageNumber = await mycontext.getProperty("packageNumber");
               sap.m.MessageToast.show("Package \"" + packageNumber + "\" edited successfully.");
 
@@ -74,6 +84,8 @@ sap.ui.define([
               that.editMode(false);
               await that.getView().byId("onEdit").setVisible(true);
 
+            } else {
+              await that.getView().byId("updateStatusButton").setVisible(false);
             }
           }
         }
@@ -165,8 +177,8 @@ sap.ui.define([
       var oView = this.getView();
       var comboBox = sap.ui.core.Fragment.byId(this.sFragmentId, "_IDGenComboBox1");
       comboBox.setEnabled(state);
-      var shippingAddress = sap.ui.core.Fragment.byId(this.sFragmentId, "shippingAddress");
-      shippingAddress.setEnabled(state);
+      // var shippingAddress = sap.ui.core.Fragment.byId(this.sFragmentId, "shippingAddress");
+      // shippingAddress.setEnabled(state);
     },
 
     showToast: function (sMessage) {
@@ -290,19 +302,25 @@ sap.ui.define([
       var sPackageNumber = sap.ui.core.Fragment.byId(this.sFragmentId, "packageNumber").getValue();
       var sPackageWeight = sap.ui.core.Fragment.byId(this.sFragmentId, "packageWeight").getValue();
       var sPackageHeight = sap.ui.core.Fragment.byId(this.sFragmentId, "packageHeight").getValue();
-      var sShippingAddress = sap.ui.core.Fragment.byId(this.sFragmentId, "shippingAddress").getValue();
+      var shippingCity = sap.ui.core.Fragment.byId(this.sFragmentId, "shippingCity").getValue();
+      var shippingState = sap.ui.core.Fragment.byId(this.sFragmentId, "shippingState").getValue();
+      var shippingCountry = sap.ui.core.Fragment.byId(this.sFragmentId, "shippingCountry").getValue();
+      var shippingPostal = sap.ui.core.Fragment.byId(this.sFragmentId, "shippingPostal").getValue();
+      var shippingAddressLine = sap.ui.core.Fragment.byId(this.sFragmentId, "shippingAddressLine").getValue();
       var sReceiverID = sap.ui.core.Fragment.byId(this.sFragmentId, "_IDGenComboBox1").getSelectedKey();
 
       // Check if all required fields are filled
       var isFormValid = sPackageNumber !== "" &&
         sPackageWeight !== "" &&
         sPackageHeight !== "" &&
-        sShippingAddress !== "" &&
+        shippingCity !== "" &&
+        shippingState !== "" &&
+        shippingCountry !== "" &&
+        shippingPostal !== "" &&
+        shippingAddressLine !== "" &&
         sReceiverID !== "";
       // Enable or disable the submit button based on the validation
       this.getView().byId("onSubmit").setEnabled(isFormValid);
-      this.getView().byId("updateStatusButton").setEnabled(isFormValid);
-      this.checkUpdateStatusAvailable();
     },
     editMode: async function (canEdit) {
       sap.ui.core.Fragment.byId(this.sFragmentId, "packageEditForm").setVisible(canEdit);
@@ -324,7 +342,7 @@ sap.ui.define([
 
       await this.checkUpdateStatusAvailable();
       await this.editMode(true);
-      console.log("ewdfewfw");
+      await this.getView().byId("onSubmit").setEnabled(false);
       this.setReceiverAndAddressFields();
     },
     onBack: function () {
@@ -368,21 +386,37 @@ sap.ui.define([
     //   }
     // },
     setReceiverAndAddressFields: async function () {
-      var mycontext = await this.getView().getBindingContext();
-      var receiverID = await mycontext.getProperty("receiver_ID");
-      var shippingAddress = await mycontext.getProperty("shippingAddress");
 
+      var mycontext = await this.getView().getBindingContext();
+      var addressObject = mycontext.getObject("shippingAddress");
+      console.log(addressObject);
+      if (addressObject) {
+        var shippingCity = await addressObject.city;
+        var shippingState = await addressObject.state;
+        var shippingCountry = await addressObject.country;
+        var shippingPostal = await addressObject.postalCode;
+        var shippingAddressLine = await addressObject.addressLine;
+      }
+      var receiverID = await mycontext.getProperty("receiver_ID");
+      console.log(shippingCity);
+      sap.ui.core.Fragment.byId(this.sFragmentId, "shippingCity").setValue(shippingCity);
+      sap.ui.core.Fragment.byId(this.sFragmentId, "shippingState").setValue(shippingState);
+      sap.ui.core.Fragment.byId(this.sFragmentId, "shippingCountry").setValue(shippingCountry);
+      sap.ui.core.Fragment.byId(this.sFragmentId, "shippingPostal").setValue(shippingPostal);
+      sap.ui.core.Fragment.byId(this.sFragmentId, "shippingAddressLine").setValue(shippingAddressLine);
       sap.ui.core.Fragment.byId(this.sFragmentId, "_IDGenComboBox1").setSelectedKey(receiverID);
-      sap.ui.core.Fragment.byId(this.sFragmentId, "shippingAddress").setValue(shippingAddress);
     },
     validateReset: function () {
-      var isValid = true;
-      var sFragmentId = this.getView().createId("SenderEditFragment");
+
 
       // Get all input fields
       var aInputs = [
-        sap.ui.core.Fragment.byId(sFragmentId, "shippingAddress"),
-        sap.ui.core.Fragment.byId(sFragmentId, "_IDGenComboBox1")
+        sap.ui.core.Fragment.byId(this.sFragmentId, "shippingCity"),
+        sap.ui.core.Fragment.byId(this.sFragmentId, "shippingState"),
+        sap.ui.core.Fragment.byId(this.sFragmentId, "shippingCountry"),
+        sap.ui.core.Fragment.byId(this.sFragmentId, "shippingPostal"),
+        sap.ui.core.Fragment.byId(this.sFragmentId, "shippingAddressLine"),
+        sap.ui.core.Fragment.byId(this.sFragmentId, "_IDGenComboBox1")
       ];
 
       // Validate each input field
