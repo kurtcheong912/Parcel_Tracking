@@ -38,10 +38,9 @@ sap.ui.define([
       await this.getView().getBindingContext().requestObject();
       await this.validateReset();
       await this.allInputFieldEditable(true);
-      await this.checkUpdateStatusAvailable();
-      await this.validateForm();
       await this.editMode(false);
-
+      await this.checkUpdateStatusAvailable();
+      await this.getView().byId("onSubmit").setVisible(false);
     },
     onCancel: async function () {
       await this.validateReset();
