@@ -37,6 +37,34 @@
                 title="{i18n>packageInfoTitle}"
             >
                 <f:formElements>
+                                   <f:FormElement
+                        id="_IDGenFormElement122"
+                        label="{i18n>shippingStatusLabel}"
+                    >
+                        <f:fields>
+                            <ObjectStatus
+                                id="_IDGenObjectStatus1"
+                                text="{path: 'shippingStatus', formatter: '.textFormatter'}"
+                                class="customStatus"
+                                icon="sap-icon://shipping-status"
+                                state="{path: 'shippingStatus', formatter: '.stateFormatter'}"
+                            />
+                        </f:fields>
+                    </f:FormElement>
+                    <f:FormElement
+                        id="_IDGenFormElement1242"
+                        label="{i18n>packageStatusLabel}"
+                    >
+                        <f:fields>
+                            <ObjectStatus
+                                id="_IDGenObjectStatus2"
+                                text="{path: 'packageStatus', formatter: '.textFormatter'}"
+                                class="customStatus"
+                                icon="{path: 'packageStatus', formatter: '.iconFormatter'}"
+                                state="{path: 'packageStatus', formatter: '.packageFormatter'}"
+                            />
+                        </f:fields>
+                    </f:FormElement>
                     <f:FormElement
                         id="_IDGenFormElement12"
                         label="{i18n>packageInfoTitle}"
@@ -81,43 +109,7 @@
                                 id="packageHeight"
                             />
                         </f:fields>
-                    </f:FormElement>
-                </f:formElements>
-            </f:FormContainer>
-
-            <f:FormContainer
-                id="_IDGenFormContainer1222"
-                title=" "
-            >
-                <f:formElements>
-                    <f:FormElement
-                        id="_IDGenFormElement122"
-                        label="{i18n>shippingStatusLabel}"
-                    >
-                        <f:fields>
-                            <ObjectStatus
-                                id="_IDGenObjectStatus1"
-                                text="{path: 'shippingStatus', formatter: '.textFormatter'}"
-                                class="customStatus"
-                                icon="sap-icon://shipping-status"
-                                state="{path: 'shippingStatus', formatter: '.stateFormatter'}"
-                            />
-                        </f:fields>
-                    </f:FormElement>
-                    <f:FormElement
-                        id="_IDGenFormElement1242"
-                        label="{i18n>packageStatusLabel}"
-                    >
-                        <f:fields>
-                            <ObjectStatus
-                                id="_IDGenObjectStatus2"
-                                text="{path: 'packageStatus', formatter: '.textFormatter'}"
-                                class="customStatus"
-                                icon="{path: 'packageStatus', formatter: '.iconFormatter'}"
-                                state="{path: 'packageStatus', formatter: '.packageFormatter'}"
-                            />
-                        </f:fields>
-                    </f:FormElement>
+                    </f:FormElement> 
                     <f:FormElement
                         id="_IDGenFormElement22222222"
                         label="{i18n>userConfirmationLabel}"
@@ -129,6 +121,58 @@
                                 width="200px"
                                 height="100px"
                                 alt="Signature"
+                            />
+                        </f:fields>
+                    </f:FormElement>
+                </f:formElements>
+            </f:FormContainer>
+
+            <f:FormContainer
+                id="_IDGenFormContainer55"
+                title="Receiver Details"
+            >
+                <f:formElements>
+                    <f:FormElement
+                        id="_IDGenFormElement545"
+                        label="Address Line"
+                    >
+                        <f:fields>
+                            <Label
+                                id="shippingAddressLabel"
+                                text="{path: 'shippingAddress/addressLine', mode: 'sap.ui.model.BindingMode.OneWay'}"
+                            />
+                        </f:fields>
+                    </f:FormElement>
+                    <f:FormElement
+                        id="_IDGenFormElement5422215"
+                        label="City/State"
+                    >
+                        <f:fields>
+                            <Label
+                                id="shippingAddressCityLabel"
+                                text="{path: 'shippingAddress/city', mode: 'sap.ui.model.BindingMode.OneWay'}/{path: 'shippingAddress/state', mode: 'sap.ui.model.BindingMode.OneWay'}"
+                            />
+                        </f:fields>
+                    </f:FormElement>
+                    <f:FormElement
+                        id="_IDGenFormElement5422215122112"
+                        label="Country/PostalCode"
+                    >
+                        <f:fields>
+                            <Label
+                                id="shippingAddressCountryLabel"
+                                text="{path: 'shippingAddress/country', mode: 'sap.ui.model.BindingMode.OneWay'}/{path: 'shippingAddress/postalCode', mode: 'sap.ui.model.BindingMode.OneWay'}"
+                            />
+                        </f:fields>
+                    </f:FormElement>
+                    <f:FormElement
+                        id="_IDGenFormElementpackageReceiver"
+                        label="{i18n>packageReceiverLabel}"
+                    >
+                        <f:fields>
+                            <Label
+                                id="packageReceiverLabel"
+                                text="{receiver/first_name} {receiver/last_name}"
                             />
                         </f:fields>
                     </f:FormElement>
