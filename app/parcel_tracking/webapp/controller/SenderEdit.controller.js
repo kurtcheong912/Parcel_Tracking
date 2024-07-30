@@ -33,7 +33,7 @@ sap.ui.define([
           break;
       }
     },
-   
+
     onEdit: async function (packageID) {
       await this._controller.getView().bindElement("/Packages(" + packageID + ")");
       await this._controller.getView().getBindingContext().requestObject();
@@ -92,10 +92,10 @@ sap.ui.define([
 
         oModel.refresh();
         this.SenderEdit.editMode(false);
-        
-         await sap.ui.core.Fragment.byId(this.SenderEdit.sFragmentId, "onEdit").setVisible(true);
+
+        await sap.ui.core.Fragment.byId(this.SenderEdit.sFragmentId, "onEdit").setVisible(true);
       } else {
-         await sap.ui.core.Fragment.byId(this.SenderEdit.sFragmentId, "updateStatusButton").setVisible(false);
+        await sap.ui.core.Fragment.byId(this.SenderEdit.sFragmentId, "updateStatusButton").setVisible(false);
       }
       sap.ui.core.BusyIndicator.hide(); // Hide busy indicator regardless of outcome
 
@@ -223,7 +223,7 @@ sap.ui.define([
       await mycontext.setProperty("shippingStatus", nextStatus);
       oModel.refresh();
       this.showToast("Package \"" + packageNumber + "\" status successfully updated to " + nextStatus);
-      await this._controller.getView().byId("onSubmit").setVisible(false);
+      await sap.ui.core.Fragment.byId(this.sFragmentId,"onSubmit").setVisible(false);
       this.allInputFieldEditable(false);
       await this.editMode(false);
 
@@ -262,12 +262,12 @@ sap.ui.define([
         inputField.setValueState(sap.ui.core.ValueState.None);
         oComboBox.setSelectedKey(aItems.find(oItem => oItem.getText() === sInputValue).getKey());
       }
-      this.validateForm();
+      this.SenderEdit.validateForm();
     },
     onInputChange: function (oEvent) {
       var inputField = oEvent.getSource();
       var value = inputField.getValue();
-      this.validateForm();
+      this.SenderEdit.validateForm();
       // Check if the input field is empty
       if (!value) {
         inputField.setValueState(sap.ui.core.ValueState.Error);
@@ -328,8 +328,9 @@ sap.ui.define([
         shippingPostal !== "" &&
         shippingAddressLine !== "" &&
         sReceiverID !== "";
+        console.log(isFormValid);
       // Enable or disable the submit button based on the validation
-      this.getView().byId("onSubmit").setEnabled(isFormValid);
+      sap.ui.core.Fragment.byId(this.sFragmentId,"onSubmit").setEnabled(isFormValid);
     },
     editMode: async function (canEdit) {
       sap.ui.core.Fragment.byId(this.sFragmentId, "packageEditForm").setVisible(canEdit);
@@ -352,7 +353,7 @@ sap.ui.define([
       await this.SenderEdit.checkUpdateStatusAvailable();
       await this.SenderEdit.editMode(true);
       await sap.ui.core.Fragment.byId(this.SenderEdit.sFragmentId, "onSubmit").setEnabled(false);
-      this.setReceiverAndAddressFields();
+      await this.SenderEdit.setReceiverAndAddressFields();
     },
     onBack: function () {
       this.onNavBack();

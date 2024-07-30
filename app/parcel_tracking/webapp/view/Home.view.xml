@@ -66,25 +66,7 @@
                             id="SenderCreateFragment"
                             type="XML"
                         />
-                        <footer>
-                            <OverflowToolbar id="overflowToolbar123">
-                                <content>
-                                    <ToolbarSpacer id="toolbarSpacer123" />
-                                    <Button
-                                        id="onCancel"
-                                        text="Cancel"
-                                        press=".SenderCreate.onCancel"
-                                        icon="sap-icon://cancel"
-                                    />
-                                    <Button
-                                        id="onSubmit"
-                                        text="Submit"
-                                        press=".SenderCreate.onSubmit"
-                                        icon="sap-icon://complete"
-                                    />
-                                </content>
-                            </OverflowToolbar>
-                        </footer>
+                       
                     </Page>
                     <Page
                         id="Sender_Edit"

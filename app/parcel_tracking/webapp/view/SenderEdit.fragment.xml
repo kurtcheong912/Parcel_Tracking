@@ -133,7 +133,7 @@
                             <Input
                                 value="{path: 'shippingAddress/addressLine', mode: 'sap.ui.model.BindingMode.OneWay'}"
                                 id="shippingAddressLine"
-                                change="onInputChange"
+                                change=".SenderEdit.onInputChange"
                             />
                         </f:fields>
                     </f:FormElement>
@@ -145,7 +145,7 @@
                             <Input
                                 value="{path:'shippingAddress/city', mode: 'sap.ui.model.BindingMode.OneWay'}"
                                 id="shippingCity"
-                                change="onInputChange"
+                                change=".SenderEdit.onInputChange"
                             >
                                 <layoutData>
                                     <l:GridData
@@ -157,7 +157,7 @@
                             <Input
                                 value="{path:'shippingAddress/state' , mode: 'sap.ui.model.BindingMode.OneWay'}"
                                 id="shippingState"
-                                change="onInputChange"
+                                change=".SenderEdit.onInputChange"
                             >
                                 <layoutData>
                                     <l:GridData
@@ -176,7 +176,7 @@
                             <Input
                                 value="{path: 'shippingAddress/country', mode: 'sap.ui.model.BindingMode.OneWay'}"
                                 id="shippingCountry"
-                                change="onInputChange"
+                                change=".SenderEdit.onInputChange"
                             >
                                 <layoutData>
                                     <l:GridData
@@ -189,7 +189,7 @@
                             <Input
                                 value="{path: 'shippingAddress/postalCode' , mode: 'sap.ui.model.BindingMode.OneWay'}"
                                 id="shippingPostal"
-                                change="onInputChange"
+                                change=".SenderEdit.onInputChange"
                             >
                                 <layoutData>
                                     <l:GridData
@@ -209,7 +209,7 @@
                                 id="_IDGenComboBox1"
                                 items="{/Users}"
                                 selectionChange="onSelectChange"
-                                change="onComboBoxChange"
+                                change=".SenderEdit.onComboBoxChange"
                                 selectedKey="{path: 'receiver_ID', mode: 'sap.ui.model.BindingMode.OneWay'}"
                             >
                                 <core:Item

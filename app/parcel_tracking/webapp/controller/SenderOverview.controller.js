@@ -40,6 +40,7 @@ sap.ui.define([
         }
       },
       onCreate: function () {
+        this.SenderCreate.initAdd(this);
         this.byId("pageContainer").to(this.getView().createId("Sender_Create"));
       },
 

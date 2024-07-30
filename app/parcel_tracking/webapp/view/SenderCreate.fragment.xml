@@ -7,6 +7,7 @@
     xmlns:l="sap.ui.layout"
     xmlns:f="sap.ui.layout.form"
 >
+<Page id="_IDGenPage1">
     <HBox
         id="_IDGenHBox1"
         justifyContent="End"
@@ -77,7 +78,7 @@
                             <Input
                                 value=""
                                 id="packageNumber"
-                                change="onPackageIDChange"
+                                change=".SenderCreate.onPackageIDChange"
                             />
                         </f:fields>
                     </f:FormElement>
@@ -89,7 +90,7 @@
                             <Input
                                 value=""
                                 id="packageWeight"
-                                change="onDigitInputChange"
+                                change=".SenderCreate.onDigitInputChange"
                                 type="Number"
                             />
                         </f:fields>
@@ -102,7 +103,7 @@
                             <Input
                                 value=""
                                 id="packageHeight"
-                                change="onDigitInputChange"
+                                change=".SenderCreate.onDigitInputChange"
                                 type="Number"
                             />
                         </f:fields>
@@ -142,7 +143,7 @@
                             <Input
                                 value=""
                                 id="shippingAddressLine"
-                                change="onInputChange"
+                                change=".SenderCreate.onInputChange"
                             />
                         </f:fields>
                     </f:FormElement>
@@ -154,7 +155,7 @@
                             <Input
                                 value=""
                                 id="shippingCity"
-                                change="onInputChange"
+                                change=".SenderCreate.onInputChange"
                             >
                                 <layoutData>
                                     <l:GridData
@@ -166,7 +167,7 @@
                             <Input
                                 value=""
                                 id="shippingState"
-                                change="onInputChange"
+                                change=".SenderCreate.onInputChange"
                             >
                                 <layoutData>
                                     <l:GridData
@@ -185,7 +186,7 @@
                             <Input
                                 value=""
                                 id="shippingCountry"
-                                change="onInputChange"
+                                change=".SenderCreate.onInputChange"
                             >
                                 <layoutData>
                                     <l:GridData
@@ -197,7 +198,7 @@
                             <Input
                                 value=""
                                 id="shippingPostal"
-                                change="onInputChange"
+                                change=".SenderCreate.onInputChange"
                             >
                                 <layoutData>
                                     <l:GridData
@@ -216,7 +217,7 @@
                             <ComboBox
                                 id="_IDGenComboBox1"
                                 items="{/Users}"
-                                change="onComboBoxChange"
+                                change=".SenderCreate.onComboBoxChange"
                                 selectedKey=""
                             >
                                 <core:Item
@@ -231,4 +232,25 @@
             </f:FormContainer>
         </f:formContainers>
     </f:Form>
+      <footer>
+                            <OverflowToolbar id="overflowToolbar123">
+                                <content>
+                                    <ToolbarSpacer id="toolbarSpacer123" />
+                                    <!-- <Button
+                                        id="onCancel"
+                                        text="Cancel"
+                                        press=".SenderCreate.onCancel"
+                                        icon="sap-icon://cancel"
+                                    /> -->
+                                    <Button
+                                        id="onSubmit"
+                                        text="Submit"
+                                        type="Emphasized"
+                                        press=".SenderCreate.onSubmit"
+                                        icon="sap-icon://complete"
+                                    />
+                                </content>
+                            </OverflowToolbar>
+                        </footer>
+    </Page>
 </core:FragmentDefinition>

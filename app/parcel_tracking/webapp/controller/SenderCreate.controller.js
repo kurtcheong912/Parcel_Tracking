@@ -7,31 +7,38 @@ sap.ui.define([
   "use strict";
 
   return Controller.extend("parceltracking.controller.SenderCreate", {
-    onInit: function () {
-      var sFragmentId = this.getView().createId("SenderCreateFragment");
+    initAdd: function (that) {
+      this._controller = that;
+      var sFragmentId = this._controller.getView().createId("SenderCreateFragment");
 
       sap.ui.core.Fragment.byId(sFragmentId, "packageNumber").setValue("");
       sap.ui.core.Fragment.byId(sFragmentId, "packageWeight").setValue("");
       sap.ui.core.Fragment.byId(sFragmentId, "packageHeight").setValue("");
       sap.ui.core.Fragment.byId(sFragmentId, "_IDGenComboBox1").setSelectedKey("");
 
+      sap.ui.core.Fragment.byId(sFragmentId, "shippingCity").setValue("");
+      sap.ui.core.Fragment.byId(sFragmentId, "shippingState").setValue("");
+      sap.ui.core.Fragment.byId(sFragmentId, "shippingCountry").setValue("");
+      sap.ui.core.Fragment.byId(sFragmentId, "shippingPostal").setValue("");
+      sap.ui.core.Fragment.byId(sFragmentId, "shippingAddressLine").setValue("");
       Device.media.attachHandler(this.checkSize, null, Device.media.RANGESETS.SAP_STANDARD_EXTENDED);
       var oParams = Device.media.getCurrentRange(Device.media.RANGESETS.SAP_STANDARD_EXTENDED);
       var toolPage = this.byId("toolPage");
       var shellBar = this.byId("_IDGenShellBar1");
 
-      switch (oParams.name) {
-        case "Phone":
-        case "Tablet":
-          toolPage.setSideExpanded(false);
-          shellBar.setShowMenuButton(false);
-          break;
-        default:
-          toolPage.setSideExpanded(true);
-          shellBar.setShowMenuButton(true);
-          break;
-      }
+      // switch (oParams.name) {
+      //   case "Phone":
+      //   case "Tablet":
+      //     toolPage.setSideExpanded(false);
+      //     shellBar.setShowMenuButton(false);
+      //     break;
+      //   default:
+
+      //     shellBar.setShowMenuButton(true);
+      //     break;
+      // }
       this.validateReset();
+      sap.ui.core.Fragment.byId(sFragmentId, "onSubmit").setEnabled(false);
     },
 
     onCancel: function () {
@@ -82,40 +89,55 @@ sap.ui.define([
         // Set the selected key if valid
         oComboBox.setSelectedKey(aItems.find(oItem => oItem.getText() === sInputValue).getKey());
       }
-      this.validateForm();
+      this.SenderCreate.validateForm();
     },
 
     onPackageIDChange: function (oEvent) {
       var inputField = oEvent.getSource();
       var value = inputField.getValue();
-      var oModel = this.getView().getModel();
-      let oBindList = oModel.bindList("/Packages");
-      let aFilter = new sap.ui.model.Filter("packageNumber", sap.ui.model.FilterOperator.EQ, value);
+      var oModel = this.SenderCreate._controller.getView().getModel(); // Ensure this is an OData V4 model
+      this.SenderCreate.validateForm();
+      // Validation for required field
+      if (!value || value == "") {
 
-      this.validateForm();
-      if (!value) {
         inputField.setValueState(sap.ui.core.ValueState.Error);
         inputField.setValueStateText("This field is required.");
-      } else {
-        inputField.setValueState(sap.ui.core.ValueState.None);
+        return;
       }
 
-      oBindList.filter(aFilter).requestContexts().then(function (aContexts) {
-        if (aContexts[0].getObject() !== null) {
-          inputField.setValueState(sap.ui.core.ValueState.Error);
-          inputField.setValueStateText("This package ID is existed.");
-        } else {
-          inputField.setValueState(sap.ui.core.ValueState.None);
+      inputField.setValueState(sap.ui.core.ValueState.None);
+
+      var sUrl = oModel.sServiceUrl + "/Packages?$filter=packageNumber eq '" + encodeURIComponent(value) + "'";
+
+      // Fetch data using the URL
+      fetch(sUrl, {
+        headers: {
+          "Accept": "application/json"
         }
-      });
-
-
+      })
+        .then(response => response.json())
+        .then(data => {
+          // Check if data exists
+          if (data.value.length > 0) {
+            inputField.setValueState(sap.ui.core.ValueState.Error);
+            inputField.setValueStateText("This package ID already exists.");
+          } else {
+            inputField.setValueState(sap.ui.core.ValueState.None);
+          }
+        })
+        .catch(error => {
+          // Handle error
+          console.error("Error while fetching data: ", error);
+          inputField.setValueState(sap.ui.core.ValueState.Error);
+          inputField.setValueStateText("Error while validating package ID.");
+        });
     },
 
-    onInputChange: function (oEvent) {
+
+    onInputChange: async function (oEvent) {
       var inputField = oEvent.getSource();
       var value = inputField.getValue();
-      this.validateForm();
+      await this.SenderCreate.validateForm();
       // Check if the input field is empty
       if (!value) {
         inputField.setValueState(sap.ui.core.ValueState.Error);
@@ -128,7 +150,7 @@ sap.ui.define([
     onDigitInputChange: function (oEvent) {
       var inputField = oEvent.getSource();
       var value = inputField.getValue();
-      this.validateForm();
+      this.SenderCreate.validateForm();
       // Check if the value is empty or not a number
       if (value.trim() === "" || isNaN(value)) {
         inputField.setValueState(sap.ui.core.ValueState.Error);
@@ -142,22 +164,34 @@ sap.ui.define([
       }
     },
 
-    validateForm: function () {
-      var sFragmentId = this.getView().createId("SenderCreateFragment");
+    validateForm: async function () {
+
+      var sFragmentId = this._controller.getView().createId("SenderCreateFragment");
 
       // Get required fields
       var sPackageNumber = sap.ui.core.Fragment.byId(sFragmentId, "packageNumber").getValue();
       var sPackageWeight = sap.ui.core.Fragment.byId(sFragmentId, "packageWeight").getValue();
       var sPackageHeight = sap.ui.core.Fragment.byId(sFragmentId, "packageHeight").getValue();
       var sReceiverID = sap.ui.core.Fragment.byId(sFragmentId, "_IDGenComboBox1").getSelectedKey();
+      var shippingCity = sap.ui.core.Fragment.byId(sFragmentId, "shippingCity").getValue();
+      var shippingState = sap.ui.core.Fragment.byId(sFragmentId, "shippingState").getValue();
+      var shippingCountry = sap.ui.core.Fragment.byId(sFragmentId, "shippingCountry").getValue();
+      var shippingPostal = sap.ui.core.Fragment.byId(sFragmentId, "shippingPostal").getValue();
+      var shippingAddressLine = sap.ui.core.Fragment.byId(sFragmentId, "shippingAddressLine").getValue();
 
       // Check if all required fields are filled
       var isFormValid = sPackageNumber !== "" &&
         sPackageWeight !== "" && !(sPackageWeight >= 1000) &&
         sPackageHeight !== "" && !(sPackageHeight >= 1000) &&
-        sReceiverID !== "";
-      // Enable or disable the submit button based on the validation
-      this.getView().byId("onSubmit").setEnabled(isFormValid);
+        sReceiverID !== "" &&
+        shippingCity !== "" &&
+        shippingState !== "" &&
+        shippingCountry !== "" &&
+        shippingPostal !== "" &&
+        shippingAddressLine !== "" &&
+        // Enable or disable the submit button based on the validation
+
+        await sap.ui.core.Fragment.byId(sFragmentId, "onSubmit").setEnabled(isFormValid);
     },
 
     onSubmit: async function () {
@@ -233,7 +267,7 @@ sap.ui.define([
     },
     validateReset: function () {
       var isValid = true;
-      var sFragmentId = this.getView().createId("SenderCreateFragment");
+      var sFragmentId = this._controller.getView().createId("SenderCreateFragment");
 
       // Get all input fields
       var aInputs = [
@@ -241,6 +275,11 @@ sap.ui.define([
         sap.ui.core.Fragment.byId(sFragmentId, "_IDGenComboBox1"),
         sap.ui.core.Fragment.byId(sFragmentId, "packageWeight"),
         sap.ui.core.Fragment.byId(sFragmentId, "packageHeight"),
+        sap.ui.core.Fragment.byId(sFragmentId, "shippingCity"),
+        sap.ui.core.Fragment.byId(sFragmentId, "shippingState"),
+        sap.ui.core.Fragment.byId(sFragmentId, "shippingCountry"),
+        sap.ui.core.Fragment.byId(sFragmentId, "shippingPostal"),
+        sap.ui.core.Fragment.byId(sFragmentId, "shippingAddressLine"),
       ];
 
       // Validate each input field
