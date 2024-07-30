@@ -176,7 +176,7 @@ sap.ui.define([
       var shippingAddressLine = sap.ui.core.Fragment.byId(sFragmentId, "shippingAddressLine").getValue();
       var packageData = oModel.bindList("/Packages");
       var addressData = oModel.bindList("/Addresses");
-      var newAddressID = this.generateUUID();
+      var newAddressID = this.SenderCreate.generateUUID();
       var oNewAddress = {
         ID: newAddressID,
         addressLine: shippingAddressLine,

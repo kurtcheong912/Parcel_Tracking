@@ -36,7 +36,7 @@
                     id="addButton"
                     icon="sap-icon://add"
                     type="Transparent"
-                    press="onCreate"
+                    press=".SenderOverview.onCreate"
                 />
             </Toolbar>
         </headerToolbar>
@@ -108,7 +108,7 @@
                 <f:GridListItem
                     id="_IDGenGridListItem1"
                     type="Active"
-                    press=".onListItemPress"
+                    press=".SenderOverview.onListItemPress"
                 >
                     <VBox id="_IDGenVBox1"
                         height="100%"

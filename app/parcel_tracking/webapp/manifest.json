@@ -100,12 +100,12 @@
           "name": "home",
           "pattern": ":?query:",
           "target": [
-            "sender"
+            "home"
           ]
         },
         {
-          "pattern": "sender",
-          "name" : "sender",
+          "pattern": "",
+          "name" : "sendersender",
           "target" : "sender"
         },
         {
@@ -164,6 +164,13 @@
           "clearControlAggregation": false,
           "viewId": "SenderOverview",
           "viewName": "SenderOverview"
+        },
+        "home" : {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "Home",
+          "viewName": "Home"
         }
       }
     },

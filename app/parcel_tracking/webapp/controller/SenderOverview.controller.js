@@ -15,11 +15,13 @@ sap.ui.define([
       },
 
       onListItemPress: function (oEvent) {
+        console.log("wefewf");
         var oItem = oEvent.getSource();
         var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
         oRouter.navTo("edit", {
           packageId: oItem.getBindingContext().getProperty("ID")
         });
+
       },
       onMenuButtonPress: function () {
         var toolPage = this.byId("toolPage");
@@ -38,8 +40,7 @@ sap.ui.define([
         }
       },
       onCreate: function () {
-        var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-        oRouter.navTo("create");
+        this.byId("pageContainer").to(this.getView().createId("Sender_Create"));
       },
 
       onSearch: function (oEvent) {

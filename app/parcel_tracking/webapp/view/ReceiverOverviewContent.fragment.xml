@@ -215,7 +215,7 @@
                 <ColumnListItem
                     id="_IDGenColumnListItem1"
                     vAlign="Middle"
-                    press="onEditButtonPress"
+                    press=".ReceiverOverview.onEditButtonPress"
                     type="Active"
                 >
                     <cells>

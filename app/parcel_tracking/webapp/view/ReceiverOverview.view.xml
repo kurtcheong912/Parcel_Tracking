@@ -52,10 +52,10 @@
                         height="100%"
                     >
                         <content>
-                            <core:Fragment
+                            <!-- <core:Fragment
                                 fragmentName="parceltracking.view.ReceiverOverviewContent"
                                 type="XML"
-                            />
+                            /> -->
                         </content>
                     </ScrollContainer>
                 </pages>

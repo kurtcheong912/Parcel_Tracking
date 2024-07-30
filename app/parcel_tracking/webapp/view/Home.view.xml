@@ -118,6 +118,20 @@
                             </OverflowToolbar>
                         </footer>
                     </Page>
+                      <Page
+                        id="Receiver_Overview"
+                        title="{i18n>editTitle}"
+                        showNavButton="true"
+                        navButtonPress=".onNavBack"
+                        enableScrolling="true"
+                    >
+                        <core:Fragment
+                                fragmentName="parceltracking.view.ReceiverOverviewContent"
+                                      id="ReceiverOverviewFragment"
+                                type="XML"
+                            />
+                
+                    </Page>
                 </pages>
             </NavContainer>
         </tnt:mainContents>

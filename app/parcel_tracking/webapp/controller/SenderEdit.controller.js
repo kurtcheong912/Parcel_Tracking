@@ -13,6 +13,7 @@ sap.ui.define([
     onInit: async function () {
       var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
       await oRouter.getRoute("edit").attachPatternMatched(await this.onEdit, this);
+
       this.sFragmentId = await this.getView().createId("SenderEditFragment");
       Device.media.attachHandler(this.checkSize, null, Device.media.RANGESETS.SAP_STANDARD_EXTENDED);
       var oParams = Device.media.getCurrentRange(Device.media.RANGESETS.SAP_STANDARD_EXTENDED);
@@ -31,7 +32,14 @@ sap.ui.define([
           break;
       }
     },
-
+    _onAfterNavigate: function (oEvent) {
+      var oParameters = oEvent.getParameters();
+      var oData = oParameters.data;
+      // Extract parameters if necessary
+      console.log("Title: " + oData.title);
+      console.log("Content: " + oData.content);
+      console.log("Header Content: " + oData.headerContent);
+    },
     onEdit: async function (oEvent) {
       var packageId = oEvent.getParameter("arguments").packageId;
       await this.getView().bindElement("/Packages(" + packageId + ")");
@@ -48,13 +56,13 @@ sap.ui.define([
     },
     onSubmit: async function () {
       var that = this; // Keep reference to the controller
-    
+
       sap.ui.core.BusyIndicator.show(0); // Show busy indicator
-    
+
       try {
         var oModel = that.getView().getModel();
-    
-        var oAction = await new Promise(function(resolve, reject) {
+
+        var oAction = await new Promise(function (resolve, reject) {
           sap.m.MessageBox.confirm(
             "Do you want to edit this package?",
             {
@@ -65,30 +73,30 @@ sap.ui.define([
             }
           );
         });
-    
+
         if (oAction === sap.m.MessageBox.Action.OK) {
-    
+
           var mycontext = await that.getView().getBindingContext();
           var oComboBox = sap.ui.core.Fragment.byId(that.sFragmentId, "_IDGenComboBox1");
           var sReceiverID = oComboBox.getSelectedKey();
-    
+
           var shippingCity = sap.ui.core.Fragment.byId(that.sFragmentId, "shippingCity").getValue();
           var shippingState = sap.ui.core.Fragment.byId(that.sFragmentId, "shippingState").getValue();
           var shippingCountry = sap.ui.core.Fragment.byId(that.sFragmentId, "shippingCountry").getValue();
           var shippingPostal = sap.ui.core.Fragment.byId(that.sFragmentId, "shippingPostal").getValue();
           var shippingAddressLine = sap.ui.core.Fragment.byId(that.sFragmentId, "shippingAddressLine").getValue();
-    
+
           await mycontext.setProperty("receiver_ID", sReceiverID);
           await mycontext.setProperty("shippingAddress/city", shippingCity);
           await mycontext.setProperty("shippingAddress/state", shippingState);
           await mycontext.setProperty("shippingAddress/country", shippingCountry);
           await mycontext.setProperty("shippingAddress/postalCode", shippingPostal);
           await mycontext.setProperty("shippingAddress/addressLine", shippingAddressLine);
-    
+
           // Notify user of successful edit
           var packageNumber = await mycontext.getProperty("packageNumber");
           sap.m.MessageToast.show("Package \"" + packageNumber + "\" edited successfully.");
-    
+
           oModel.refresh();
           that.editMode(false);
           await that.getView().byId("onEdit").setVisible(true);
@@ -101,7 +109,7 @@ sap.ui.define([
         sap.ui.core.BusyIndicator.hide(); // Hide busy indicator regardless of outcome
       }
     },
-    
+
 
     onNavBack: function () {
       var oHistory = History.getInstance();
