@@ -51,9 +51,9 @@
                             <ObjectStatus
                                 id="_IDGenObjectStatus1"
                                 class="customStatus"
-                                text="{path: 'shippingStatus', formatter: '.textFormatter', targetType: 'any'}"
+                                text="{path: 'shippingStatus', formatter: '.SenderEdit.textFormatter', targetType: 'any'}"
                                 icon="sap-icon://shipping-status"
-                                state="{path: 'shippingStatus', formatter: '.stateFormatter'}"
+                                state="{path: 'shippingStatus', formatter: '.SenderEdit.stateFormatter'}"
                             />
                         </f:fields>
                     </f:FormElement>
@@ -263,9 +263,9 @@
                             <ObjectStatus
                                 id="_IDGenObjectStatus5"
                                 class="customStatus"
-                                text="{path: 'shippingStatus', formatter: '.textFormatter', targetType: 'any'}"
+                                text="{path: 'shippingStatus', formatter: '.SenderEdit.textFormatter', targetType: 'any'}"
                                 icon="sap-icon://shipping-status"
-                                state="{path: 'shippingStatus', formatter: '.stateFormatter'}"
+                                state="{path: 'shippingStatus', formatter: '.SenderEdit.stateFormatter'}"
                             />
                         </f:fields>
                     </f:FormElement>

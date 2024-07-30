@@ -167,7 +167,6 @@ sap.ui.define([
           await this.allInputFieldEditable(false);
           await sap.ui.core.Fragment.byId(this.sFragmentId, "onEdit").setVisible(false);
           await sap.ui.core.Fragment.byId(this.sFragmentId, "onSubmit").setVisible(false);
-          console.log("After setting visible:", this.getView().byId("onSubmit").getVisible());
         }
 
         // Enable the button only if the status is "NEW"
@@ -352,7 +351,7 @@ sap.ui.define([
 
       await this.SenderEdit.checkUpdateStatusAvailable();
       await this.SenderEdit.editMode(true);
-      await sap.ui.core.Fragment.byId(this.sFragmentId, "onSubmit").setEnabled(false);
+      await sap.ui.core.Fragment.byId(this.SenderEdit.sFragmentId, "onSubmit").setEnabled(false);
       this.setReceiverAndAddressFields();
     },
     onBack: function () {

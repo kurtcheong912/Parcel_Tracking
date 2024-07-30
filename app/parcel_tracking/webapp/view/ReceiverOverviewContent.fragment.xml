@@ -226,13 +226,13 @@
                         />
                         <tnt:InfoLabel
                             id="_IDGenInfoLabel1"
-                            text="{path: 'shippingStatus', formatter: '.textFormatter', targetType: 'any'}"
-                            colorScheme="{path: 'shippingStatus', formatter: '.availableState', targetType: 'any'}"
+                            text="{path: 'shippingStatus', formatter: '.ReceiverOverview.textFormatter', targetType: 'any'}"
+                            colorScheme="{path: 'shippingStatus', formatter: '.ReceiverOverview.availableState', targetType: 'any'}"
                         />
                         <tnt:InfoLabel
                             id="_IDGenInfoLabel2"
-                            text="{path: 'packageStatus', formatter: '.textFormatter', targetType: 'any'}"
-                            colorScheme="{path: 'packageStatus', formatter: '.availableState', targetType: 'any'}"
+                            text="{path: 'packageStatus', formatter: '.ReceiverOverview.textFormatter', targetType: 'any'}"
+                            colorScheme="{path: 'packageStatus', formatter: '.ReceiverOverview.availableState', targetType: 'any'}"
                         />
                         <Text
                             id="_IDGenText14"

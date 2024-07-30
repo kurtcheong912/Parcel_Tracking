@@ -74,7 +74,7 @@
                                 type="XML"
                             />
                                                     </content>
-                     <footer>
+                     <!-- <footer>
                             <OverflowToolbar id="toggleableButtonSection">
                                 <content>
                                     <ToolbarSpacer id="toolbarSpacer124" />
@@ -94,7 +94,7 @@
                                     />
                                 </content>
                             </OverflowToolbar>
-                        </footer>
+                        </footer> -->
                             </Page>
                 </pages>
             </NavContainer>

@@ -7,6 +7,7 @@
     xmlns:l="sap.ui.layout"
     xmlns:f="sap.ui.layout.form"
 >
+<Page id="_IDGenPage1">
     <f:Form
         id="FormDisplay354wideDual2"
         editable="false"
@@ -44,10 +45,10 @@
                         <f:fields>
                             <ObjectStatus
                                 id="_IDGenObjectStatus1"
-                                text="{path: 'shippingStatus', formatter: '.textFormatter'}"
+                                text="{path: 'shippingStatus', formatter: '.ReceiverDetail.textFormatter'}"
                                 class="customStatus"
                                 icon="sap-icon://shipping-status"
-                                state="{path: 'shippingStatus', formatter: '.stateFormatter'}"
+                                state="{path: 'shippingStatus', formatter: '.ReceiverDetail.stateFormatter'}"
                             />
                         </f:fields>
                     </f:FormElement>
@@ -58,10 +59,10 @@
                         <f:fields>
                             <ObjectStatus
                                 id="_IDGenObjectStatus2"
-                                text="{path: 'packageStatus', formatter: '.textFormatter'}"
+                                text="{path: 'packageStatus', formatter: '.ReceiverDetail.textFormatter'}"
                                 class="customStatus"
-                                icon="{path: 'packageStatus', formatter: '.iconFormatter'}"
-                                state="{path: 'packageStatus', formatter: '.packageFormatter'}"
+                                icon="{path: 'packageStatus', formatter: '.ReceiverDetail.iconFormatter'}"
+                                state="{path: 'packageStatus', formatter: '.ReceiverDetail.packageFormatter'}"
                             />
                         </f:fields>
                     </f:FormElement>
@@ -180,4 +181,26 @@
             </f:FormContainer>
         </f:formContainers>
     </f:Form>
+     <footer>
+                            <OverflowToolbar id="toggleableButtonSection">
+                                <content>
+                                    <ToolbarSpacer id="toolbarSpacer124" />
+                                    <Button
+                                        id="onCancelEdit"
+                                        text="Order Received"
+                                        press=".ReceiverDetail.onOrderReceived"
+                                        icon="sap-icon://status-completed"
+                                        type="Emphasized"
+                                    />
+                                    <Button
+                                        id="onSubmitEdit"
+                                        text="Order Damaged"
+                                        press=".ReceiverDetail.onOrderDamaged"
+                                        icon="sap-icon://alert"
+                                        type="Critical"
+                                    />
+                                </content>
+                            </OverflowToolbar>
+                        </footer>
+    </Page>
 </core:FragmentDefinition>

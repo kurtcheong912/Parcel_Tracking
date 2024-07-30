@@ -6,10 +6,10 @@ sap.ui.define([
 ], function (Controller, Fragment, History, Device) {
   "use strict";
   return Controller.extend("parceltracking.controller.ReceiverDetail", {
-    
-    initDetail: async function (packageID,that) {
-      this._controller = that;
 
+    initDetail: async function (packageID, that) {
+      this._controller = that;
+      this.sFragmentId = await this._controller.getView().createId("ReceiverDetailFragment");
       this.onEdit(packageID);
 
       Device.media.attachHandler(this.checkSize, null, Device.media.RANGESETS.SAP_STANDARD_EXTENDED);
@@ -30,7 +30,7 @@ sap.ui.define([
       }
     },
     onEdit: async function (packageID) {
-   
+
       this._controller.getView().bindElement("/Packages(" + packageID + ")");
 
       await this._controller.getView().getBindingContext().requestObject();
@@ -38,7 +38,7 @@ sap.ui.define([
     },
     checkUpdateStatusAvailable: async function () {
       try {
-        var oContext = this.getView().getBindingContext();
+        var oContext = this._controller.getView().getBindingContext();
         var currentStatus = oContext.getProperty("shippingStatus");
         var signature = oContext.getProperty("signature");
 
@@ -47,8 +47,8 @@ sap.ui.define([
         var isSigned = signature !== null;
         console.log(signature);
 
-        this.getView().byId("toggleableButtonSection").setVisible(isButtonEnabled);
-        this.getView().byId("_IDGenFormElement22222222").setVisible(isSigned);
+        this._controller.getView().byId("toggleableButtonSection").setVisible(isButtonEnabled);
+        this._controller.getView().byId("_IDGenFormElement22222222").setVisible(isSigned);
       } catch (error) {
         console.error("Error in checkUpdateStatusAvailable: ", error);
       }
@@ -58,15 +58,16 @@ sap.ui.define([
       toolPage.setSideExpanded(!toolPage.getSideExpanded());
     },
     onOrderReceived: function () {
-      this.orderStatus = "RECEIVED";
-      this.onReceiveDialogPress();
+      this.ReceiverDetail.orderStatus = "RECEIVED";
+      this.ReceiverDetail.onReceiveDialogPress();
     },
     onOrderDamaged: function () {
-      this.orderStatus = "DAMAGED";
-      this.onReceiveDialogPress();
+      this.ReceiverDetail.orderStatus = "DAMAGED";
+      this.ReceiverDetail.onReceiveDialogPress();
     },
     onReceiveDialogPress: function () {
-      var oView = this.getView();
+      console.log("aedwed");
+      var oView = this._controller.getView();
 
       // Check if the dialog already exists
       if (!this._pDialog) {
@@ -243,9 +244,9 @@ sap.ui.define([
 
       link.download = 'sign.jpeg';
 
-      var packageId = this.byId("packageID").getText();
+      var packageId = this._controller.byId("packageID").getText();
 
-      var oModel = this.getView().getModel();
+      var oModel = this._controller.getView().getModel();
 
       var sPath = "/Packages(" + packageId + ")";
 
@@ -257,8 +258,8 @@ sap.ui.define([
       oBindingContext.setProperty("packageStatus", this.orderStatus);
       oBindingContext.setProperty("signature", link.href);
       oModel.refresh();
-      this.getView().byId("toggleableButtonSection").setVisible(false);
-      this.getView().byId("_IDGenFormElement22222222").setVisible(true);
+      this._controller.getView().byId("toggleableButtonSection").setVisible(false);
+      this._controller.getView().byId("_IDGenFormElement22222222").setVisible(true);
       this.onCloseDialog();
       sap.m.MessageToast.show("Package Signed");
 

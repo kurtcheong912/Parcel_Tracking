@@ -30,7 +30,7 @@
                     id="_IDGenButton1"
                     tooltip="Sort"
                     icon="sap-icon://sort"
-                    press="handleSortButtonPressed"
+                    press=".SenderOverview.handleSortButtonPressed"
                 />
                 <Button
                     id="addButton"
@@ -54,14 +54,14 @@
                         icon="sap-icon://grid"
                         enabled="true"
                         pressed="true"
-                        press="onGrid"
+                        press=".SenderOverview.onGrid"
                     />
                     <ToggleButton
                         id="listToggleButton"
                         icon="sap-icon://bullet-text"
                         enabled="true"
                         pressed="false"
-                        press="onList"
+                        press=".SenderOverview.onList"
                     />
                 </Toolbar>
             </headerToolbar>
@@ -73,7 +73,7 @@
                 <f:customLayout>
                     <grid:GridResponsiveLayout
                         id="_IDGenGridResponsiveLayout1"
-                        layoutChange="onLayoutChange"
+                        layoutChange=".SenderOverview.onLayoutChange"
                     >
                         <grid:layoutS>
                             <grid:GridSettings
@@ -128,8 +128,8 @@
                                     wrapping="true"
                                 />
                                 <t:InfoLabel id="_IDGenInfoLabel1"
-                                    text="{path: 'shippingStatus', formatter: '.textFormatter'}"
-                                    colorScheme="{path: 'shippingStatus', formatter: '.formatColorScheme', targetType: 'any'}"
+                                    text="{path: 'shippingStatus', formatter: '.SenderOverview.textFormatter'}"
+                                    colorScheme="{path: 'shippingStatus', formatter: '.SenderOverview.formatColorScheme', targetType: 'any'}"
                                 />
                             </HBox>
                             <Label id="_IDGenLabel1"
@@ -191,7 +191,7 @@
                 <items>
                     <ColumnListItem id="_IDGenColumnListItem1"
                         vAlign="Middle"
-                        press=".onListItemPress"
+                        press=".SenderOverview.onListItemPress"
                         type="Active"
                     >
                         <cells>
@@ -204,8 +204,8 @@
                             />
                         <t:InfoLabel
                             id="_IDGenInfoLabel2"
-                            text="{path: 'shippingStatus', formatter: '.textFormatter'}"
-                            colorScheme="{path: 'shippingStatus', formatter: '.formatColorScheme', targetType: 'any'}"
+                            text="{path: 'shippingStatus', formatter: '.SenderOverview.textFormatter'}"
+                            colorScheme="{path: 'shippingStatus', formatter: '.SenderOverview.formatColorScheme', targetType: 'any'}"
                         />                            
                         <Text id="_IDGenText10" text="{weight}" />
                             <Text id="_IDGenText11" text="{height}" />
