@@ -178,10 +178,13 @@ sap.ui.define([
             },
             onEditButtonPress: function (oEvent) {
                 var oItem = oEvent.getSource();
-                var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-                oRouter.navTo("detail", {
-                    packageId: oItem.getBindingContext().getProperty("ID")
-                });
+                // var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+                // oRouter.navTo("detail", {
+                //     packageId: oItem.getBindingContext().getProperty("ID")
+                // }); 
+                this.ReceiverDetail.initDetail(oItem.getBindingContext().getProperty("ID"), this);
+                this.byId("pageContainer").to(this.getView().createId("Receiver_Detail"));
+             
             },
             availableState: function (status) {
                 console.log(status);

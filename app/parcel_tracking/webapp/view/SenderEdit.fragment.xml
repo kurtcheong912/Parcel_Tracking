@@ -7,6 +7,7 @@
     xmlns:l="sap.ui.layout"
     xmlns:f="sap.ui.layout.form"
 >
+  <Page id="_IDGenPage1">
     <HBox
         id="_IDGenHBox1"
         justifyContent="End"
@@ -371,4 +372,55 @@
             </f:FormContainer>
         </f:formContainers>
     </f:Form>
+  
+        <footer>
+            <OverflowToolbar id="_IDGenOverflowToolbar1">
+                <content>
+                    <ToolbarSpacer id="_IDGenToolbarSpacer1" />
+                    <Button
+                        id="onCancel"
+                        text="Cancel"
+                        press=".SenderEdit.onCancel"
+                        icon="sap-icon://cancel"
+                        class="floatLeft"
+                    />
+                    <Button
+                        id="cancelShippingButton"
+                        text="Cancel Shipping"
+                        press=".SenderEdit.onCancelShipping"
+                        icon="sap-icon://cancel"
+                        class="floatLeft"
+                    />
+                    <Button
+                        id="updateStatusButton"
+                        tooltip="Update delivery status"
+                        icon="sap-icon://shipping-status"
+                        text="Update status"
+                        type="Emphasized"
+                        press=".SenderEdit.onUpdateStatus"
+                        ariaLabelledBy="actionButtonLabel"
+                        enabled="false"
+                    />
+                    <Button
+                        id="onSubmit"
+                        text="Submit"
+                        press=".SenderEdit.onSubmit"
+                        icon="sap-icon://complete"
+                        type="Emphasized"
+                        ariaLabelledBy="actionButtonLabel"
+                        visible="false"
+                    />
+
+                    <Button
+                        id="onEdit"
+                        text="Edit"
+                        press=".SenderEdit.onEnableEditMode"
+                        icon="sap-icon://complete"
+                        type="Emphasized"
+                        ariaLabelledBy="actionButtonLabel"
+                    />
+                </content>
+            </OverflowToolbar>
+        </footer>
+    </Page>
 </core:FragmentDefinition>

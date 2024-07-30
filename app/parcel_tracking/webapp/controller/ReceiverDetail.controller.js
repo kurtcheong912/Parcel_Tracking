@@ -6,9 +6,11 @@ sap.ui.define([
 ], function (Controller, Fragment, History, Device) {
   "use strict";
   return Controller.extend("parceltracking.controller.ReceiverDetail", {
-    onInit: async function () {
-      var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-      await oRouter.getRoute("detail").attachPatternMatched(await this.onEdit, this);
+    
+    initDetail: async function (packageID,that) {
+      this._controller = that;
+
+      this.onEdit(packageID);
 
       Device.media.attachHandler(this.checkSize, null, Device.media.RANGESETS.SAP_STANDARD_EXTENDED);
       var oParams = Device.media.getCurrentRange(Device.media.RANGESETS.SAP_STANDARD_EXTENDED);
@@ -27,11 +29,11 @@ sap.ui.define([
           break;
       }
     },
-    onEdit: async function (oEvent) {
-      var packageId = oEvent.getParameter("arguments").packageId;
-      this.getView().bindElement("/Packages(" + packageId + ")");
+    onEdit: async function (packageID) {
+   
+      this._controller.getView().bindElement("/Packages(" + packageID + ")");
 
-      await this.getView().getBindingContext().requestObject();
+      await this._controller.getView().getBindingContext().requestObject();
       await this.checkUpdateStatusAvailable();
     },
     checkUpdateStatusAvailable: async function () {
@@ -112,8 +114,8 @@ sap.ui.define([
           return "sap-icon://sys-enter-2";
         case "DAMAGED":
           return "sap-icon://decline"
-          default:
-            return "sap-icon://information";
+        default:
+          return "sap-icon://information";
       }
     },
     packageFormatter: function (status) {
@@ -307,19 +309,19 @@ sap.ui.define([
     textFormatter: function (status) {
       console.log(status);
       switch (status) {
-          case "NEW":
-              return "New";
-          case "SHIPPING":
-              return "Shipping";
-          case "DELIVERED":
-              return "Delivered";
-          case "RECEIVED":
-              return "Received";
-          case "DAMAGED":
-              return "Damaged";
-          default:
-              return "Pending"; // Default color scheme
+        case "NEW":
+          return "New";
+        case "SHIPPING":
+          return "Shipping";
+        case "DELIVERED":
+          return "Delivered";
+        case "RECEIVED":
+          return "Received";
+        case "DAMAGED":
+          return "Damaged";
+        default:
+          return "Pending"; // Default color scheme
       }
-  }
+    }
   })
 });

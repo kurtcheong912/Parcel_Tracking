@@ -6,7 +6,7 @@ sap.ui.define([
   "parceltracking/controller/ReceiverDetail.controller",
   "parceltracking/controller/ReceiverOverview.controller",
 ],
-  function (Controller, SenderOverview, SenderCreate, SenderEdit, ReceiverOverview, ReceiverDetail) {
+  function (Controller, SenderOverview, SenderCreate, SenderEdit, ReceiverDetail, ReceiverOverview) {
     "use strict";
 
     return Controller.extend("parceltracking.controller.Home", {
@@ -16,6 +16,7 @@ sap.ui.define([
       ReceiverOverview: new ReceiverOverview(this),
       ReceiverDetail: new ReceiverDetail(this),
       onInit: function () {
+        
       },
       onMenuButtonPress: function () {
         var toolPage = this.byId("toolPage");

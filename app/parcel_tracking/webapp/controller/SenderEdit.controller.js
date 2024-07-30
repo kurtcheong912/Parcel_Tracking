@@ -10,11 +10,12 @@ sap.ui.define([
   var iTimeoutId;
   var sFragmentId;
   return Controller.extend("parceltracking.controller.Edit", {
-    onInit: async function () {
-      var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-      await oRouter.getRoute("edit").attachPatternMatched(await this.onEdit, this);
+    initEdit: async function (packageID, that) {
+      this._controller = that;
 
-      this.sFragmentId = await this.getView().createId("SenderEditFragment");
+      this.onEdit(packageID)
+
+      this.sFragmentId = await this._controller.getView().createId("SenderEditFragment");
       Device.media.attachHandler(this.checkSize, null, Device.media.RANGESETS.SAP_STANDARD_EXTENDED);
       var oParams = Device.media.getCurrentRange(Device.media.RANGESETS.SAP_STANDARD_EXTENDED);
       var toolPage = this.byId("toolPage");
@@ -32,82 +33,72 @@ sap.ui.define([
           break;
       }
     },
-    _onAfterNavigate: function (oEvent) {
-      var oParameters = oEvent.getParameters();
-      var oData = oParameters.data;
-      // Extract parameters if necessary
-      console.log("Title: " + oData.title);
-      console.log("Content: " + oData.content);
-      console.log("Header Content: " + oData.headerContent);
-    },
-    onEdit: async function (oEvent) {
-      var packageId = oEvent.getParameter("arguments").packageId;
-      await this.getView().bindElement("/Packages(" + packageId + ")");
-      await this.getView().getBindingContext().requestObject();
+   
+    onEdit: async function (packageID) {
+      await this._controller.getView().bindElement("/Packages(" + packageID + ")");
+      await this._controller.getView().getBindingContext().requestObject();
       await this.validateReset();
       await this.allInputFieldEditable(true);
       await this.editMode(false);
       await this.checkUpdateStatusAvailable();
-      await this.getView().byId("onSubmit").setVisible(false);
+      await sap.ui.core.Fragment.byId(this.sFragmentId, "onSubmit").setVisible(false);
     },
     onCancel: async function () {
-      await this.validateReset();
-      this.editMode(false);
+      // await this.validateReset();
+
+      this.SenderEdit.editMode(false);
     },
     onSubmit: async function () {
-      var that = this; // Keep reference to the controller
 
       sap.ui.core.BusyIndicator.show(0); // Show busy indicator
 
-      try {
-        var oModel = that.getView().getModel();
 
-        var oAction = await new Promise(function (resolve, reject) {
-          sap.m.MessageBox.confirm(
-            "Do you want to edit this package?",
-            {
-              title: "Confirm Edit",
-              onClose: function (oAction) {
-                resolve(oAction);
-              }
+      var oModel = this.SenderEdit._controller.getView().getModel();
+
+      var oAction = await new Promise(function (resolve, reject) {
+        sap.m.MessageBox.confirm(
+          "Do you want to edit this package?",
+          {
+            title: "Confirm Edit",
+            onClose: function (oAction) {
+              resolve(oAction);
             }
-          );
-        });
+          }
+        );
+      });
 
-        if (oAction === sap.m.MessageBox.Action.OK) {
+      if (oAction === sap.m.MessageBox.Action.OK) {
+        var mycontext = await this.SenderEdit._controller.getView().getBindingContext();
 
-          var mycontext = await that.getView().getBindingContext();
-          var oComboBox = sap.ui.core.Fragment.byId(that.sFragmentId, "_IDGenComboBox1");
-          var sReceiverID = oComboBox.getSelectedKey();
 
-          var shippingCity = sap.ui.core.Fragment.byId(that.sFragmentId, "shippingCity").getValue();
-          var shippingState = sap.ui.core.Fragment.byId(that.sFragmentId, "shippingState").getValue();
-          var shippingCountry = sap.ui.core.Fragment.byId(that.sFragmentId, "shippingCountry").getValue();
-          var shippingPostal = sap.ui.core.Fragment.byId(that.sFragmentId, "shippingPostal").getValue();
-          var shippingAddressLine = sap.ui.core.Fragment.byId(that.sFragmentId, "shippingAddressLine").getValue();
 
-          await mycontext.setProperty("receiver_ID", sReceiverID);
-          await mycontext.setProperty("shippingAddress/city", shippingCity);
-          await mycontext.setProperty("shippingAddress/state", shippingState);
-          await mycontext.setProperty("shippingAddress/country", shippingCountry);
-          await mycontext.setProperty("shippingAddress/postalCode", shippingPostal);
-          await mycontext.setProperty("shippingAddress/addressLine", shippingAddressLine);
+        var sReceiverID = sap.ui.core.Fragment.byId(this.SenderEdit.sFragmentId, "_IDGenComboBox1").getSelectedKey();
+        var shippingCity = sap.ui.core.Fragment.byId(this.SenderEdit.sFragmentId, "shippingCity").getValue();
+        var shippingState = sap.ui.core.Fragment.byId(this.SenderEdit.sFragmentId, "shippingState").getValue();
+        var shippingCountry = sap.ui.core.Fragment.byId(this.SenderEdit.sFragmentId, "shippingCountry").getValue();
+        var shippingPostal = sap.ui.core.Fragment.byId(this.SenderEdit.sFragmentId, "shippingPostal").getValue();
+        var shippingAddressLine = sap.ui.core.Fragment.byId(this.SenderEdit.sFragmentId, "shippingAddressLine").getValue();
 
-          // Notify user of successful edit
-          var packageNumber = await mycontext.getProperty("packageNumber");
-          sap.m.MessageToast.show("Package \"" + packageNumber + "\" edited successfully.");
+        await mycontext.setProperty("receiver_ID", sReceiverID);
+        await mycontext.setProperty("shippingAddress/city", shippingCity);
+        await mycontext.setProperty("shippingAddress/state", shippingState);
+        await mycontext.setProperty("shippingAddress/country", shippingCountry);
+        await mycontext.setProperty("shippingAddress/postalCode", shippingPostal);
+        await mycontext.setProperty("shippingAddress/addressLine", shippingAddressLine);
 
-          oModel.refresh();
-          that.editMode(false);
-          await that.getView().byId("onEdit").setVisible(true);
-        } else {
-          await that.getView().byId("updateStatusButton").setVisible(false);
-        }
-      } catch (error) {
-        sap.m.MessageToast.show("Error editing package: " + error.message);
-      } finally {
-        sap.ui.core.BusyIndicator.hide(); // Hide busy indicator regardless of outcome
+        // // Notify user of successful edit
+        var packageNumber = await mycontext.getProperty("packageNumber");
+        sap.m.MessageToast.show("Package \"" + packageNumber + "\" edited successfully.");
+
+        oModel.refresh();
+        this.SenderEdit.editMode(false);
+        
+         await sap.ui.core.Fragment.byId(this.SenderEdit.sFragmentId, "onEdit").setVisible(true);
+      } else {
+         await sap.ui.core.Fragment.byId(this.SenderEdit.sFragmentId, "updateStatusButton").setVisible(false);
       }
+      sap.ui.core.BusyIndicator.hide(); // Hide busy indicator regardless of outcome
+
     },
 
 
@@ -161,7 +152,7 @@ sap.ui.define([
     },
     checkUpdateStatusAvailable: async function () {
       try {
-        var oContext = await this.getView().getBindingContext();
+        var oContext = await this._controller.getView().getBindingContext();
         console.log("Checking current status...");
         var currentStatus = await oContext.getProperty("shippingStatus");
         if (!currentStatus) {
@@ -171,33 +162,31 @@ sap.ui.define([
         console.log("Current Status: ", currentStatus);
         if (currentStatus === "NEW") {
           this.allInputFieldEditable(true);
-          this.getView().byId("onSubmit").setVisible(true);
+          sap.ui.core.Fragment.byId(this.sFragmentId, "onSubmit").setVisible(true);
         } else {
           await this.allInputFieldEditable(false);
-          await this.getView().byId("onEdit").setVisible(false);
-          await this.getView().byId("onSubmit").setVisible(false);
+          await sap.ui.core.Fragment.byId(this.sFragmentId, "onEdit").setVisible(false);
+          await sap.ui.core.Fragment.byId(this.sFragmentId, "onSubmit").setVisible(false);
           console.log("After setting visible:", this.getView().byId("onSubmit").getVisible());
         }
 
         // Enable the button only if the status is "NEW"
         var isButtonEnabled = (currentStatus === "NEW");
-        this.getView().byId("updateStatusButton").setEnabled(isButtonEnabled);
-        this.getView().byId("updateStatusButton").setVisible(isButtonEnabled);
+
+        sap.ui.core.Fragment.byId(this.sFragmentId, "updateStatusButton").setEnabled(isButtonEnabled);
+        sap.ui.core.Fragment.byId(this.sFragmentId, "updateStatusButton").setVisible(isButtonEnabled);
         if (currentStatus == "SHIPPING")
-          this.getView().byId("cancelShippingButton").setVisible(true);
+          sap.ui.core.Fragment.byId(this.sFragmentId, "cancelShippingButton").setVisible(true);
         else
-          this.getView().byId("cancelShippingButton").setVisible(false);
+          sap.ui.core.Fragment.byId(this.sFragmentId, "cancelShippingButton").setVisible(false);
       } catch (error) {
         console.error("Error in checkUpdateStatusAvailable: ", error);
       }
     },
 
     allInputFieldEditable: function (state) {
-      var oView = this.getView();
       var comboBox = sap.ui.core.Fragment.byId(this.sFragmentId, "_IDGenComboBox1");
       comboBox.setEnabled(state);
-      // var shippingAddress = sap.ui.core.Fragment.byId(this.sFragmentId, "shippingAddress");
-      // shippingAddress.setEnabled(state);
     },
 
     showToast: function (sMessage) {
@@ -218,14 +207,14 @@ sap.ui.define([
         actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
         onClose: function (oAction) {
           if (oAction === sap.m.MessageBox.Action.OK) {
-            that.updateStatus();
+            that.SenderEdit.updateStatus();
           }
         }
       });
     },
     updateStatus: async function () {
-      var oModel = this.getView().getModel();
-      var mycontext = await this.getView().getBindingContext();
+      var oModel = this._controller.getView().getModel();
+      var mycontext = await this._controller.getView().getBindingContext();
       var packageNumber = await mycontext.getProperty("packageNumber");
 
       var currentStatus = await mycontext.getProperty("shippingStatus");
@@ -235,16 +224,18 @@ sap.ui.define([
       await mycontext.setProperty("shippingStatus", nextStatus);
       oModel.refresh();
       this.showToast("Package \"" + packageNumber + "\" status successfully updated to " + nextStatus);
-      await this.getView().byId("onSubmit").setVisible(false);
+      await this._controller.getView().byId("onSubmit").setVisible(false);
       this.allInputFieldEditable(false);
       await this.editMode(false);
-      await this.getView().byId("updateStatusButton").setEnabled(false);
-      await this.getView().byId("updateStatusButton").setVisible(false);
+
+      await sap.ui.core.Fragment.byId(this.sFragmentId, "updateStatusButton").setEnabled(false);
+      await sap.ui.core.Fragment.byId(this.sFragmentId, "updateStatusButton").setVisible(false);
 
 
-      await this.getView().byId("onEdit").setVisible(false);
-      await this.getView().byId("cancelShippingButton").setEnabled(true);
-      await this.getView().byId("cancelShippingButton").setVisible(true);
+      await sap.ui.core.Fragment.byId(this.sFragmentId, "onEdit").setVisible(false);
+
+      await sap.ui.core.Fragment.byId(this.sFragmentId, "cancelShippingButton").setEnabled(true);
+      await sap.ui.core.Fragment.byId(this.sFragmentId, "cancelShippingButton").setVisible(true);
     },
     getNextStatus: function (currentStatus) {
       return currentStatus === "NEW" ? "SHIPPING" : null;
@@ -344,24 +335,24 @@ sap.ui.define([
     editMode: async function (canEdit) {
       sap.ui.core.Fragment.byId(this.sFragmentId, "packageEditForm").setVisible(canEdit);
       sap.ui.core.Fragment.byId(this.sFragmentId, "packageDetailsForm").setVisible(!canEdit);
-
-      await this.getView().byId("onEdit").setVisible(!canEdit);
-      await this.getView().byId("onCancel").setVisible(canEdit);
-      await this.getView().byId("onSubmit").setVisible(canEdit);
-      await this.getView().byId("updateStatusButton").setVisible(!canEdit);
-
-      var oPage = this.byId("Sender_Edit");
-      if (canEdit) {
-        oPage.setTitle("Edit");
-      } else {
-        oPage.setTitle("Details");
-      }
+      await sap.ui.core.Fragment.byId(this.sFragmentId, "onEdit").setVisible(!canEdit);
+      await sap.ui.core.Fragment.byId(this.sFragmentId, "onCancel").setVisible(canEdit);
+      await sap.ui.core.Fragment.byId(this.sFragmentId, "onSubmit").setVisible(canEdit);
+      await sap.ui.core.Fragment.byId(this.sFragmentId, "updateStatusButton").setVisible(!canEdit);
+    },
+    initBUttons: async function (canEdit) {
+      sap.ui.core.Fragment.byId(this.sFragmentId, "packageEditForm").setVisible(canEdit);
+      sap.ui.core.Fragment.byId(this.sFragmentId, "packageDetailsForm").setVisible(!canEdit);
+      await sap.ui.core.Fragment.byId(this.sFragmentId, "onEdit").setVisible(!canEdit);
+      await sap.ui.core.Fragment.byId(this.sFragmentId, "onCancel").setVisible(canEdit);
+      await sap.ui.core.Fragment.byId(this.sFragmentId, "onSubmit").setVisible(!canEdit);
+      await sap.ui.core.Fragment.byId(this.sFragmentId, "updateStatusButton").setVisible(!canEdit);
     },
     onEnableEditMode: async function () {
 
-      await this.checkUpdateStatusAvailable();
-      await this.editMode(true);
-      await this.getView().byId("onSubmit").setEnabled(false);
+      await this.SenderEdit.checkUpdateStatusAvailable();
+      await this.SenderEdit.editMode(true);
+      await sap.ui.core.Fragment.byId(this.sFragmentId, "onSubmit").setEnabled(false);
       this.setReceiverAndAddressFields();
     },
     onBack: function () {
@@ -406,7 +397,7 @@ sap.ui.define([
     // },
     setReceiverAndAddressFields: async function () {
 
-      var mycontext = await this.getView().getBindingContext();
+      var mycontext = await this._controller.getView().getBindingContext();
       var addressObject = mycontext.getObject("shippingAddress");
       console.log(addressObject);
       if (addressObject) {
@@ -463,7 +454,7 @@ sap.ui.define([
         actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
         onClose: function (oAction) {
           if (oAction === sap.m.MessageBox.Action.OK) {
-            that.revertShippingStatus();
+            that.SenderEdit.revertShippingStatus();
           }
         }
       });
@@ -471,8 +462,8 @@ sap.ui.define([
 
     },
     revertShippingStatus: async function () {
-      var oModel = this.getView().getModel();
-      var mycontext = await this.getView().getBindingContext();
+      var oModel = this._controller.getView().getModel();
+      var mycontext = await this._controller.getView().getBindingContext();
       var packageNumber = await mycontext.getProperty("packageNumber");
 
       var currentStatus = await mycontext.getProperty("shippingStatus");
@@ -480,11 +471,12 @@ sap.ui.define([
         await mycontext.setProperty("shippingStatus", "NEW");
         oModel.refresh();
         this.showToast("Package \"" + packageNumber + "\" status successfully reverted back to " + "New");
-        await this.getView().byId("updateStatusButton").setEnabled(true);
-        await this.getView().byId("updateStatusButton").setVisible(true);
-        await this.getView().byId("onEdit").setVisible(true);
-        await this.getView().byId("cancelShippingButton").setEnabled(false);
-        await this.getView().byId("cancelShippingButton").setVisible(false);
+
+        await sap.ui.core.Fragment.byId(this.sFragmentId, "updateStatusButton").setEnabled(true);
+        await sap.ui.core.Fragment.byId(this.sFragmentId, "updateStatusButton").setVisible(true);
+        await sap.ui.core.Fragment.byId(this.sFragmentId, "onEdit").setVisible(true);
+        await sap.ui.core.Fragment.byId(this.sFragmentId, "cancelShippingButton").setEnabled(false);
+        await sap.ui.core.Fragment.byId(this.sFragmentId, "cancelShippingButton").setVisible(false);
       }
     }
   });

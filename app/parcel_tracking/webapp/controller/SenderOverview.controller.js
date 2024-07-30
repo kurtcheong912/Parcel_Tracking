@@ -15,13 +15,13 @@ sap.ui.define([
       },
 
       onListItemPress: function (oEvent) {
-        console.log("wefewf");
         var oItem = oEvent.getSource();
-        var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-        oRouter.navTo("edit", {
-          packageId: oItem.getBindingContext().getProperty("ID")
-        });
-
+        // var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+        // oRouter.navTo("edit", {
+        //   packageId: oItem.getBindingContext().getProperty("ID")
+        // });
+        this.SenderEdit.initEdit(oItem.getBindingContext().getProperty("ID"), this);
+        this.byId("pageContainer").to(this.getView().createId("Sender_Edit"));
       },
       onMenuButtonPress: function () {
         var toolPage = this.byId("toolPage");
