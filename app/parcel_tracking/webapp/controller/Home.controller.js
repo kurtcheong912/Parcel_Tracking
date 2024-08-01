@@ -16,7 +16,11 @@ sap.ui.define([
       ReceiverOverview: new ReceiverOverview(this),
       ReceiverDetail: new ReceiverDetail(this),
       onInit: function () {
-        
+
+      },
+      onAfterRendering: function () {
+        this.SenderOverview.initSenderOverview(this);
+        this.byId("pageContainer").to(this.getView().createId(item.getKey()));
       },
       onMenuButtonPress: function () {
         var toolPage = this.byId("toolPage");
@@ -26,9 +30,11 @@ sap.ui.define([
         var item = oEvent.getParameter('item');
         switch (item.getKey()) {
           case "Sender_Overview":
+            this.SenderOverview.initSenderOverview(this);
             this.byId("pageContainer").to(this.getView().createId(item.getKey()));
             break;
           case "Receiver_Overview":
+            this.ReceiverOverview.initReceiverOverview(this);
             this.byId("pageContainer").to(this.getView().createId(item.getKey()));
             break;
         }

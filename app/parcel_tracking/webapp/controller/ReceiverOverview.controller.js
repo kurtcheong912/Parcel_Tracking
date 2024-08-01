@@ -13,23 +13,25 @@ sap.ui.define([
     function (Controller, Device, Filter, Sorter, JSONModel, Menu, MenuItem, MessageToast, Fragment, FilterOperator) {
         "use strict";
         return Controller.extend("parcelTracking.controller.ReceiverOverview", {
-            onInit: function () {
+            initReceiverOverview: function (that) {
+                this._controller = that;
+                this.sFragmentId = this._controller.getView().createId("ReceiverOverviewFragment");
                 Device.media.attachHandler(this.checkSize, null, Device.media.RANGESETS.SAP_STANDARD_EXTENDED);
                 var oParams = Device.media.getCurrentRange(Device.media.RANGESETS.SAP_STANDARD_EXTENDED);
                 var toolPage = this.byId("toolPage");
                 var shellBar = this.byId("_IDGenShellBar1");
 
-                switch (oParams.name) {
-                    case "Phone":
-                    case "Tablet":
-                        toolPage.setSideExpanded(false);
-                        shellBar.setShowMenuButton(false);
-                        break;
-                    default:
-                        toolPage.setSideExpanded(true);
-                        shellBar.setShowMenuButton(true);
-                        break;
-                }
+                // switch (oParams.name) {
+                //     case "Phone":
+                //     case "Tablet":
+                //         toolPage.setSideExpanded(false);
+                //         shellBar.setShowMenuButton(false);
+                //         break;
+                //     default:
+                //         toolPage.setSideExpanded(true);
+                //         shellBar.setShowMenuButton(true);
+                //         break;
+                // }
 
                 console.log(oParams);
 
@@ -68,7 +70,7 @@ sap.ui.define([
 
                 if (!pDialog) {
                     pDialog = Fragment.load({
-                        id: this.getView().getId(),
+                        id: this._controller.getView().getId(),
                         name: sDialogFragmentName,
                         controller: this
                     }).then(function (oDialog) {
@@ -98,7 +100,7 @@ sap.ui.define([
                 }
             },
             handleSortButtonPressed: function () {
-                this.getViewSettingsDialog("parceltracking.view.SortDialog").then(function (oViewSettingsDialog) {
+                this.ReceiverOverview.getViewSettingsDialog("parceltracking.view.SortDialog").then(function (oViewSettingsDialog) {
                     oViewSettingsDialog.open();
                 });
             },
@@ -108,13 +110,13 @@ sap.ui.define([
                 });
             },
             handleGroupButtonPressed: function () {
-                this.getViewSettingsDialog("parceltracking.view.GroupDialog").then(function (oViewSettingsDialog) {
+                this.ReceiverOverview.getViewSettingsDialog("parceltracking.view.GroupDialog").then(function (oViewSettingsDialog) {
                     oViewSettingsDialog.open();
                 });
             },
             onFilterItems: function (oEvent) {
                 var sQuery = oEvent.getSource().getValue();
-                this.filtering(sQuery);
+                this.ReceiverOverview.filtering(sQuery);
             },
             filtering: function (value) {
                 var aFilters = [];
@@ -136,14 +138,14 @@ sap.ui.define([
                     aFilters.push(oSearchFilters);
                 }
 
-                var oTable = this.byId("idProductsTable");
+                var oTable = sap.ui.core.Fragment.byId(this.sFragmentId, "idProductsTable");
                 var oBinding = oTable.getBinding("items");
 
                 // Apply the combined filters
                 oBinding.filter(aFilters);
             },
-            handleSortDialogConfirm: function (oEvent) {
-                var oTable = this.byId("idProductsTable"),
+            handleSortDialogConfirm: async function (oEvent) {
+                var oTable = await sap.ui.core.Fragment.byId(this.sFragmentId, "idProductsTable"),
                     mParams = oEvent.getParameters(),
                     oBinding = oTable.getBinding("items"),
                     sPath,
@@ -157,7 +159,7 @@ sap.ui.define([
                 oBinding.sort(aSorters);
             },
             handleGroupDialogConfirm: function (oEvent) {
-                var oTable = this.byId("idProductsTable"),
+                var oTable = sap.ui.core.Fragment.byId(this.sFragmentId, "idProductsTable"),
                     mParams = oEvent.getParameters(),
                     oBinding = oTable.getBinding("items"),
                     sPath,

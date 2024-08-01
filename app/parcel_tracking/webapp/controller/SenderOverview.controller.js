@@ -10,7 +10,8 @@ sap.ui.define([
     "use strict";
 
     return Controller.extend("parceltracking.controller.SenderOverview", {
-      onInit: function () {
+      initSenderOverview: function (that) {
+        this._controller = that;
         this._mViewSettingsDialogs = {};
       },
 
@@ -131,12 +132,19 @@ sap.ui.define([
       },
 
       //Sorting Dialog
+      handleSortButtonPressed: function () {
+        //byebye
+        this.SenderOverview.getViewSettingsDialog("parceltracking.view.SortDialog").then(function (oViewSettingsDialog) {
+          oViewSettingsDialog.open();
+        });
+      },
       getViewSettingsDialog: function (sDialogFragmentName) {
         var pDialog = this._mViewSettingsDialogs[sDialogFragmentName];
-
+        console.log(this._controller);
+        console.log(this._controller.getView());
         if (!pDialog) {
           pDialog = Fragment.load({
-            id: this.getView().getId(),
+            id: this._controller.getView().getId(),
             name: sDialogFragmentName,
             controller: this
           }).then(function (oDialog) {
@@ -149,18 +157,14 @@ sap.ui.define([
         }
         return pDialog;
       },
-      handleSortButtonPressed: function () {
-        this.getViewSettingsDialog("parceltracking.view.SortDialog").then(function (oViewSettingsDialog) {
-          oViewSettingsDialog.open();
-        });
-      },
+
       handleSortDialogConfirm: function (oEvent) {
-        var oList = this.byId("packageList");
-        var oGridList = this.byId("packageGridList"),
-        mParams = oEvent.getParameters(),
-        sPath,
-        bDescending,
-        aSorters = [];
+        var oList = this._controller.byId("packageList");
+        var oGridList = this._controller.byId("packageGridList"),
+          mParams = oEvent.getParameters(),
+          sPath,
+          bDescending,
+          aSorters = [];
         var gridBinding = oGridList.getBinding("items");
         var listBinding = oList.getBinding("items");
         sPath = mParams.sortItem.getKey();
@@ -207,19 +211,19 @@ sap.ui.define([
       textFormatter: function (status) {
         console.log(status);
         switch (status) {
-            case "NEW":
-                return "New";
-            case "SHIPPING":
-                return "Shipping";
-            case "DELIVERED":
-                return "Delivered";
-            case "RECEIVED":
-                return "Received";
-            case "DAMAGED":
-                return "Damaged";
-            default:
-                return "Pending"; // Default color scheme
+          case "NEW":
+            return "New";
+          case "SHIPPING":
+            return "Shipping";
+          case "DELIVERED":
+            return "Delivered";
+          case "RECEIVED":
+            return "Received";
+          case "DAMAGED":
+            return "Damaged";
+          default:
+            return "Pending"; // Default color scheme
         }
-    }
+      }
     });
   });

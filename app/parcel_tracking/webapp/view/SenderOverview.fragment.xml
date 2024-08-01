@@ -24,7 +24,7 @@
                 <SearchField
                     id="searchField"
                     width="30%"
-                    liveChange="onSearch"
+                    liveChange=".SenderOverview.onSearch"
                 />
                 <Button
                     id="_IDGenButton1"

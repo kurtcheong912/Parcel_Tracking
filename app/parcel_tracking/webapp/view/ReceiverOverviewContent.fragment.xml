@@ -110,25 +110,25 @@
                         id="_IDGenButton1"
                         tooltip="Sort"
                         icon="sap-icon://sort"
-                        press="handleSortButtonPressed"
+                        press=".ReceiverOverview.handleSortButtonPressed"
                     />
                     <Button
                         id="_IDGenButton2"
                         tooltip="Filter"
                         icon="sap-icon://filter"
-                        press="handleFilterButtonPressed"
+                        press=".ReceiverOverview.handleFilterButtonPressed"
                         visible="false"
                     />
                     <Button
                         id="_IDGenButton3"
                         tooltip="Group"
                         icon="sap-icon://group-2"
-                        press="handleGroupButtonPressed"
+                        press=".ReceiverOverview.handleGroupButtonPressed"
                     />
                     <SearchField
                         id="searchField"
                         width="auto"
-                        liveChange=".onFilterItems"
+                        liveChange=".ReceiverOverview.onFilterItems"
                     />
                 </OverflowToolbar>
             </headerToolbar>
