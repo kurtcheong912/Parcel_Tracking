@@ -36,7 +36,7 @@ sap.ui.define([
               shellBar.setShowMenuButton(true);
               break;
             default:
-              toolPage.setSideExpanded(true);
+              toolPage.setSideExpanded(false);
               shellBar.setShowMenuButton(true);
               break;
           }

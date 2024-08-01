@@ -12,22 +12,22 @@ sap.ui.define([
       this.sFragmentId = await this._controller.getView().createId("ReceiverDetailFragment");
       this.onEdit(packageID);
 
-      Device.media.attachHandler(this.checkSize, null, Device.media.RANGESETS.SAP_STANDARD_EXTENDED);
-      var oParams = Device.media.getCurrentRange(Device.media.RANGESETS.SAP_STANDARD_EXTENDED);
-      var toolPage = this.byId("toolPage");
-      var shellBar = this.byId("_IDGenShellBar1");
+      // Device.media.attachHandler(this.checkSize, null, Device.media.RANGESETS.SAP_STANDARD_EXTENDED);
+      // var oParams = Device.media.getCurrentRange(Device.media.RANGESETS.SAP_STANDARD_EXTENDED);
+      // var toolPage = this.byId("toolPage");
+      // var shellBar = this.byId("_IDGenShellBar1");
 
-      switch (oParams.name) {
-        case "Phone":
-        case "Tablet":
-          toolPage.setSideExpanded(false);
-          shellBar.setShowMenuButton(false);
-          break;
-        default:
-          toolPage.setSideExpanded(true);
-          shellBar.setShowMenuButton(true);
-          break;
-      }
+      // switch (oParams.name) {
+      //   case "Phone":
+      //   case "Tablet":
+      //     toolPage.setSideExpanded(false);
+      //     shellBar.setShowMenuButton(false);
+      //     break;
+      //   default:
+      //     toolPage.setSideExpanded(true);
+      //     shellBar.setShowMenuButton(true);
+      //     break;
+      // }
     },
     onEdit: async function (packageID) {
 

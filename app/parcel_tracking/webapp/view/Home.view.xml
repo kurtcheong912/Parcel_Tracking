@@ -59,7 +59,7 @@
                         title="{i18n>createTitle}"
                         showNavButton="true"
                         navButtonPress=".onNavBack"
-                        enableScrolling="false"
+                        enableScrolling="true"
                     >
                         <core:Fragment
                             fragmentName="parceltracking.view.SenderCreate"

@@ -18,7 +18,7 @@ sap.ui.define([
                 var oColumn = sap.ui.core.Fragment.byId(this.sFragmentId, "_IDGenText8");
                 switch (oParams.name) {
                     case "Phone":
-                    case "Tablet":
+                    // case "Tablet":
                         oColumn.setVisible(false)
                         break;
                     default:

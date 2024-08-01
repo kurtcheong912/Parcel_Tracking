@@ -190,8 +190,8 @@ sap.ui.define([
         shippingPostal !== "" &&
         shippingAddressLine !== "" &&
         // Enable or disable the submit button based on the validation
-
-        await sap.ui.core.Fragment.byId(sFragmentId, "onSubmit").setEnabled(isFormValid);
+        console.log(isFormValid);
+      await sap.ui.core.Fragment.byId(sFragmentId, "onSubmit").setEnabled(isFormValid);
     },
 
     onSubmit: async function () {
