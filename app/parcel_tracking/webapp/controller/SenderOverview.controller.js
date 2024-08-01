@@ -10,6 +10,19 @@ sap.ui.define([
     "use strict";
 
     return Controller.extend("parceltracking.controller.SenderOverview", {
+      checkSize: function (oParams) {
+        var oParams = Device.media.getCurrentRange(Device.media.RANGESETS.SAP_STANDARD_EXTENDED);
+        var oColumn = sap.ui.core.Fragment.byId(this.sFragmentId, "_IDGenText8");
+        switch (oParams.name) {
+            case "Phone":
+            case "Tablet":
+                oColumn.setVisible(false)
+                break;
+            default:
+                oColumn.setVisible(true)
+                break;
+        }
+    },
       initSenderOverview: function (that) {
         this._controller = that;
         this._mViewSettingsDialogs = {};

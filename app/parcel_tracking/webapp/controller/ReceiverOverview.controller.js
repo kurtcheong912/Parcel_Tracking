@@ -13,28 +13,26 @@ sap.ui.define([
     function (Controller, Device, Filter, Sorter, JSONModel, Menu, MenuItem, MessageToast, Fragment, FilterOperator) {
         "use strict";
         return Controller.extend("parcelTracking.controller.ReceiverOverview", {
+            checkSize: function (oParams) {
+                var oParams = Device.media.getCurrentRange(Device.media.RANGESETS.SAP_STANDARD_EXTENDED);
+                var oColumn = sap.ui.core.Fragment.byId(this.sFragmentId, "_IDGenText8");
+                switch (oParams.name) {
+                    case "Phone":
+                    case "Tablet":
+                        oColumn.setVisible(false)
+                        break;
+                    default:
+                        oColumn.setVisible(true)
+                        break;
+                }
+            },
             initReceiverOverview: function (that) {
                 this._controller = that;
                 this.sFragmentId = this._controller.getView().createId("ReceiverOverviewFragment");
-                Device.media.attachHandler(this.checkSize, null, Device.media.RANGESETS.SAP_STANDARD_EXTENDED);
+                 Device.media.attachHandler(this.checkSize, this, Device.media.RANGESETS.SAP_STANDARD_EXTENDED);
                 var oParams = Device.media.getCurrentRange(Device.media.RANGESETS.SAP_STANDARD_EXTENDED);
-                var toolPage = this.byId("toolPage");
-                var shellBar = this.byId("_IDGenShellBar1");
-
-                // switch (oParams.name) {
-                //     case "Phone":
-                //     case "Tablet":
-                //         toolPage.setSideExpanded(false);
-                //         shellBar.setShowMenuButton(false);
-                //         break;
-                //     default:
-                //         toolPage.setSideExpanded(true);
-                //         shellBar.setShowMenuButton(true);
-                //         break;
-                // }
-
-                console.log(oParams);
-
+                this.checkSize(oParams);
+            
                 this._mViewSettingsDialogs = {};
 
                 this.mGroupFunctions = {
@@ -127,11 +125,11 @@ sap.ui.define([
 
                 if (value && value.length > 0) {
                     // Apply search filters if value is not empty
-                    var oFilterStatus = new Filter({path:"shippingStatus", operator:FilterOperator.Contains, value1:value, caseSensitive: false});
-                    var oFilterPackage = new Filter({path:"packageStatus", operator:FilterOperator.Contains, value1:value, caseSensitive: false});
+                    var oFilterStatus = new Filter({ path: "shippingStatus", operator: FilterOperator.Contains, value1: value, caseSensitive: false });
+                    var oFilterPackage = new Filter({ path: "packageStatus", operator: FilterOperator.Contains, value1: value, caseSensitive: false });
                     var oFilterWeight = new Filter("weight", FilterOperator.Contains, value);
-                    var oFilterHeight = new Filter("height", FilterOperator.Contains, value); 
-                    var oFilterNumber = new Filter({path:"packageNumber", operator:FilterOperator.Contains, value1:value, caseSensitive: false});
+                    var oFilterHeight = new Filter("height", FilterOperator.Contains, value);
+                    var oFilterNumber = new Filter({ path: "packageNumber", operator: FilterOperator.Contains, value1: value, caseSensitive: false });
 
                     // Combine all search filters with OR logic
                     var oSearchFilters = new Filter([oFilterStatus, oFilterWeight, oFilterHeight, oFilterNumber, oFilterPackage], false);
@@ -186,7 +184,7 @@ sap.ui.define([
                 // }); 
                 this.ReceiverDetail.initDetail(oItem.getBindingContext().getProperty("ID"), this);
                 this.byId("pageContainer").to(this.getView().createId("Receiver_Detail"));
-             
+
             },
             availableState: function (status) {
                 console.log(status);

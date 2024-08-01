@@ -144,6 +144,7 @@
                 <Column
                     id="product"
                     minScreenWidth="Tablet"
+                     demandPopin="true"
                 >
                     <Text
                         id="_IDGenText8"
@@ -163,7 +164,7 @@
                 <Column
                     id="_IDGenColumn14"
                     minScreenWidth="Tablet"
-                    demandPopin="true"
+                    demandPopin="false"
                 >
                     <Text
                         id="_IDGenText91"
