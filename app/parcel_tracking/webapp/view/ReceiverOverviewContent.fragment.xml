@@ -223,7 +223,7 @@
                         <ObjectIdentifier
                             id="_IDGenObjectIdentifier1"
                             text="{packageNumber}"
-                            class="green"
+                            class="green boldText"
                         />
                         <tnt:InfoLabel
                             id="_IDGenInfoLabel1"

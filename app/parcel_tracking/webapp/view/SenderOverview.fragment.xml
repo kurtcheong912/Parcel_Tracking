@@ -199,7 +199,7 @@
                         <cells>
                             <ObjectIdentifier id="_IDGenObjectIdentifier1"
                                 text="{packageNumber}"
-                                class="green"
+                                  class="green boldText"
                             />
                             <Text id="_IDGenText8"
                                 text="{receiver/first_name} {receiver/last_name}"
